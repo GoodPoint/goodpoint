@@ -57,7 +57,7 @@ class HomeController extends BaseController {
 					//and user is prompted to submit media. step is set to 2 (so we can receive MMS properly)
 					$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
 					if(!$update){
-						$message = TwilioMsg::genericDatabaseError();
+						$message = TwilioMsg::genericDatabaseError(1).$_REQUEST['From'].$barcode_id;
 						$step = -1;
 					} else {
 						$insert = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $old_owner));
@@ -94,12 +94,12 @@ class HomeController extends BaseController {
 					//reset workflow to prevent 'pseudo'-transactions and provide error.
 					$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
 					if(!$update){
-						$message = TwilioMsg::genericDatabaseError();			
+						$message = TwilioMsg::genericDatabaseError(2);			
 						$step = -1;
 					} else {
 						$query = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $body));
 						if(!$query){
-							$message = TwilioMsg::genericDatabaseError();
+							$message = TwilioMsg::genericDatabaseError(3);
 							$step = -1;
 						} else {
 							$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id);

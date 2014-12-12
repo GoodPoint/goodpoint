@@ -4,7 +4,7 @@ class TwilioMsg {
 
 	//full messages
 	public static function welcomeMessage() { return "Welcome to WIN+WIN card exchange! You must enter in the 9-digit ID on your newly obtained card to register it as yours!"; }
-	public static function genericDatabaseError(){ return "Database error, contact WIN+WIN admin"; }
+	public static function genericDatabaseError($num){ return "Database error ".$num.", contact WIN+WIN admin"; }
 	public static function transactionSuccessful($barcode_id){ return "Awesome! You are now the owner of card ".$barcode_id.". Please submit some media to show the good youve been a part of! ".TwilioMsg::transactionAddendum("<LINK>", "<PHONE #>"); }
 	public static function promptForGiver($oldOwner){ return "Was this card given to you by ".$oldOwner." ?"; }
 	public static function promptForRealGiver(){ return "Please enter the phone number of who gave you the card."; }
