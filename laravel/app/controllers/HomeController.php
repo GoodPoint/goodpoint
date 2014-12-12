@@ -34,8 +34,8 @@ class HomeController extends BaseController {
 				//parse the previous owner out of the last message we sent them (which obviously included it)				
 				if($step == 0){
 					$old_owner_arr = explode(" ",$select[0]->msg);
-					//weird but this returns 1 word before end, not 2 as you might expect
-					$index = count($old_owner_arr) - 1;
+					//get word before ?, i.e. the previous recorded owner we asked if they got it from
+					$index = count($old_owner_arr) - 2;
 					$old_owner = $old_owner_arr[$index];
 				}
 			} else {
