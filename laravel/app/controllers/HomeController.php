@@ -24,6 +24,7 @@ class HomeController extends BaseController {
 			//get latest message to set up context in which responder should talk back to user
 			//grabs all messages in case we need others, but uses latest one only at the moment
 			$select = DB::select(Queries::getMessagesForUser($_REQUEST['From']));
+			echo var_dump($select);
 			if(count($select) > 0){
 				//we are here if they have a message history with our Twilio #
 				$step = $select[0]->step;
@@ -92,12 +93,12 @@ class HomeController extends BaseController {
 					//try update owner of card, then process transaction. if either dont work
 					//reset workflow to prevent 'pseudo'-transactions and provide error.
 					$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
-					if(!$result){
+					if(!$update){
 						$message = TwilioMsg::genericDatabaseError();			
 						$step = -1;
 					} else {
 						$query = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $body));
-						if(!$result){
+						if(!$query){
 							$message = TwilioMsg::genericDatabaseError();
 							$step = -1;
 						} else {
