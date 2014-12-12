@@ -146,7 +146,7 @@ class HomeController extends BaseController {
 				$step = -1;
 			} else {
 				$oldOwner = $query[0]->owner;
-				$message = TwilioMsg::promptForGiver();
+				$message = TwilioMsg::promptForGiver($oldOwner);
 				$step = 0;
 				$barcode_id = $body;
 			}
