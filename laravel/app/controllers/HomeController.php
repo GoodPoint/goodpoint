@@ -24,7 +24,7 @@ class HomeController extends BaseController {
 			//get latest message to set up context in which responder should talk back to user
 			//grabs all messages in case we need others, but uses latest one only at the moment
 			$select = DB::select(Queries::getMessagesForUser($_REQUEST['From']));
-			echo var_dump($select);
+			//echo var_dump($select);
 			if(count($select) > 0){
 				//we are here if they have a message history with our Twilio #
 				$step = $select[0]->step;
