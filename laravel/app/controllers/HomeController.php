@@ -64,7 +64,7 @@ class HomeController extends BaseController {
 							$message = TwilioMsg::welcomeMessage();
 							$step = -1;
 						} else {
-							$message = TwilioMsg:transactionSuccessful();
+							$message = TwilioMsg::transactionSuccessful();
 							$step = 2;
 						} 
 					}
@@ -74,7 +74,7 @@ class HomeController extends BaseController {
 					$step = 1;
 				}
 				if($_REQUEST['Body'] != "Yes" && $_REQUEST['Body'] != "No"){
-					$message = TwilioMsg:yesOrNo(); 
+					$message = TwilioMsg::yesOrNo(); 
 					$step = 0;
 				}
 				break;
