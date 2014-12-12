@@ -15,7 +15,7 @@ class HomeController extends BaseController {
 		//grab body of message (what user texted to our Twilio #). doesn't include MMS stuff (thats grabbed later).
 		$body = $_REQUEST['Body'];
 		//initialize helper variables for handling certain steps
-		$step = -1; $barcode_id = -1; $old_owner = -1; $the_sid = -1;
+		$step = -1; $barcode_id = -1; $old_owner = -1; $the_sid = -1; $message = "no msg";
 		//TODO Line 14:need to validate body as phone # in more strict way/better if condition, find regex
 		if(intval($body) == 0 || strlen($body) != 9){ 
 			//we are here if they didnt enter a 9-digit number or if what they entered wasn't a number
