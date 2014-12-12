@@ -64,7 +64,7 @@ class HomeController extends BaseController {
 							$message = TwilioMsg::welcomeMessage();
 							$step = -1;
 						} else {
-							$message = TwilioMsg::transactionSuccessful();
+							$message = TwilioMsg::transactionSuccessful($barcode_id);
 							$step = 2;
 						} 
 					}
@@ -101,7 +101,7 @@ class HomeController extends BaseController {
 							$message = TwilioMsg::genericDatabaseError();
 							$step = -1;
 						} else {
-							$message = TwilioMsg::transactionNewPrevOwnerSuccess();
+							$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id);
 							$step = 2;
 						}
 					}
@@ -115,7 +115,7 @@ class HomeController extends BaseController {
 				//fetch media and store in db
 				if($_REQUEST['NumMedia'] == 0){
 					//they were prompted to send media but didn't send media
-					$message = TwilioMsg::didntSendMedia();
+					$message = TwilioMsg::didntSendMedia($t_id);
 				}
 				else {
 					//they did send media
@@ -127,11 +127,11 @@ class HomeController extends BaseController {
 						$query = DB::insert(Queries::insertMedia($the_sid, $t_id, $_REQUEST['MediaUrl'.$i]));
 						if(!$query){
 							$failed = true;
-							$message = TwilioMsg::mediaFailed();
+							$message = TwilioMsg::mediaFailed($t_id);
 						}
 					}
 					if(!$failed){
-						$message = TwilioMsg::mediaSucceeded();
+						$message = TwilioMsg::mediaSucceeded($t_id);
 					}
 				}
 				$step = -1;//reset workflow for future transactions @ this no
