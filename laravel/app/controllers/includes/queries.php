@@ -16,8 +16,8 @@ class Queries {
 	public static function insertMedia($sid, $trans_id, $url){ 
 		return "INSERT INTO media (sid, trans_id, url) VALUES ('".$sid."','".$trans_id."','".$url."')"; 
 	}
-	public static function recordMsg($user, $message, $step, $cardid, $sid){ 
-		return "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`) VALUES ('".$user."','".$message."','".$step."','".$cardid."','".$sid."')"; 
+	public static function recordMsg($user, $message, $step, $cardid, $sid, $ab){ 
+		return "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`,`ab`) VALUES ('".$user."','".$message."','".$step."','".$cardid."','".$sid."','".$ab."')"; 
 	}//same vars for both
 	public static function getCardById($cardid){ 
 		return "SELECT * FROM cards WHERE barcode_id = ".$cardid; 

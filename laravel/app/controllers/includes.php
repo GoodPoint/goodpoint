@@ -1,5 +1,6 @@
 <?php
-	include_once("twilio_messages.php");
-	include_once("queries.php");
-	include_once("strings.php");
+	include_once("includes/twilio_messages.php");
+	include_once("includes/queries.php");
+	include_once("includes/strings.php");
+	include_once("includes/gapi.php");
 ?>
