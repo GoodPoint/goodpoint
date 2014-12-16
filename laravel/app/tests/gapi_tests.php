@@ -14,8 +14,8 @@
 			$r = $client->post($url_googleUrlShortener, 
 								[
 								'json' => ['longUrl' => $url],
-								'headers' => ['Content-Type' => 'application/json'],
-								'verify' => 'C:/wamp/crt/ca-bundle.crt'
+								'headers' => ['Content-Type' => 'application/json']
+								//FOR WINDOWS: 'verify' => 'C:/wamp/crt/ca-bundle.crt'
 								]
 							  );
 			//return $r->json();
