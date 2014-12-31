@@ -20,6 +20,8 @@
 							  );
 			//return $r->json();
 			echo json_encode($r->json());
+			echo "\n";
+			echo $r->json();
 		}
 	}
 	GAPI::urlShorten("http://flow-enterprises.com/");
