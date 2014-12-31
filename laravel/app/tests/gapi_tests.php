@@ -1,7 +1,7 @@
 <?php
 	require '../../vendor/autoload.php';
+	use GuzzleHttp\Client;
 	class GAPI {	
-		use GuzzleHttp\Client;
 		public static function urlShorten($url){
 			/*API KEY: AIzaSyCAopWJPUluIim8KiwYnAsxeueQctV_Odk
 			**REQUEST INFO: 
