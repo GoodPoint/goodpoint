@@ -81,7 +81,9 @@ class HomeController extends BaseController {
 							//add incomplete user records for giver and receiver
 							$insert = DB::insert(Queries::initUser($_REQUEST['From']));
 							$insert = DB::insert(Queries::initUser($old_owner));
-							$message = TwilioMsg::transactionSuccessful($barcode_id);
+							//get link to use in message
+							$_link = GAPI::urlShorten("http://54.69.129.75/winwin/laravel/public/web/index.php?sid=".$_REQUEST['MessageSid']);
+							$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
 							$step = 2;
 							$ab = "a_success";
 						} 
@@ -136,7 +138,9 @@ class HomeController extends BaseController {
 								//add incomplete user records for giver and receiver
 								$insert = DB::insert(Queries::initUser($_REQUEST['From']));
 								$insert = DB::insert(Queries::initUser($body));
-								$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id);
+								//get link to use in message
+								$_link = GAPI::urlShorten("http://54.69.129.75/winwin/laravel/public/web/index.php?sid=".$_REQUEST['MessageSid']);
+								$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id, $_link, $_REQUEST['From']);
 								$step = 2;
 								$ab = "a_success2";
 							}
@@ -209,7 +213,12 @@ class HomeController extends BaseController {
 							$step = -1;
 							$ab = "b_err";
 						} else {
-							$message = TwilioMsg::transactionSuccessful($barcode_id);
+							//add incomplete user records for giver and receiver
+							$insert = DB::insert(Queries::initUser($_REQUEST['From']));
+							$insert = DB::insert(Queries::initUser($oldOwner));
+							//get link to use in message
+							$_link = GAPI::urlShorten("http://54.69.129.75/winwin/laravel/public/web/index.php?sid=".$_REQUEST['MessageSid']);
+							$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
 							$step = 2;
 							$ab = "b_success";
 						} 
