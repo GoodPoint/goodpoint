@@ -78,6 +78,9 @@ class HomeController extends BaseController {
 							$step = -1;
 							$ab = "a_err";
 						} else {
+							//add incomplete user records for giver and receiver
+							$insert = DB::insert(Queries::initUser($_REQUEST['From']));
+							$insert = DB::insert(Queries::initUser($old_owner));
 							$message = TwilioMsg::transactionSuccessful($barcode_id);
 							$step = 2;
 							$ab = "a_success";
@@ -130,6 +133,9 @@ class HomeController extends BaseController {
 								$step = -1;
 								$ab = "a_err";
 							} else {
+								//add incomplete user records for giver and receiver
+								$insert = DB::insert(Queries::initUser($_REQUEST['From']));
+								$insert = DB::insert(Queries::initUser($body));
 								$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id);
 								$step = 2;
 								$ab = "a_success2";

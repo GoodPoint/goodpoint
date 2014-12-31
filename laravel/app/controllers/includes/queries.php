@@ -22,6 +22,12 @@ class Queries {
 	public static function getCardById($cardid){ 
 		return "SELECT * FROM cards WHERE barcode_id = ".$cardid; 
 	}
+	public static function initUser($number){
+		$check = DB::select("SELECT count(*) as count FROM `user` WHERE `id`='".$number."'");
+		if($check[0]->count == 0){
+			return "INSERT INTO `user` (`id`, `profile_json`, `last_updated`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP)";
+		}
+	}
 }
 
 ?>
