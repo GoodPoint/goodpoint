@@ -22,6 +22,29 @@ class Queries {
 	public static function getCardById($cardid){ 
 		return "SELECT * FROM cards WHERE barcode_id = ".$cardid; 
 	}
+	public static function initUser($number){
+		$check = DB::select("SELECT count(*) as count FROM `user` WHERE `id`='".$number."'");
+		if($check[0]->count == 0){
+			return "INSERT INTO `user` (`id`, `profile_json`, `last_updated`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP)";
+		}
+	}
+	public static function getLeaderboard($sid){
+		$userID = DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To;
+		$leaderboard = DB::select("SELECT user.id, (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints` FROM user");
+		$returnArr = array("userID"=>$userID, "leaderboard"=>$leaderboard);
+		return json_encode($returnArr);
+	}
+	public static function getTransactionsById($id, $type){
+		//$type == "Card" or "User"
+		$return = ($type=="Card")? DB::select(self::getTransactionsForBarcode($id)):DB::select("SELECT * FROM transaction WHERE giver ='".$id."' OR receiver='".$id."' ORDER BY timestamp desc");
+		return json_encode($return);
+	}
+	public static function getTransactionDetails($tid){
+		$media = DB::select("SELECT url FROM media WHERE trans_id=".$tid); 
+		$transaction = DB::select("SELECT * FROM transaction WHERE id=".$tid);
+		$returnArr = array("media"=>$media, "transaction"=>$transaction);
+		return json_encode($returnArr);
+	}
 }
 
 ?>
