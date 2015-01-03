@@ -19,7 +19,7 @@
 								]
 							  );
 			//return $r->json();
-			echo json_encode($r->json());
+			echo $r->json()["id"];
 		//}
 	//}
 ?>
