@@ -25,7 +25,7 @@ class Queries {
 	public static function initUser($number){
 		$check = DB::select("SELECT count(*) as count FROM `user` WHERE `id`='".$number."'");
 		if($check[0]->count == 0){
-			return "INSERT INTO `user` (`id`, `profile_json`, `last_updated`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP)";
+			return DB::insert("INSERT INTO `user` (`id`, `profile_json`, `last_updated`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP)");
 		}
 	}
 	public static function getLeaderboard($sid){

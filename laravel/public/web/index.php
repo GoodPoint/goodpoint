@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-		<script src="jqMobile/jquery.mobile-1.4.5.min"></script>
+		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
 		<script src="js/main.js"></script>
-		<link href="css/styles.css" type="text/css />
-		<titile>WIN+WIN</title>
+		<link href="css/styles.css" type="text/css" />
+		<title>WIN+WIN</title>
 	</head>
 	<body>
 		<?php include_once("leaderboard_page.php"); ?>
