@@ -16,7 +16,7 @@
 								'headers' => ['Content-Type' => 'application/json']
 								]
 							  );
-			return $r->json();
+			return $r->json()["id"];
 		}
 	}
 ?>
