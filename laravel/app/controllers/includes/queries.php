@@ -81,7 +81,7 @@ class Queries {
 		return true;
 	}
 	public static function getLatestTransactions(){
-		return json_encode(DB::select("SELECT * FROM transactions ORDER BY timestamp DESC LIMIT 100"));
+		return json_encode(DB::select("SELECT * FROM transaction ORDER BY timestamp DESC LIMIT 100"));
 	}
 	public static function getTransactionsById($id, $type){
 		//$type == "Card" or "User"
