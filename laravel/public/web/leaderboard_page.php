@@ -13,11 +13,11 @@
 		<script src="js/util.js"></script>
 		<script src="js/main.js"></script>
 		<script>
-		$(document).bind("mobileinit", function () {
-            //alert("mobileinit");
-            $.mobile.ajaxEnabled = false;
-            setTimeout(populateLeaderboard(),500);
-        });
+			$(document).bind("mobileinit", function () {
+				//alert("mobileinit");
+				$.mobile.ajaxEnabled = false;
+				setTimeout(populateLeaderboard(),500);
+			});
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
 		<!---->

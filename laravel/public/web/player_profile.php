@@ -13,11 +13,24 @@
 		<script src="js/util.js"></script>
 		<script src="js/main.js"></script>
 		<script>
-		$(document).bind("mobileinit", function () {
-            //alert("mobileinit");
-            $.mobile.ajaxEnabled = false;
-            setTimeout(onload(),500);
-        });
+			function onloadFxn(){
+				//gender dropdown
+				for(var i=0; i<genderArr.length; i++){
+					$("select[name='gender']").append("<option value='"+genderArr[i]+"'>"+genderArr[i]+"</option>");
+				}
+				//ui stuff
+				$('progress').hide();
+				//image stuff
+				var myInput = document.getElementById('profile_pic');
+				myInput.addEventListener('change', sendPic, false);
+				$("input[name='sid']").val(getParameterByName("sid"));
+				$("#backURL").attr("href","leaderboard_page.php?sid="+getParameterByName("sid"));
+			}
+			$(document).bind("mobileinit", function () {
+				//alert("mobileinit");
+				$.mobile.ajaxEnabled = false;
+				setTimeout(onloadFxn(),500);
+			});
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
 		<script>
@@ -55,21 +68,6 @@
 					$('progress').attr({value:e.loaded,max:e.total});
 				}
 			}
-			//$(document).ready(function(){
-			function onload(){
-				//gender dropdown
-				for(var i=0; i<genderArr.length; i++){
-					$("select[name='gender']").append("<option value='"+genderArr[i]+"'>"+genderArr[i]+"</option>");
-				}
-				//ui stuff
-				$('progress').hide();
-				//image stuff
-				var myInput = document.getElementById('profile_pic');
-				myInput.addEventListener('change', sendPic, false);
-				$("input[name='sid']").val(getParameterByName("sid"));
-				$("#backURL").attr("href","leaderboard_page.php?sid="+getParameterByName("sid"));
-			}
-			//});
 		</script>
 		<!---->
 		<title>WIN+WIN</title>
