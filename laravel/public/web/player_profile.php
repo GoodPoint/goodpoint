@@ -97,6 +97,7 @@
 			</div>
 			<div data-role="footer"><span style="font-size:10px;">&copy; 2014 GoodPointGame</span></div>
 			<div data-role="popup" id="Edit">
+				<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
 				<center>
 					<h2>Edit Profile:</h2>
 					<form id="picForm" enctype="multipart/form-data">

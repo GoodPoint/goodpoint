@@ -35,7 +35,7 @@
 			<div data-role="navbar">
 				<ul>
 					<li><a class="leaderboard_page_link">Leaderboard</a></li>
-					<li><a href="#" class="ui-btn-active"><!--Transactions-->+1/+1's</a></li>
+					<li><a href="#" class="ui-btn-active"><!--Transactions--><span class="plusone"/>/<span class="plusone"/>'s</a></li>
 				</ul>
 			</div>
 			<br/>

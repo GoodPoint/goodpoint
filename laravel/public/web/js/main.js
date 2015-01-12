@@ -111,9 +111,18 @@ var populateTransS = function(data){
 	var mediaURL = data.media;
 	
 	var UL_HTML = "";
-	UL_HTML += "<h2>";
-	UL_HTML += "Card "+transaction.cardid+" From "+transaction.giver+" To "+transaction.receiver;
-	UL_HTML += "</h2><hr><br/>";
+	UL_HTML += "<center><h2>";
+	UL_HTML += "Card "+transaction.cardid+" Was Given ";
+	UL_HTML += "</h2></center>";//From "+transaction.giver+" To "+transaction.receiver;
+	UL_HTML += "<table style='width:100%;'><tr style='width:100%;'>";
+	UL_HTML += "<td style='width:50%;'>From<br/>"+transaction.giver+"</td>";
+	UL_HTML += "<td style='width:50%;'>To<br/>"+transaction.receiver+"</td>";
+	UL_HTML += "</tr><tr style='width:100%;'>";
+	UL_HTML += "<td style='width:50%;'><span class='bigplusone'/></td>";
+	UL_HTML += "<td style='width:50%;'><span class='bigplusone'/></td>";
+	UL_HTML += "</tr></table>";
+	UL_HTML += "<h3>On "+transaction.timestamp+"</h3>";
+	UL_HTML += "<hr><br/>";
 	
 	if(data.media.length>0){
 		UL_HTML += "<h2>Memories for this WIN+WIN!</h2>";

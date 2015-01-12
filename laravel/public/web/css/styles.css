@@ -8,3 +8,18 @@
 .ui-radio{
 	display:inline-block;
 }
+span.plusone{
+	display:inline-block;
+	width:100px;
+	height:100px;
+	background:url('plusone.png');
+	background-size: 100px 100px;
+}
+
+span.bigplusone{
+	display:inline-block;
+	width:200px;
+	height:200px;
+	background:url('plusone.png');
+	background-size: 200px 200px;
+}
