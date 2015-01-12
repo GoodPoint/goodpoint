@@ -13,12 +13,14 @@ Route::match( array('GET','POST'), '/web/leaderboard', array('uses' => 'WebContr
 Route::match( array('GET','POST'), '/web/profile', array('uses' => 'ProfileController@profile'));
 Route::match( array('GET','POST'), '/web/profile/add', array('uses' => 'ProfileController@addProfile'));
 Route::match( array('GET','POST'), '/web/uploadProfilePic', array('uses' => 'ProfileController@uploadProfilePic'));
+
 //transactions
 Route::match( array('GET','POST'), '/web/transactions/mine', array('uses' => 'TransactionController@getMyTransactions'));
 Route::match( array('GET','POST'), '/web/transactions/latest', array('uses' => 'TransactionController@getLatestTransactinos'));
 Route::match( array('GET','POST'), '/web/transactions/card', array('uses' => 'TransactionController@getTransactionsByCardId'));
 Route::match( array('GET','POST'), '/web/transactions/phone', array('uses' => 'TransactionController@getTransactionsByPhoneId'));
 Route::match( array('GET','POST'), '/web/transaction/details', array('uses' => 'TransactionController@getTransactionInfo'));
+Route::match( array('GET','POST'), '/web/transaction/uploadMedia', array('uses' => 'TransactionController@uploadMedia'));
 
 //batch
 Route::match( array('GET','POST'), '/cards/batchadd', array('uses' => 'HomeController@batchAdd'));

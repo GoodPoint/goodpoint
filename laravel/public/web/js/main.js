@@ -60,6 +60,7 @@ function populateTransactionInfo(id){
 	var data = new Object();
 	data.url = "/web/transaction/details";
 	data.id = id;
+	data.sid = getParameterByName("sid") || "";
 	ajax("GET",data,populateTransS,generalF);
 }
 function getOldOwner(cid){
@@ -113,7 +114,7 @@ var populateTransS = function(data){
 	var UL_HTML = "";
 	UL_HTML += "<center><h2>";
 	UL_HTML += "Card "+transaction.cardid+" Was Given ";
-	UL_HTML += "</h2></center>";//From "+transaction.giver+" To "+transaction.receiver;
+	UL_HTML += "</h2>";//From "+transaction.giver+" To "+transaction.receiver;
 	UL_HTML += "<table style='width:100%;'><tr style='width:100%;'>";
 	UL_HTML += "<td style='width:50%;'><h3>From<br/>"+transaction.giver+"</h3></td>";
 	UL_HTML += "<td style='width:50%;'><h3>To<br/>"+transaction.receiver+"</h3></td>";
@@ -121,7 +122,7 @@ var populateTransS = function(data){
 	UL_HTML += "<td style='width:50%;'><span class='bigplusone'/></td>";
 	UL_HTML += "<td style='width:50%;'><span class='bigplusone'/></td>";
 	UL_HTML += "</tr></table>";
-	UL_HTML += "<center><h3>On "+transaction.timestamp+"</h3></center>";
+	UL_HTML += "<h3>On "+transaction.timestamp+"</h3></center>";
 	UL_HTML += "<hr><br/>";
 	
 	if(data.media.length>0){
@@ -136,6 +137,13 @@ var populateTransS = function(data){
 	}
 	
 	$("#transaction_details").html(UL_HTML);
+	
+	//show media upload if can edit
+	if(data.can_edit){
+		$("#if_user").show();
+		$("progress").hide();
+		$("input[name='tid']").val(transaction.id);
+	}
 	
 };
 var getTransS = function(data){
@@ -158,6 +166,11 @@ var sendPicS = function(data){
 	alert("successfully updated profile picture!");
 	$('progress').hide();
 	populateProfile();
+}
+var sendPicS2 = function(data){
+	alert("successfully updated profile picture!");
+	$('progress').hide();
+	populateTransactionInfo(getParameterByName("id"));
 }
 var populateLeaderboardS = function(data){
 	var UL_HTML = "";

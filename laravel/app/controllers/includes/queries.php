@@ -84,6 +84,10 @@ class Queries {
 		$profile_update = DB::update("UPDATE `user` SET profile_json='".$profile_json."' WHERE id='".$userID."'");
 		return true;
 	}
+	public static function insertMedia($filename, $tid){
+		$url = "http://54.149.200.91/winwin/laravel/public/web/uploads/"+$filename;
+		$insert = DB::insert("INSERT INTO `media` (sid,trans_id,url) VALUES ('app_upload','".$tid."','".$url."')");
+	}
 	public static function getLatestTransactions(){
 		return json_encode(DB::select("SELECT * FROM transaction ORDER BY timestamp DESC LIMIT 100"));
 	}
@@ -92,10 +96,15 @@ class Queries {
 		$return = ($type=="Card")? DB::select(self::getTransactionsForBarcode($id)):DB::select("SELECT * FROM transaction WHERE giver ='".$id."' OR receiver='".$id."' OR giver ='+".$id."' OR receiver='+".$id."' OR giver ='+1".$id."' OR receiver='+1".$id."' ORDER BY timestamp desc");
 		return json_encode($return);
 	}
-	public static function getTransactionDetails($tid){
+	public static function getTransactionDetails($tid, $uid){
 		$media = DB::select("SELECT url FROM media WHERE trans_id=".$tid); 
 		$transaction = DB::select("SELECT * FROM transaction WHERE id=".$tid);
-		$returnArr = array("media"=>$media, "transaction"=>$transaction);
+		if($uid == ""){
+			$can_edit = false;
+		} else {
+			$can_edit = ($transaction->giver == $uid || $transaction->receiver == $uid);
+		}
+		$returnArr = array("media"=>$media, "transaction"=>$transaction, "can_edit"=>$can_edit);
 		return json_encode($returnArr);
 	}
 }
