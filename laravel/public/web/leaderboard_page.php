@@ -6,7 +6,7 @@
 		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 		<META HTTP-EQUIV="Expires" CONTENT="-1">
 		<!---->
-		<link href="css/styles.css" type="text/css" />
+		<link rel="stylesheet" href="css/styles.css" type="text/css" />
 		<link rel="stylesheet" href="jqMobile/jquery.mobile-1.4.5.min.css" type="text/css" />
 		<!---->
 		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -29,7 +29,7 @@
 	<body><!-- onload="populateLeaderboard()"-->
 		<div id="leaderboard_page" data-role="page" data-theme="b">
 			<div data-role="header">
-				<center><span><div id="logo" /></span></center> 
+				<center><span><div id="logo"></div></span></center> 
 				<a id="back" style="float:right;display:none;" data-rel="back">Back</a>
 			</div>
 			<div data-role="navbar">

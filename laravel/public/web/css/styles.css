@@ -1,5 +1,7 @@
 #logo{
-	background:url('logo.png');
+	display:inline-block;
 	width:200px;
-	height:auto;
+	height:52px;
+	background:url('logo.png');
+	background-size: 200px 52px;
 }
