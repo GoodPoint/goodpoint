@@ -69,6 +69,9 @@ function getOldOwner(cid){
 	ajax("GET",data,getOldOwnerS,generalF);
 }
 function submitQRscan(){
+	if($("input[name='phone']").val() == "" || $("input[name='phone']").val().toString().length != 10){
+		alert("must enter a 10-digit phone number in the format xxxxxxxxxx");return;
+	}
 	var data = new Object();
 	data.url = "/qr/submit";
 	data.oldOwner = $("input[name='oldOwner']").val();
@@ -150,7 +153,7 @@ var sendPicS = function(data){
 var populateLeaderboardS = function(data){
 	var UL_HTML = "";
 	for(var i=0; i<data.leaderboard.length; i++){
-		if(data.leaderboard[i].id != "" && data.leaderboard[i].id != " " && data.leaderboard[i].id != "GoodPoint Launch"){
+		if(data.leaderboard[i].id != "" && data.leaderboard[i].id != " " && data.leaderboard[i].id != "GoodPoint Launch" && data.leaderboard[i].id.toString().length == "10"){
 			var da_span = (data.leaderboard[i].id == data.userID)? "<span class='profile_link' style='float:right;cursor:pointer;'>Edit Profile</span>" : "";
 			var da_href = (data.leaderboard[i].id == data.userID)? "player_profile.php?sid="+getParameterByName("sid") : "#";
 			UL_HTML += "<li><a href='"+da_href+"'>";

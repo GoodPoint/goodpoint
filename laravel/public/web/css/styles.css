@@ -5,3 +5,6 @@
 	background:url('logo.png');
 	background-size: 200px 52px;
 }
+.ui-radio{
+	display:inline-block;
+}

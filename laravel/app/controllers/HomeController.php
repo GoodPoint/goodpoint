@@ -158,6 +158,7 @@ class HomeController extends BaseController {
 		echo Strings::xml_header();
 		//grab body of message (what user texted to our Twilio #). doesn't include MMS stuff (thats grabbed later).
 		$body = $_REQUEST['Body'];
+		$_REQUEST['From'] = str_replace("+1","",$_REQUEST['From']);
 		//initialize helper variables for handling certain steps
 		$step = -1; $barcode_id = -1; $old_owner = -1; $the_sid = -1; $message = "no msg"; $ab = "n/a"; $old_ab = "";
 		//TODO Line 14:need to validate body as phone # in more strict way/better if condition, find regex

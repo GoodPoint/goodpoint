@@ -38,6 +38,7 @@
 					<li><a href="#" class="ui-btn-active"><!--Transactions-->+1/+1's</a></li>
 				</ul>
 			</div>
+			<br/>
 			<div data-role="navbar">
 				<center><h2>View GoodPoint Transactions!</h2></center>
 				<ul>
@@ -46,8 +47,10 @@
 					<!--li><a href="#" onclick="getTransactionsByCard()">By Card# </a></li>
 					<li><a href="#" onclick="getTransactionsByPhone()">By Phone# </a></li-->
 				</ul><p>OR search by</p>
-				<input type="radio" name="cardOrPhone" value="Card" style="display:inline;" />Card ID
-				&nbsp;&nbsp;<input type="radio" name="cardOrPhone" value="Phone" style="display:inline;" />Phone #<br/>
+				<input type="radio" name="cardOrPhone" value="Card" style="display:inline;" />
+				<span style="position:relative;left: 35px;bottom: 5px;">Card ID</span>
+				&nbsp;&nbsp;<input type="radio" name="cardOrPhone" value="Phone" style="display:inline;" />
+				<span style="position:relative;left: 35px;bottom: 5px;">Phone #</span><br/>
 				<input type="text" placeholder="card# / phone#" name="number" style="float:left;width:80%;" />
 				<input type="button" value="Go" style="float:left;" onclick="getTransactionsByNum()" />
 			</div>
