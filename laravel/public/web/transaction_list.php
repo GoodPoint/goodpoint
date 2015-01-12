@@ -18,7 +18,7 @@
 				$.mobile.ajaxEnabled = false;
 				$(document).ready(function(){
 					getLatestTransactions();
-					$("#leaderboard_page_link").attr("href","leaderboard_page.php?sid="+getParameterByName("sid"));
+					$(".leaderboard_page_link").attr("href","leaderboard_page.php?sid="+getParameterByName("sid"));
 				});
 			});
 		</script>
