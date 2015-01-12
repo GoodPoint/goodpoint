@@ -50,17 +50,18 @@ var populateLeaderboardS = function(data){
 	var UL_HTML = "";
 	for(var i=0; i<data.leaderboard.length; i++){
 		var da_span = (data.leaderboard[i].id == data.userID)? "<span class='profile_link' style='float:right;cursor:pointer;'>Edit Profile</span>" : "";
-		UL_HTML += "<li><a href='#'>";
+		var da_href = (data.leaderboard[i].id == data.userID)? "player_profile.php?sid="+getParameterByName("sid") : "#";
+		UL_HTML += "<li><a href='"+da_href+"'>";
 		UL_HTML += data.leaderboard[i].id+" -- "+data.leaderboard[i].GoodPoints+"GP";
 		UL_HTML += da_span+"</a></li>";
 	}
 	//populate UL with concatenated string
 	$("ul#the_leaderboard").html(UL_HTML);
 	$("ul#the_leaderboard").listview("refresh");
-	//bind for profile link
-	$("span.profile_link").click(function(){
+	//bind for profile link not needed since added logic to manipulate actual anchor tag
+	/*$("span.profile_link").click(function(){
 		window.location.href = "player_profile.php?sid="+getParameterByName("sid");
-	});
+	});*/
 };
 //failure callbacks
 var generalF = function(data,err){alert("error in web application"+data+err);};
