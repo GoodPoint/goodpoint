@@ -6,7 +6,7 @@
 		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 		<META HTTP-EQUIV="Expires" CONTENT="-1">
 		<!---->
-		<link href="css/styles.css" type="text/css" />
+		<link rel="stylesheet" href="css/styles.css" type="text/css" />
 		<link rel="stylesheet" href="jqMobile/jquery.mobile-1.4.5.min.css" type="text/css" />
 		<!---->
 		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -41,15 +41,15 @@
 			<div data-role="navbar">
 				<center><h2>View GoodPoint Transactions!</h2></center>
 				<ul>
-					<li id="my_transactions"><a href="#" onclick="getMyTransactions()">Mine</a></li>
-					<li><a href="#" onclick="getLatestTransactions()" class="ui-btn-active">Latest 100</a></li>
+					<li id="my_transactions"><a href="#" id="mine_link" onclick="getMyTransactions()">Mine</a></li>
+					<li><a href="#" id="hundo_link" onclick="getLatestTransactions()" class="ui-btn-active">Latest 100</a></li>
 					<!--li><a href="#" onclick="getTransactionsByCard()">By Card# </a></li>
 					<li><a href="#" onclick="getTransactionsByPhone()">By Phone# </a></li-->
 				</ul><p>OR search by</p>
-				<input type="radio" name="cardOrPhone" value="Card" />Card ID
-				&nbsp;&nbsp;<input type="radio" name="cardOrPhone" value="Phone" />Phone #<br/>
+				<input type="radio" name="cardOrPhone" value="Card" style="display:inline;" />Card ID
+				&nbsp;&nbsp;<input type="radio" name="cardOrPhone" value="Phone" style="display:inline;" />Phone #<br/>
 				<input type="text" placeholder="card# / phone#" name="number" style="float:left;width:80%;" />
-				<input type="button" value="Go" style="float:left;width:20%;" onclick="getTransactionsByNum()" />
+				<input type="button" value="Go" style="float:left;" onclick="getTransactionsByNum()" />
 			</div>
 			<div class="ui-content">
 				<!--leaderboard-->

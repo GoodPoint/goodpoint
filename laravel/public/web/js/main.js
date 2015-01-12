@@ -33,10 +33,10 @@ function getLatestTransactions(){
 }
 function getTransactionsByNum(){
 	if($("input[name='cardOrPhone']:checked").val() == "Card"){
-		getTransactionsByCard(); return;
+		getTransactionsByCard(); $("#mine_link").removeClass("ui-btn-active"); $("#hundo_link").removeClass("ui-btn-active"); return;
 	} else {
 		if($("input[name='cardOrPhone']:checked").val() == "Phone"){
-			getTransactionsByPhone(); return;
+			getTransactionsByPhone(); $("#mine_link").removeClass("ui-btn-active"); $("#hundo_link").removeClass("ui-btn-active"); return;
 		} else {
 			alert("must specify what type of id to search by! card id is the text code on back of card that you want to see transactions for. phone# is the phone# of the person you want to see transactions for");
 		}
