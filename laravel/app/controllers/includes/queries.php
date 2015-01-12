@@ -36,8 +36,12 @@ class Queries {
 			}
 		}*/
 		//alpha
-		$select = DB::select("SELECT count(*) as count FROM cards WHERE owner='".$potential_owner."' AND barcode_id = ".$barcode_id);
-		if($select[0]->count > 0){ return true; }
+		$select = DB::select("SELECT * FROM `transaction` where cardid=".$barcode_id." order by timestamp desc limit 1");
+		for($i=0; $i<count($select); $i++){
+			if($select[$i]->giver == $potential_owner || $select[$i]->receiver == $potential_owner){
+				return true;
+			}
+		}
 		return false;
 	}
 	public static function getLeaderboard($sid){
