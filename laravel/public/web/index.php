@@ -3,6 +3,8 @@
 	<head>
 		<!---->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<META HTTP-EQUIV="Expires" CONTENT="-1">
 		<!---->
 		<link href="css/styles.css" type="text/css" />
 		<link rel="stylesheet" href="jqMobile/jquery.mobile-1.4.5.min.css" type="text/css" />

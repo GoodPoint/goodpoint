@@ -3,11 +3,20 @@
 	<head>
 		<!---->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<META HTTP-EQUIV="Expires" CONTENT="-1">
 		<!---->
 		<link href="css/styles.css" type="text/css" />
 		<link rel="stylesheet" href="jqMobile/jquery.mobile-1.4.5.min.css" type="text/css" />
 		<!---->
 		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script>
+		$(document).bind("mobileinit", function () {
+            //alert("mobileinit");
+            $.mobile.ajaxEnabled = false;
+            setTimeout(onload(),500);
+        });
+		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
 		<script src="js/util.js"></script>
 		<script src="js/main.js"></script>
@@ -46,7 +55,8 @@
 					$('progress').attr({value:e.loaded,max:e.total});
 				}
 			}
-			$(document).ready(function(){
+			//$(document).ready(function(){
+			function onload(){
 				//gender dropdown
 				for(var i=0; i<genderArr.length; i++){
 					$("select[name='gender']").append("<option value='"+genderArr[i]+"'>"+genderArr[i]+"</option>");
@@ -58,7 +68,8 @@
 				myInput.addEventListener('change', sendPic, false);
 				$("input[name='sid']").val(getParameterByName("sid"));
 				$("#backURL").attr("href","leaderboard_page.php?sid="+getParameterByName("sid"));
-			});
+			}
+			//});
 		</script>
 		<!---->
 		<title>WIN+WIN</title>
@@ -66,10 +77,10 @@
 	<body onload="populateProfile()">
 		<div id="profile_page" data-role="page" data-theme="b">
 			<div data-role="header">
-				<center><span style="font-size:20px;font-weight:bold;">Your Profile Page</span></center> 
-				<div id="back-btn-wrap">
+				<div id="back-btn-wrap" style="position:relative;top:10px;">
 					<a id="backURL" href="leaderboard_page.php"><input style="display:inline" type="button" value="Back"></a>
 				</div>
+				<center><span style="font-size:20px;font-weight:bold;position:relative;bottom:25px;">Your Profile Page</span></center> 
 			</div>
 			<div class="ui-content">
 				<center>

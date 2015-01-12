@@ -3,18 +3,27 @@
 	<head>
 		<!---->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<META HTTP-EQUIV="Expires" CONTENT="-1">
 		<!---->
 		<link href="css/styles.css" type="text/css" />
 		<link rel="stylesheet" href="jqMobile/jquery.mobile-1.4.5.min.css" type="text/css" />
 		<!---->
 		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script>
+		$(document).bind("mobileinit", function () {
+            //alert("mobileinit");
+            $.mobile.ajaxEnabled = false;
+            setTimeout(populateLeaderboard(),500);
+        });
+		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
 		<script src="js/util.js"></script>
 		<script src="js/main.js"></script>
 		<!---->
 		<title>WIN+WIN</title>
 	</head>
-	<body onload="populateLeaderboard()">
+	<body><!-- onload="populateLeaderboard()"-->
 		<div id="leaderboard_page" data-role="page" data-theme="b">
 			<div data-role="header">
 				<center><span style="font-size:20px;font-weight:bold;">GoodPoint Leaderboard</span></center> 
