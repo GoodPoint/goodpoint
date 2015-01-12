@@ -66,27 +66,35 @@ class HomeController extends BaseController {
 					//we now update owner to confirmed new owner, record oldowner->new owner transaction
 					//if there is error in any query it all resets, else new owner and transaction are recorded
 					//and user is prompted to submit media. step is set to 2 (so we can receive MMS properly)
-					$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
-					if(!$update){
-						$message = TwilioMsg::genericDatabaseError(1).$_REQUEST['From'].$barcode_id;
+					/*could be that owner is already $_REQUEST['From'], in that case throw different error message*/
+					$owner_to_owner = Queries::checkOwner($_REQUEST['From']);
+					if($owner_to_owner){
+						$message = TwilioMsg::ownerToOwnerError();
 						$step = -1;
-						$ab = "a_err";
+						$ab = "a_selfToSelfAttempt";
 					} else {
-						$insert = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $old_owner));
-						if(!$insert){
-							$message = TwilioMsg::welcomeMessage();
+						$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
+						if(!$update){
+							$message = TwilioMsg::genericDatabaseError(1).$_REQUEST['From'].$barcode_id;
 							$step = -1;
 							$ab = "a_err";
 						} else {
-							//add incomplete user records for giver and receiver
-							$insert = Queries::initUser($_REQUEST['From']);
-							$insert = Queries::initUser($old_owner);
-							//get link to use in message
-							$_link = GAPI::urlShorten("http://54.69.129.75/winwin/laravel/public/web/index.php?sid=".$_REQUEST['MessageSid'])["id"];
-							$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
-							$step = 2;
-							$ab = "a_success";
-						} 
+							$insert = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $old_owner));
+							if(!$insert){
+								$message = TwilioMsg::welcomeMessage();
+								$step = -1;
+								$ab = "a_err";
+							} else {
+								//add incomplete user records for giver and receiver
+								$insert = Queries::initUser($_REQUEST['From']);
+								$insert = Queries::initUser($old_owner);
+								//get link to use in message
+								$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/index.php?sid=".$_REQUEST['MessageSid'])["id"];
+								$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
+								$step = 2;
+								$ab = "a_success";
+							} 
+						}
 					}
 				} 
 				if(strtolower($_REQUEST['Body']) == "no"){
@@ -117,32 +125,43 @@ class HomeController extends BaseController {
 					//TODO:find better way to catch errors along the way, group error handling
 					//     into helper fxn since its basically the same or similar for all cases...
 					//     probably with log+return statement right at error, so dont have to mess with conditionals
-					$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
-					if(!$update){
-						$message = TwilioMsg::genericDatabaseError(2);			
+					/*could be that owner is already $_REQUEST['From'], in that case throw different error message*/
+					$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
+					if($owner_to_owner){
+						$message = TwilioMsg::ownerToOwnerError();
 						$step = -1;
-						$ab = "a_err";
+						$ab = "a_selfToSelfAttempt";
 					} else {
-						$query = DB::insert(Queries::insertTransaction($barcode_id, $body, $old_ab));
-						if(!$query){
-							$message = TwilioMsg::genericDatabaseError(3);
-							$step = -1;
-							$ab = "a_err";
+						$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
+						if(!$update){
+							
+							else {
+								$message = TwilioMsg::genericDatabaseError(2);			
+								$step = -1;
+								$ab = "a_err";
+							}
 						} else {
-							$query = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $body));
+							$query = DB::insert(Queries::insertTransaction($barcode_id, $body, $old_ab));
 							if(!$query){
 								$message = TwilioMsg::genericDatabaseError(3);
 								$step = -1;
 								$ab = "a_err";
 							} else {
-								//add incomplete user records for giver and receiver
-								$insert = Queries::initUser($_REQUEST['From']);
-								$insert = Queries::initUser($body);
-								//get link to use in message
-								$_link = GAPI::urlShorten("http://54.69.129.75/winwin/laravel/public/web/index.php?sid=".$_REQUEST['MessageSid'])["id"];
-								$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id, $_link, $_REQUEST['From']);
-								$step = 2;
-								$ab = "a_success2";
+								$query = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $body));
+								if(!$query){
+									$message = TwilioMsg::genericDatabaseError(3);
+									$step = -1;
+									$ab = "a_err";
+								} else {
+									//add incomplete user records for giver and receiver
+									$insert = Queries::initUser($_REQUEST['From']);
+									$insert = Queries::initUser($body);
+									//get link to use in message
+									$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/index.php?sid=".$_REQUEST['MessageSid'])["id"];
+									$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id, $_link, $_REQUEST['From']);
+									$step = 2;
+									$ab = "a_success2";
+								}
 							}
 						}
 					}
@@ -201,27 +220,35 @@ class HomeController extends BaseController {
 					$ab = "a_prompt";
 				} else { //$a_or_b == 1
 					//B: get the points
-					$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
-					if(!$update){
-						$message = TwilioMsg::genericDatabaseError(1).$_REQUEST['From'].$barcode_id;
+					//could be that owner is already $_REQUEST['From'] or within last 3 owners/receivers
+					$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
+					if($owner_to_owner){
+						$message = TwilioMsg::ownerToOwnerError();
 						$step = -1;
-						$ab = "b_err";
+						$ab = "b_selfToSelfAttempt";
 					} else {
-						$insert = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $oldOwner));
-						if(!$insert){
-							$message = TwilioMsg::welcomeMessage();
+						$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
+						if(!$update){
+							$message = TwilioMsg::genericDatabaseError(1).$_REQUEST['From'].$barcode_id;
 							$step = -1;
-							$ab = "b_err";
+							$ab = "b_err_updateOwner";
 						} else {
-							//add incomplete user records for giver and receiver
-							$insert = Queries::initUser($_REQUEST['From']);
-							$insert = Queries::initUser($oldOwner);
-							//get link to use in message
-							$_link = GAPI::urlShorten("http://54.69.129.75/winwin/laravel/public/web/index.php?sid=".$_REQUEST['MessageSid'])["id"];
-							$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
-							$step = 2;
-							$ab = "b_success";
-						} 
+							$insert = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $oldOwner));
+							if(!$insert){
+								$message = TwilioMsg::welcomeMessage();
+								$step = -1;
+								$ab = "b_err_transaction";
+							} else {
+								//add incomplete user records for giver and receiver
+								$insert = Queries::initUser($_REQUEST['From']);
+								$insert = Queries::initUser($oldOwner);
+								//get link to use in message
+								$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/index.php?sid=".$_REQUEST['MessageSid'])["id"];
+								$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
+								$step = 2;
+								$ab = "b_success";
+							} 
+						}
 					}
 				}
 				//END A/B TEST.

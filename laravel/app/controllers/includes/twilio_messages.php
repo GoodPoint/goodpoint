@@ -15,7 +15,7 @@ class TwilioMsg {
 	public static function mediaFailed($t_id){ return "Error uploading one or more of the pictures/audio/video you sent :( If you want to add media to this transaction later, text transaction ID: ".$t_id." and your pictures/audio/video. Thanks!"; }
 	public static function mediaSucceeded($t_id){ return "Thank you for adding media to share your goodness with the world! If you want to add more media for this transaction in the future, text transaction ID: ".$t_id." and your pictures/audio/video. Thanks!"; }
 	public static function invalidCardId(){ return "Welcome to WIN+WIN card exchange! You entered an incorrect card ID. It is a 9-digit ID on the card."; }
-	
+	public static function ownerToOwnerError(){ return "You are already the owner of this card, or have been the owner of this card in the last 2 transactions. This means you cannot receive this card at this time. Spread the goodness and encourage sharing this card with someone else! Goodness cannot be hoarded!"; }
 }
 
 ?>

@@ -28,6 +28,18 @@ class Queries {
 			return DB::insert("INSERT INTO `user` (`id`, `profile_json`, `last_updated`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP)");
 		}
 	}
+	public static function checkOwner($potential_owner, $barcode_id){
+		/*$select = DB::select("SELECT * FROM `transaction` where cardid=".$barcode_id." order by timestamp desc limit 2");
+		for($i=0; $i<count($select); $i++){
+			if($select[$i]->giver == $potential_owner || $select[$i]->receiver == $potential_owner){
+				return true;
+			}
+		}*/
+		//alpha
+		$select = DB::select("SELECT count(*) as count FROM cards WHERE owner='".$potential_owner."' AND barcode_id = ".$barcode_id);
+		if($select[0]->count > 0){ return true; }
+		return false;
+	}
 	public static function getLeaderboard($sid){
 		$userID = DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To;
 		$leaderboard = DB::select("SELECT user.id, (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints` FROM user");
