@@ -10,7 +10,7 @@ class TransactionController extends BaseController {
 	}
 	
 	public function getLatestTransactinos(){
-		return Queries::getLatestTransactinos();
+		return Queries::getLatestTransactions();
 	}
 	
 	public function getTransactionsByCardId(){
