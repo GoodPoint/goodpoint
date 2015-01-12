@@ -66,7 +66,7 @@ var getTransS = function(data){
 	var UL_HTML = "";
 	for(var i=0; i<data.length; i++){
 		var transaction = data[i];
-		UL_HTML += "<li><a href='transaction.php?id="+transaction.id+"'";
+		UL_HTML += "<li><a href='transaction.php?id="+transaction.id+"'>";
 		UL_HTML += "Card "+transaction.cardid+" From "+transaction.giver+" To "+transaction.receiver;
 		UL_HTML += "</a></li>";
 	}
