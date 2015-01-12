@@ -38,7 +38,7 @@ class HomeController extends BaseController {
 						} else {
 							$update = DB::update(Queries::updateOwner($phone, $cardno));
 							if(!$update){
-								$message = TwilioMsg::genericDatabaseError(1).$phone, $cardno;
+								$message = TwilioMsg::genericDatabaseError(1).$phone. $cardno;
 								$step = -1;
 								$ab = "a_err";
 							} else {
