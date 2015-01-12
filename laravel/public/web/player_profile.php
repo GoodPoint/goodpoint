@@ -55,7 +55,7 @@
 				for(var i=0; i<genderArr.length; i++){
 					$("select[name='gender']").append("<option value='"+genderArr[i]+"'>"+genderArr[i]+"</option>");
 				}
-			}
+			});
 		</script>
 		<!---->
 		<title>WIN+WIN</title>
