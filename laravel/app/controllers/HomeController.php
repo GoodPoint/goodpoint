@@ -27,6 +27,7 @@ class HomeController extends BaseController {
 			$old_owner = $_REQUEST['oldOwner'];
 			$real_giver = $_REQUEST['realgiver'];
 			$custom_sid = "qrscan_".$phone;
+			$_link = "";
 			switch($_REQUEST['aorb']){
 				case "A": 
 					if($_REQUEST['yesorno'] == "yes"){
@@ -142,9 +143,9 @@ class HomeController extends BaseController {
 				default: break;
 			}
 			$query2 = DB::insert(Queries::recordMsg($phone, $message, $step, $cardno, $custom_sid, $ab));
-			return json_encode(array("link"=>$_link,"result"=>"success"));
+			return json_encode(array("link"=>$_link,"result"=>$message));
 		} catch(Exception $e) {
-			return "{\"result\":\"failure. invalid form submission. try again and input what is asked of you!".$e->getMessage()."\"}";
+			return "{\"result\":\"".$e->getMessage()."\"}";
 		}
 	}
 
