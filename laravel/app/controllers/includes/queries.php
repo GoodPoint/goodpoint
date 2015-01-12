@@ -84,7 +84,7 @@ class Queries {
 		$profile_update = DB::update("UPDATE `user` SET profile_json='".$profile_json."' WHERE id='".$userID."'");
 		return true;
 	}
-	public static function insertMedia($filename, $tid){
+	public static function appInsertMedia($filename, $tid){
 		$url = "http://54.149.200.91/winwin/laravel/public/web/uploads/"+$filename;
 		$insert = DB::insert("INSERT INTO `media` (sid,trans_id,url) VALUES ('app_upload','".$tid."','".$url."')");
 	}

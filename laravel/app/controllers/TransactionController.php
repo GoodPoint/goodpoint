@@ -87,7 +87,7 @@ class TransactionController extends BaseController {
 				throw new RuntimeException('Failed to move uploaded file.');
 			}
 			
-			$success = Queries::insertMedia($new_name.".".$ext, $tid);
+			$success = Queries::appInsertMedia($new_name.".".$ext, $tid);
 			return "{\"result\":\"success\"}";
 			//echo 'File is uploaded successfully.';
 
