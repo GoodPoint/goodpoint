@@ -43,7 +43,7 @@ class HomeController extends BaseController {
 								$step = -1;
 								$ab = "a_err";
 							} else {
-								$insert = DB::insert(Queries::insertTransaction($phone, $cardno, $old_owner));
+								$insert = DB::insert(Queries::insertTransaction($cardno, $phone, $old_owner));
 								if(!$insert){
 									$message = TwilioMsg::welcomeMessage();
 									$step = -1;
