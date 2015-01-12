@@ -25,7 +25,7 @@ class HomeController extends BaseController {
 			$phone = $_REQUEST['phone'];
 			$cardno = $_REQUEST['cardno'];
 			$old_owner = $_REQUEST['oldOwner'];
-			$real_giver = $_REQUEST['realgiver'];
+			
 			$custom_sid = "qrscan_".$phone;
 			$_link = "";
 			switch($_REQUEST['aorb']){
@@ -77,6 +77,7 @@ class HomeController extends BaseController {
 								$step = -1;
 								$ab = "a_err";
 							} else {
+								$real_giver = $_REQUEST['realgiver'];
 								$query = DB::insert(Queries::insertTransaction($cardno, $real_giver, $old_owner));
 								if(!$query){
 									$message = TwilioMsg::genericDatabaseError(3);

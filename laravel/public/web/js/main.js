@@ -61,7 +61,7 @@ function submitQRscan(){
 	var data = new Object();
 	data.url = "/qr/submit";
 	data.oldOwner = $("input[name='oldOwner']").val();
-	data.yesorno = $("input[name='yesorno']").val();
+	data.yesorno = $("select[name='yesorno']").val();
 	data.realgiver = $("input[name='realgiver']").val();
 	data.phone = $("input[name='phone']").val();
 	data.aorb = $("input[name='aorb']").val();
