@@ -54,6 +54,18 @@ class Queries {
 		$returnArr = array("userID"=>$userID, "profile"=>$profile_arr, "sid"=>$sid);
 		return json_encode($returnArr);
 	}
+	public static function profilePicJSON($filename,$sid){
+		$userID = ($sid != "")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To : "";
+		if($userID == ""){return "{\"result\":\"error. no user specified\"}";}
+		$profile_json = DB::select("SELECT profile_json FROM `user` WHERE id='".$userID."'")[0]->profile_json;
+		//convert to assoc array to add or update associative pic value
+		$profile_arr = json_decode($profile_json, true);
+		$profile_arr["pic"] = $filename;
+		//re-encode with updated value and insert into db
+		$profile_json = json_encode($profile_arr);
+		$profile_update = DB::update("UPDATE `user` SET profile_json='".$profile_json."' WHERE id='".$userID."'");
+		return true;
+	}
 	public static function getTransactionsById($id, $type){
 		//$type == "Card" or "User"
 		$return = ($type=="Card")? DB::select(self::getTransactionsForBarcode($id)):DB::select("SELECT * FROM transaction WHERE giver ='".$id."' OR receiver='".$id."' ORDER BY timestamp desc");

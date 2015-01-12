@@ -56,7 +56,8 @@
 				//image stuff
 				var myInput = document.getElementById('profile_pic');
 				myInput.addEventListener('change', sendPic, false);
-				});
+				$("input[name='sid']").val(getParameterByName("sid"));
+			});
 		</script>
 		<!---->
 		<title>WIN+WIN</title>
@@ -85,6 +86,7 @@
 					<h2>Edit Profile:</h2>
 					<form id="picForm" enctype="multipart/form-data">
 						Upload New Profile Photo: <input id="profile_pic" name="profile_pic" type="file" accept="image/*;capture=camera" />
+						<input name="sid" type="hidden" value="" />
 					</form>
 					<progress></progress>
 					<br/>

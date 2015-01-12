@@ -20,7 +20,7 @@ class WebController extends BaseController {
 	
 	public function uploadProfilePic(){
 		try {
-    
+			$sid = $_REQUEST['sid'];
 			// Undefined | Multiple Files | $_FILES Corruption Attack
 			// If this request falls under any of them, treat it invalid.
 			if (
@@ -66,16 +66,18 @@ class WebController extends BaseController {
 			// You should name it uniquely.
 			// DO NOT USE $_FILES['profile_pic']['name'] WITHOUT ANY VALIDATION !!
 			// On this example, obtain safe unique name from its binary data.
+			$new_name = sha1_file($_FILES['profile_pic']['tmp_name']);
 			if (!move_uploaded_file(
 				$_FILES['profile_pic']['tmp_name'],
-				sprintf('../../web/uploads/%s.%s',
-					sha1_file($_FILES['profile_pic']['tmp_name']),
+				sprintf('../../public/web/uploads/%s.%s',
+					$new_name,
 					$ext
 				)
 			)) {
 				throw new RuntimeException('Failed to move uploaded file.');
 			}
 			
+			$success = Queries::profilePicJSON($new_name.".".$ext, $sid);
 			return "{\"result\":\"success\"}";
 			//echo 'File is uploaded successfully.';
 
