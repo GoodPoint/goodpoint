@@ -67,7 +67,7 @@ class HomeController extends BaseController {
 					//if there is error in any query it all resets, else new owner and transaction are recorded
 					//and user is prompted to submit media. step is set to 2 (so we can receive MMS properly)
 					/*could be that owner is already $_REQUEST['From'], in that case throw different error message*/
-					$owner_to_owner = Queries::checkOwner($_REQUEST['From']);
+					$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
 					if($owner_to_owner){
 						$message = TwilioMsg::ownerToOwnerError();
 						$step = -1;
@@ -212,9 +212,17 @@ class HomeController extends BaseController {
 				$a_or_b = mt_rand(0,1);
 				if($a_or_b == 0){
 					//A: ask for old owner
-					$message = TwilioMsg::promptForGiver($oldOwner);
-					$step = 0;
-					$ab = "a_prompt";
+					//could be that owner is already $_REQUEST['From'] or within last 3 owners/receivers
+					$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
+					if($owner_to_owner){
+						$message = TwilioMsg::ownerToOwnerError();
+						$step = -1;
+						$ab = "a_selfToSelfAttempt";
+					} else {
+						$message = TwilioMsg::promptForGiver($oldOwner);
+						$step = 0;
+						$ab = "a_prompt";
+					}
 				} else { //$a_or_b == 1
 					//B: get the points
 					//could be that owner is already $_REQUEST['From'] or within last 3 owners/receivers
