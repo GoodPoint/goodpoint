@@ -69,7 +69,8 @@ class WebController extends BaseController {
 			$new_name = sha1_file($_FILES['profile_pic']['tmp_name']);
 			if (!move_uploaded_file(
 				$_FILES['profile_pic']['tmp_name'],
-				sprintf('../../public/web/uploads/%s.%s',
+				sprintf('%s/winwin/laravel/public/web/uploads/%s.%s',
+					$_SERVER['DOCUMENT_ROOT'],
 					$new_name,
 					$ext
 				)
