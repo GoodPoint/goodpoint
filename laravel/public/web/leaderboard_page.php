@@ -10,6 +10,8 @@
 		<link rel="stylesheet" href="jqMobile/jquery.mobile-1.4.5.min.css" type="text/css" />
 		<!---->
 		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="js/util.js"></script>
+		<script src="js/main.js"></script>
 		<script>
 		$(document).bind("mobileinit", function () {
             //alert("mobileinit");
@@ -18,8 +20,6 @@
         });
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
-		<script src="js/util.js"></script>
-		<script src="js/main.js"></script>
 		<!---->
 		<title>WIN+WIN</title>
 	</head>
