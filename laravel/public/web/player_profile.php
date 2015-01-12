@@ -57,6 +57,7 @@
 				var myInput = document.getElementById('profile_pic');
 				myInput.addEventListener('change', sendPic, false);
 				$("input[name='sid']").val(getParameterByName("sid"));
+				$("#backURL").attr("href","leaderboard_page.php?sid="+getParameterByName("sid"));
 			});
 		</script>
 		<!---->
@@ -71,14 +72,16 @@
 				</div>
 			</div>
 			<div class="ui-content">
+				<center>
 				<div id="userProfile" class="content-container">
-					Profile Picture: <img id="profilePic" style="width:100px;height:100px;" /><br/>
+					<img id="profilePic" style="width:100px;height:100px;" /><br/>
 					<span class="nameWrap">Name: <span class="name"></span><br/></span>
 					<span class="ageWrap">Age: <span class="age"></span><br/></span>
 					<span class="genderWrap">Gender: <span class="gender"></span><br/></span>
 					Phone: <span class="phone"></span><br/>
 					<a href="#Edit" id="editLink" data-rel="popup" data-position-to="window">Edit</a>
 				</div>
+				</center>
 			</div>
 			<div data-role="footer"><span style="font-size:10px;">&copy; 2014 GoodPointGame</span></div>
 			<div data-role="popup" id="Edit">

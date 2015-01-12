@@ -23,11 +23,11 @@ function addProfile(){
 //success callbacks
 var populateProfileS = function(data){
 	var profile = data.profile;
-	$("span.name").html(profile.name || "");
-	$("span.age").html(profile.age || "");
-	$("span.gender").html(profile.gender || "");
-	$("span.phone").html(data.userID || "");
-	$("#profilePic").attr("src","http://54.149.200.91/winwin/laravel/public/web/uploads/"+profile.pic || "");
+	$("span.name").html(profile.name || "not entered");
+	$("span.age").html(profile.age || "not entered");
+	$("span.gender").html(profile.gender || "not entered");
+	$("span.phone").html(data.userID || "not entered");
+	$("#profilePic").attr("src","http://54.149.200.91/winwin/laravel/public/web/uploads/"+profile.pic || "http://54.149.200.91/winwin/laravel/public/web/uploads/nophoto.png");
 	if(profile.name == undefined && profile.age == undefined && profile.gender == undefined){
 		$("span.only_if_new").show();
 	} else {
