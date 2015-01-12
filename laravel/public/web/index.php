@@ -9,15 +9,18 @@
 		<!---->
 		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
-		<script src="js/main.js"></script>
+		<!--script src="js/main.js"></script-->
 		<!---->
 		<title>WIN+WIN</title>
 	</head>
-	<body>
-		<?php include_once("leaderboard_page.php"); ?>
-		<?php include_once("player_profile.php"); ?>
-		<?php include_once("transaction_list.php"); ?>
-		<?php include_once("transaction.php"); ?>
-		<?php include_once("landing.php"); ?>
+	<body data-role="page">
+		<div data-role="header">
+			<center><span style="font-size:20px;font-weight:bold;">GoodPointGame Home Page</span></center> 
+			<a id="back" style="float:right;display:none;" data-rel="back">Back</a>
+		</div>
+		<div class="ui-content">
+			<?php include_once("landing_temp.php"); ?>
+		</div>
+		<div data-role="footer"><span style="font-size:10px;">&copy; 2014 GoodPointGame</span></div>
 	</body>
 </html>
