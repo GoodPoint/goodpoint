@@ -7,5 +7,6 @@ Route::match( array('GET','POST'), '/hi', array('uses' => 'HomeController@hello'
 Route::match( array('GET','POST'), '/twilio/response', array('uses' => 'HomeController@twilio_response'));
 
 //Web/App UI-populating functions
+Route::match( array('GET','POST'), '/web/leaderboard', array('uses' => 'WebController@leaderboard'));
 
 ?>

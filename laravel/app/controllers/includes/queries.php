@@ -41,9 +41,9 @@ class Queries {
 		return false;
 	}
 	public static function getLeaderboard($sid){
-		$userID = DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To;
+		$userID = ($sid != "")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To : "";
 		$leaderboard = DB::select("SELECT user.id, (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints` FROM user");
-		$returnArr = array("userID"=>$userID, "leaderboard"=>$leaderboard);
+		$returnArr = array("userID"=>$userID, "leaderboard"=>$leaderboard, "sid"=>$sid);
 		return json_encode($returnArr);
 	}
 	public static function getTransactionsById($id, $type){
