@@ -16,6 +16,7 @@ var populateLeaderboardS = function(data){
 	}
 	//populate UL with concatenated string
 	$("ul#the_leaderboard").html(UL_HTML);
+	$("ul#the_leaderboard").listview("refresh");
 	//bind for profile link
 	$("span.profile_link").click(function(){
 		window.location.href = "player_profile.php?sid="+getParameterByName("sid");
