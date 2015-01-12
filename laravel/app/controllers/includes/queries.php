@@ -49,7 +49,8 @@ class Queries {
 	public static function getProfile($sid){
 		$userID = ($sid != "")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To : "";
 		if($userID == ""){return "{\"result\":\"error. no user specified\"}";}
-		$profile_arr = json_decode(DB::select("SELECT profile_json FROM `user` WHERE id='"+$userID+"'")[0]->profile_json,true);
+		$profile_json = DB::select("SELECT profile_json FROM `user` WHERE id='"+$userID+"'")[0]->profile_json;
+		$profile_arr = json_decode($profile_json, true);
 		$returnArr = array("userID"=>$userID, "profile"=>$profile_arr, "sid"=>$sid);
 		return json_encode($returnArr);
 	}
