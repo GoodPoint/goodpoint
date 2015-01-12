@@ -26,6 +26,7 @@ class HomeController extends BaseController {
 			$cardno = $_REQUEST['cardno'];
 			$old_owner = $_REQUEST['oldOwner'];
 			$real_giver = $_REQUEST['realgiver'];
+			$custom_sid = "qrscan_".$phone;
 			switch($_REQUEST['aorb']){
 				case "A": 
 					if($_REQUEST['yesorno'] == "yes"){
