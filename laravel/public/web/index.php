@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!---->
+		<link href="css/styles.css" type="text/css" />
+		<link href="jqMobile/jquery.mobile-1.4.5.min.css" type="text/css" />
+		<!---->
 		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
 		<script src="js/main.js"></script>
-		<link href="css/styles.css" type="text/css" />
+		<!---->
 		<title>WIN+WIN</title>
 	</head>
 	<body>
