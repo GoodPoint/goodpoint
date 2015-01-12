@@ -41,7 +41,6 @@
 				<?php if($display == "A") { ?>
 				<span class="a">
 					<h2>1. Did <span id="oldOwner"></span> give you this card?</h2>
-					<input type="hidden" name="oldOwner" value="" />
 					<select name="yesorno">
 						<option value="yes">yes</option>
 						<option value="no">no</option>
@@ -56,6 +55,7 @@
 				<input type="text" name="phone" style="width:80%;" /><br/>
 				<input type="hidden" name="aorb" value="<?php echo $display; ?>" />
 				<input type="hidden" name="cardno" value="<?php echo $_REQUEST['cid']; ?>" />
+				<input type="hidden" name="oldOwner" value="" />
 				<input type="button" value="submit" onclick="submitQRscan()" />
 				<p>(Note: This phone number will be used to start your GoodPoint account. Make sure you supply your real, correct phone number, because you may not be able to use your GoodPoints otherwise!)</p>
 			</div>
