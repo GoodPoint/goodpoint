@@ -10,16 +10,17 @@
 }
 span.plusone{
 	display:inline-block;
-	width:100px;
-	height:100px;
+	width:20px;
+	height:20px;
 	background:url('plusone.png');
-	background-size: 100px 100px;
+	background-size: 20px 20px;
+	margin:2px;
 }
 
 span.bigplusone{
 	display:inline-block;
-	width:200px;
-	height:200px;
+	width:100px;
+	height:100px;
 	background:url('plusone.png');
-	background-size: 200px 200px;
+	background-size: 100px 100px;
 }

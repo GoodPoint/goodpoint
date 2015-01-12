@@ -35,7 +35,7 @@
 			<div data-role="navbar">
 				<ul>
 					<li><a class="leaderboard_page_link">Leaderboard</a></li>
-					<li><a href="#" class="ui-btn-active"><!--Transactions--><span class="plusone"/>/<span class="plusone"/>'s</a></li>
+					<li><a href="#" class="ui-btn-active"><!--Transactions--><span class="plusone"></span>/<span class="plusone"></span>'s</a></li>
 				</ul>
 			</div>
 			<br/>
@@ -49,7 +49,7 @@
 				</ul><p>OR search by</p>
 				<input type="radio" name="cardOrPhone" value="Card" style="display:inline;" />
 				<span style="position:relative;left: 35px;bottom: 5px;">Card ID</span>
-				&nbsp;&nbsp;<input type="radio" name="cardOrPhone" value="Phone" style="display:inline;" />
+				&nbsp;&nbsp;<input type="radio" name="cardOrPhone" value="Phone" style="display:inline;position:relative;left:34px;" />
 				<span style="position:relative;left: 35px;bottom: 5px;">Phone #</span><br/>
 				<input type="text" placeholder="card# / phone#" name="number" style="float:left;width:80%;" />
 				<input type="button" value="Go" style="float:left;" onclick="getTransactionsByNum()" />
