@@ -102,7 +102,7 @@ class Queries {
 		if($uid == ""){
 			$can_edit = false;
 		} else {
-			$can_edit = ($transaction->giver == $uid || $transaction->receiver == $uid);
+			$can_edit = ($transaction[0]->giver == $uid || $transaction[0]->receiver == $uid);
 		}
 		$returnArr = array("media"=>$media, "transaction"=>$transaction, "can_edit"=>$can_edit);
 		return json_encode($returnArr);
