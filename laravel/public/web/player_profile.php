@@ -29,7 +29,9 @@
 			$(document).bind("mobileinit", function () {
 				//alert("mobileinit");
 				$.mobile.ajaxEnabled = false;
-				$(document).ready(function(){onloadFxn()});
+				$(document).ready(function(){
+					onloadFxn();
+				});
 			});
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>

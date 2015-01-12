@@ -80,6 +80,9 @@ class Queries {
 		$profile_update = DB::update("UPDATE `user` SET profile_json='".$profile_json."' WHERE id='".$userID."'");
 		return true;
 	}
+	public static function getLatestTransactions(){
+		return json_encode(DB::select("SELECT * FROM transactions ORDER BY timestamp DESC LIMIT 100"));
+	}
 	public static function getTransactionsById($id, $type){
 		//$type == "Card" or "User"
 		$return = ($type=="Card")? DB::select(self::getTransactionsForBarcode($id)):DB::select("SELECT * FROM transaction WHERE giver ='".$id."' OR receiver='".$id."' ORDER BY timestamp desc");

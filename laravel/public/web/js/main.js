@@ -20,6 +20,31 @@ function addProfile(){
 	data.gender = $("select[name='gender']").val() || "n/a";
 	ajax("POST",data,addProfileS,generalF);
 }
+function getMyTransactions(){
+	var data = new Object();
+	data.url = "/web/transactions/mine";
+	data.sid = getParameterByName("sid");
+	ajax("GET",data,getTransS,generalF);
+}
+function getLatestTransactions(){
+	var data = new Object();
+	data.url = "/web/transactions/latest";
+	ajax("GET",data,getTransS,generalF);
+}
+function getTransactionsByCard(){
+	var data = new Object();
+	data.url = "/web/transactions/card";
+	data.id = $("input[name='number']").val();
+	data.type = "Card";
+	ajax("GET",data,getTransS,generalF);
+}
+function getTransactionsByPhone(){
+	var data = new Object();
+	data.url = "/web/transactions/phone";
+	data.id = $("input[name='number']").val();
+	data.type = "Phone";
+	ajax("GET",data,getTransS,generalF);
+}
 //success callbacks
 var populateProfileS = function(data){
 	var profile = data.profile;
@@ -36,6 +61,18 @@ var populateProfileS = function(data){
 	if(profile.name == undefined){$("#nameWrap").hide();}
 	if(profile.age == undefined){$("#ageWrap").hide();}
 	if(profile.gender == undefined){$("#genderWrap").hide();}
+};
+var getTransS = function(data){
+	var UL_HTML = "";
+	for(var i=0; i<data.length; i++){
+		var transaction = data[i];
+		UL_HTML += "<li><a href='transaction.php?id="+transaction.id+"'";
+		UL_HTML += "Card "+transaction.cardid+" From "+transaction.giver+" To "+transaction.receiver;
+		UL_HTML += "</a></li>";
+	}
+	//populate UL with concatenated string
+	$("ul#transaction_list").html(UL_HTML);
+	$("ul#transaction_list").listview("refresh");
 };
 var addProfileS = function(data){
 	alert("successfully added profile info!");

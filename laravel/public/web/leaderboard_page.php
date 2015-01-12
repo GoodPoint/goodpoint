@@ -16,7 +16,9 @@
 			$(document).bind("mobileinit", function () {
 				//alert("mobileinit");
 				$.mobile.ajaxEnabled = false;
-				$(document).ready(function(){populateLeaderboard()});
+				$(document).ready(function(){
+					populateLeaderboard();
+				});
 			});
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
@@ -29,10 +31,16 @@
 				<center><span style="font-size:20px;font-weight:bold;">GoodPoint Leaderboard</span></center> 
 				<a id="back" style="float:right;display:none;" data-rel="back">Back</a>
 			</div>
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#" class="ui-btn-active">Leaderboard</a></li>
+					<li><a class="transaction_list_link"><!--Transactions-->+1/+1's</a></li>
+				</ul>
+			</div>
 			<div class="ui-content">
 				<!--leaderboard-->
 				<ul id="the_leaderboard" data-role="listview">
-					<?php echo $link_text; echo $link_href; ?>
+					
 				</ul>
 			</div>
 			<div data-role="footer"><span style="font-size:10px;">&copy; 2014 GoodPointGame</span></div>
