@@ -20,4 +20,8 @@ Route::match( array('GET','POST'), '/web/transactions/card', array('uses' => 'Tr
 Route::match( array('GET','POST'), '/web/transactions/phone', array('uses' => 'TransactionController@getTransactionsByPhoneId'));
 Route::match( array('GET','POST'), '/web/transaction/details', array('uses' => 'TransactionController@getTransactionInfo'));
 
+//batch
+Route::match( array('GET','POST'), '/cards/batchadd', array('uses' => 'HomeController@batchAdd'));
+Route::match( array('GET','POST'), '/qr/ownerForCard', array('uses' => 'HomeController@qrowner'));
+Route::match( array('GET','POST'), '/qr/submit', array('uses' => 'HomeController@qrscan'));
 ?>

@@ -27,7 +27,7 @@
 		<title>WIN+WIN</title>
 	</head>
 	<body><!-- onload="populateLeaderboard()"-->
-		<div id="leaderboard_page" data-role="page" data-theme="b">
+		<div id="tlist_page" data-role="page" data-theme="b">
 			<div data-role="header">
 				<center><span style="font-size:20px;font-weight:bold;">GoodPoint Transactions</span></center> 
 				<a id="back" style="float:right;display:none;" data-rel="back">Back</a>

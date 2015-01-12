@@ -51,6 +51,23 @@ function populateTransactionInfo(id){
 	data.id = id;
 	ajax("GET",data,populateTransS,generalF);
 }
+function getOldOwner(cid){
+	var data = new Object();
+	data.url = "/qr/ownerForCard";
+	data.cid = cid;
+	ajax("GET",data,getOldOwnerS,generalF);
+}
+function submitQRscan(){
+	var data = new Object();
+	data.url = "/qr/submit";
+	data.oldOwner = $("input[name='oldOwner']").val();
+	data.yesorno = $("input[name='yesorno']").val();
+	data.realgiver = $("input[name='realgiver']").val();
+	data.phone = $("input[name='phone']").val();
+	data.aorb = $("input[name='aorb']").val();
+	data.cardno = $("input[name='cardno']").val();
+	ajax("GET",data,submitQRscanS,generalF);
+}
 //success callbacks
 var populateProfileS = function(data){
 	var profile = data.profile;
@@ -67,6 +84,13 @@ var populateProfileS = function(data){
 	if(profile.name == undefined){$("#nameWrap").hide();}
 	if(profile.age == undefined){$("#ageWrap").hide();}
 	if(profile.gender == undefined){$("#genderWrap").hide();}
+};
+var submitQRscanS = function(data){
+	window.location.href = data.link;
+};
+var getOldOwnerS = function(data){
+	$("#oldOwner").html(data.owner);
+	$("input[name='oldOwner']").val(data.owner);
 };
 var populateTransS = function(data){
 	var transaction = data.transaction[0];
@@ -132,4 +156,4 @@ var populateLeaderboardS = function(data){
 //failure callbacks
 var generalF = function(data,err){alert("error in web application"+data+err);};
 //static variables
-var genderArr = ['Female','Male','Trans Female','Trans Male','Other'];
+var genderArr = ['Female','Male','Other'];

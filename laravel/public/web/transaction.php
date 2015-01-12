@@ -27,7 +27,7 @@
 		<title>WIN+WIN</title>
 	</head>
 	<body><!-- onload="populateLeaderboard()"-->
-		<div id="leaderboard_page" data-role="page" data-theme="b">
+		<div id="t_page" data-role="page" data-theme="b">
 			<div data-role="header">
 				<div id="back-btn-wrap" style="position:relative;top:10px;">
 					<a id="backURL" href="leaderboard_page.php"><input style="display:inline" type="button" value="Back"></a>

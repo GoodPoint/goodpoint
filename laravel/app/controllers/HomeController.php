@@ -7,6 +7,145 @@ class HomeController extends BaseController {
 	public function hello(){
 		return Strings::hello();
 	}
+	
+	public function batchAdd(){
+		for($i=111111111;$i<111111611;$i++){
+			DB::insert("INSERT INTO cards (barcode_id,card_type,card_value,owner) VALUES(".$i.", 1, 10, 'GoodPoint Launch')");
+		}
+	}
+	
+	public function qrowner(){
+		$cid = $_REQUEST['cid'];
+		$owner = DB::select("SELECT owner FROM cards WHERE barcode_id = ".$cid)[0]->owner;
+		return json_encode(array("owner"=>$owner));
+	}
+	
+	public function qrscan(){
+		try{
+			$phone = $_REQUEST['phone'];
+			$cardno = $_REQUEST['cardno'];
+			$old_owner = $_REQUEST['oldOwner'];
+			$real_giver = $_REQUEST['realgiver'];
+			switch($_REQUEST['aorb']){
+				case "A": 
+					if($_REQUEST['yesorno'] == "yes"){
+						//award point, A->B
+						$owner_to_owner = Queries::checkOwner($phone, $cardno);
+						if($owner_to_owner){
+							$message = TwilioMsg::ownerToOwnerError();
+							$step = -1;
+							$ab = "a_selfToSelfAttempt";
+						} else {
+							$update = DB::update(Queries::updateOwner($phone, $cardno));
+							if(!$update){
+								$message = TwilioMsg::genericDatabaseError(1).$phone, $cardno;
+								$step = -1;
+								$ab = "a_err";
+							} else {
+								$insert = DB::insert(Queries::insertTransaction($phone, $cardno, $old_owner));
+								if(!$insert){
+									$message = TwilioMsg::welcomeMessage();
+									$step = -1;
+									$ab = "a_err";
+								} else {
+									//add incomplete user records for giver and receiver
+									$insert = Queries::initUser($phone);
+									$insert = Queries::initUser($old_owner);
+									$custom_sid = "qrscan_".$phone;
+									//get link to use in message
+									//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
+									$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$custom_sid;
+									$message = TwilioMsg::transactionSuccessful($cardno, $_link, $phone);
+									$step = 2;
+									$ab = "a_success";
+								} 
+							}
+						}
+					} else {
+						//award real owner->old owner, and then A->B
+						$owner_to_owner = Queries::checkOwner($phone, $cardno);
+						if($owner_to_owner){
+							$message = TwilioMsg::ownerToOwnerError();
+							$step = -1;
+							$ab = "a_selfToSelfAttempt";
+						} else {
+							$update = DB::update(Queries::updateOwner($phone, $cardno));
+							if(!$update){
+								$message = TwilioMsg::genericDatabaseError(2);			
+								$step = -1;
+								$ab = "a_err";
+							} else {
+								$query = DB::insert(Queries::insertTransaction($cardno, $real_giver, $old_owner));
+								if(!$query){
+									$message = TwilioMsg::genericDatabaseError(3);
+									$step = -1;
+									$ab = "a_err";
+								} else {
+									$query = DB::insert(Queries::insertTransaction($cardno, $phone, $real_giver));
+									if(!$query){
+										$message = TwilioMsg::genericDatabaseError(3);
+										$step = -1;
+										$ab = "a_err";
+									} else {
+										//add incomplete user records for giver and receiver
+										$insert = Queries::initUser($phone);
+										$insert = Queries::initUser($body);
+										$custom_sid = "qrscan_".$phone;
+										//get link to use in message
+										//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
+										$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$custom_sid;
+										$message = TwilioMsg::transactionNewPrevOwnerSuccess($cardno, $_link, $phone);
+										$step = 2;
+										$ab = "a_success2";
+									}
+								}
+							}
+						}
+					}
+					break;
+				case "B": 
+					//award point, A->B
+					//could be that owner is already $_REQUEST['From'] or within last 3 owners/receivers
+					$owner_to_owner = Queries::checkOwner($phone, $cardno);
+					if($owner_to_owner){
+						$message = TwilioMsg::ownerToOwnerError();
+						$step = -1;
+						$ab = "b_selfToSelfAttempt";
+					} else {
+						$update = DB::update(Queries::updateOwner($phone, $cardno));
+						if(!$update){
+							$message = TwilioMsg::genericDatabaseError(1).$phone.$cardno;
+							$step = -1;
+							$ab = "b_err_updateOwner";
+						} else {
+							$insert = DB::insert(Queries::insertTransaction($cardno, $phone, $old_owner));
+							if(!$insert){
+								$message = TwilioMsg::welcomeMessage();
+								$step = -1;
+								$ab = "b_err_transaction";
+							} else {
+								//add incomplete user records for giver and receiver
+								$insert = Queries::initUser($phone);
+								$insert = Queries::initUser($old_owner);
+								$custom_sid = "qrscan_".$phone;
+								//get link to use in message
+								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
+								$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$custom_sid;
+								$message = TwilioMsg::transactionSuccessful($cardno, $_link, $phone);
+								$step = 2;
+								$ab = "b_success";
+							} 
+						}
+					}
+					break;
+				default: break;
+			}
+			$query2 = DB::insert(Queries::recordMsg($phone, $message, $step, $cardno, $custom_sid, $ab));
+			return json_encode(array("link"=>$_link,"result"=>"success"));
+		} catch {
+			return "{\"result\":\"failure. invalid form submission. try again and input what is asked of you!\"}";
+		}
+	}
 
 	//TODO: use json string to/from DB for $ab instead of | as separator for 'extra' value.
 	//      it will be structured as such: {"ab":ab_string_value, "extra":extra_value}
