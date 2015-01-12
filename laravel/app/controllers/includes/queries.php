@@ -46,6 +46,13 @@ class Queries {
 		$returnArr = array("userID"=>$userID, "leaderboard"=>$leaderboard, "sid"=>$sid);
 		return json_encode($returnArr);
 	}
+	public static function getProfile($sid){
+		$userID = ($sid != "")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To : "";
+		if($userID == ""){return "{\"result\":\"error. no user specified\"}";}
+		$profile_arr = json_decode(DB::select("SELECT profile_json FROM `user` WHERE id='"+$userID+"'")[0]->profile_json,true);
+		$returnArr = array("userID"=>$userID, "profile"=>$profile_arr, "sid"=>$sid);
+		return json_encode($returnArr);
+	}
 	public static function getTransactionsById($id, $type){
 		//$type == "Card" or "User"
 		$return = ($type=="Card")? DB::select(self::getTransactionsForBarcode($id)):DB::select("SELECT * FROM transaction WHERE giver ='".$id."' OR receiver='".$id."' ORDER BY timestamp desc");

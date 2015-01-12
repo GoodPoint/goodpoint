@@ -14,7 +14,7 @@
 		<!---->
 		<title>WIN+WIN</title>
 	</head>
-	<body data-role="page">
+	<body data-role="page" data-theme="b">
 		<div data-role="header">
 			<center><span style="font-size:20px;font-weight:bold;">GoodPointGame Home Page</span></center> 
 			<a id="back" style="float:right;display:none;" data-rel="back">Back</a>

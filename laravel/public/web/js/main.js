@@ -5,7 +5,25 @@ function populateLeaderboard(){
 	data.sid = getParameterByName("sid") || "";
 	ajax("GET",data, populateLeaderboardS, generalF);
 }
+function populateProfile(){
+	var data = new Object();
+	data.url = "/web/profile";
+	data.sid = getParameterByName("sid") || "";
+	ajax("GET",data, populateProfileS, generalF);
+}
 //success callbacks
+var populateProfileS = function(data){
+	var profile = data.profile;
+	$("span.name").html(profile.name || "");
+	$("span.age").html(profile.age || "");
+	$("span.gender").html(profile.gender || "");
+	$("span.phone").html(data.userID || "");
+	$("#profilePic").attr("src",profile.pic || "");
+};
+var sendPicS = function(data){
+	alert("successfully updated profile picture!");
+	populateProfile();
+}
 var populateLeaderboardS = function(data){
 	var UL_HTML = "";
 	for(var i=0; i<data.leaderboard.length; i++){
@@ -24,3 +42,5 @@ var populateLeaderboardS = function(data){
 };
 //failure callbacks
 var generalF = function(data,err){alert("error in web application"+data+err);};
+//static variables
+var genderArr = ['Female','Male','Trans Female','Trans Male','Other'];
