@@ -29,7 +29,7 @@
 			$(document).bind("mobileinit", function () {
 				//alert("mobileinit");
 				$.mobile.ajaxEnabled = false;
-				setTimeout(onloadFxn(),500);
+				$(document).ready(function(){onloadFxn()});
 			});
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>

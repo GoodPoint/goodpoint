@@ -16,7 +16,7 @@
 			$(document).bind("mobileinit", function () {
 				//alert("mobileinit");
 				$.mobile.ajaxEnabled = false;
-				setTimeout(populateLeaderboard(),500);
+				$(document).ready(function(){populateLeaderboard()});
 			});
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
