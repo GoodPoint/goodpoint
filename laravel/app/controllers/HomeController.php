@@ -90,7 +90,7 @@ class HomeController extends BaseController {
 									} else {
 										//add incomplete user records for giver and receiver
 										$insert = Queries::initUser($phone);
-										$insert = Queries::initUser($body);
+										$insert = Queries::initUser($real_giver);
 										$custom_sid = "qrscan_".$phone;
 										//get link to use in message
 										//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
