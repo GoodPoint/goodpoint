@@ -134,12 +134,9 @@ class HomeController extends BaseController {
 					} else {
 						$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
 						if(!$update){
-							
-							else {
-								$message = TwilioMsg::genericDatabaseError(2);			
-								$step = -1;
-								$ab = "a_err";
-							}
+							$message = TwilioMsg::genericDatabaseError(2);			
+							$step = -1;
+							$ab = "a_err";
 						} else {
 							$query = DB::insert(Queries::insertTransaction($barcode_id, $body, $old_ab));
 							if(!$query){
