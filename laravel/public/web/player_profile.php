@@ -12,9 +12,6 @@
 		<script src="js/util.js"></script>
 		<script src="js/main.js"></script>
 		<script>
-			$('progress').hide();
-			//image stuff
-			var myInput = document.getElementById('profile_pic');
 			function sendPic() {
 				$('progress').show();
 				var file = myInput.files[0];
@@ -44,7 +41,6 @@
 					processData: false
 				});
 			}
-			myInput.addEventListener('change', sendPic, false);
 			function progressHandlingFunction(e){
 				if(e.lengthComputable){
 					$('progress').attr({value:e.loaded,max:e.total});
@@ -55,7 +51,12 @@
 				for(var i=0; i<genderArr.length; i++){
 					$("select[name='gender']").append("<option value='"+genderArr[i]+"'>"+genderArr[i]+"</option>");
 				}
-			});
+				//ui stuff
+				$('progress').hide();
+				//image stuff
+				var myInput = document.getElementById('profile_pic');
+				myInput.addEventListener('change', sendPic, false);
+				});
 		</script>
 		<!---->
 		<title>WIN+WIN</title>
