@@ -18,6 +18,16 @@ class WebController extends BaseController {
 		return Queries::getProfile($sid);
 	}
 	
+	public function addProfile(){
+		$sid = $_REQUEST['sid'];
+		//profile info
+		$name = $_REQUEST['name'];
+		$age = $_REQUEST['age'];
+		$gender = $_REQUEST['gender'];
+		Queries::addProfile($sid, $name, $age, $gender);
+		return "{\"result\":\"success\"}";
+	}
+	
 	public function uploadProfilePic(){
 		try {
 			$sid = $_REQUEST['sid'];

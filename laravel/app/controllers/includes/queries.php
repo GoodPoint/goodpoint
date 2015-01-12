@@ -54,6 +54,20 @@ class Queries {
 		$returnArr = array("userID"=>$userID, "profile"=>$profile_arr, "sid"=>$sid);
 		return json_encode($returnArr);
 	}
+	public static function addProfile($sid, $name, $age, $gender){
+		$userID = ($sid != "")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To : "";
+		if($userID == ""){return "{\"result\":\"error. no user specified\"}";}
+		$profile_json = DB::select("SELECT profile_json FROM `user` WHERE id='".$userID."'")[0]->profile_json;
+		//convert to assoc array to add or update associative name/age/gender values
+		$profile_arr = json_decode($profile_json, true);
+		$profile_arr["name"] = $name;
+		$profile_arr["age"] = $age;
+		$profile_arr["gender"] = $gender;
+		//re-encode with updated value and insert into db
+		$profile_json = json_encode($profile_arr);
+		$profile_update = DB::update("UPDATE `user` SET profile_json='".$profile_json."' WHERE id='".$userID."'");
+		return true;
+	}
 	public static function profilePicJSON($filename,$sid){
 		$userID = ($sid != "")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To : "";
 		if($userID == ""){return "{\"result\":\"error. no user specified\"}";}

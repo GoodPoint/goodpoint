@@ -73,9 +73,9 @@
 			<div class="ui-content">
 				<div id="userProfile" class="content-container">
 					Profile Picture: <img id="profilePic" style="width:100px;height:100px;" /><br/>
-					Name: <span class="name"></span><br/>
-					Age: <span class="age"></span><br/>
-					Gender: <span class="gender"></span><br/>
+					<span class="nameWrap">Name: <span class="name"></span><br/></span>
+					<span class="ageWrap">Age: <span class="age"></span><br/></span>
+					<span class="genderWrap">Gender: <span class="gender"></span><br/></span>
 					Phone: <span class="phone"></span><br/>
 					<a href="#Edit" id="editLink" data-rel="popup" data-position-to="window">Edit</a>
 				</div>
@@ -91,7 +91,8 @@
 					<progress></progress>
 					<br/>
 					<span class="only_if_new">
-					<h2>Hey, first-timer! Initialize Your Profile (all fields optional):</h2>
+						<h2>Hey, first-timer! Initialize Your Profile:</h2>
+						<p>Don't worry, all fields are optional!</p>
 						Name: <input type="text" name="name" />
 						Age: <input type="number" name="age" min="18" max="120" />
 						Gender: <select name="gender"></select>
