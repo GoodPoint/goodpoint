@@ -22,6 +22,7 @@ var populateProfileS = function(data){
 };
 var sendPicS = function(data){
 	alert("successfully updated profile picture!");
+	$('progress').hide();
 	populateProfile();
 }
 var populateLeaderboardS = function(data){

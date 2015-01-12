@@ -12,9 +12,11 @@
 		<script src="js/util.js"></script>
 		<script src="js/main.js"></script>
 		<script>
+			$('progress').hide();
 			//image stuff
 			var myInput = document.getElementById('profile_pic');
 			function sendPic() {
+				$('progress').show();
 				var file = myInput.files[0];
 				// Send file here either by adding it to a `FormData` object 
 				// and sending that via XHR, or by simply passing the file into 
@@ -48,9 +50,11 @@
 					$('progress').attr({value:e.loaded,max:e.total});
 				}
 			}
-			//gender dropdown
-			for(var i=0; i<genderArr.length; i++){
-				$("select[name='gender']").append("<option value='"+genderArr[i]+"'>"+genderArr[i]+"</option>);
+			$(document).ready(function(){
+				//gender dropdown
+				for(var i=0; i<genderArr.length; i++){
+					$("select[name='gender']").append("<option value='"+genderArr[i]+"'>"+genderArr[i]+"</option>);
+				}
 			}
 		</script>
 		<!---->
