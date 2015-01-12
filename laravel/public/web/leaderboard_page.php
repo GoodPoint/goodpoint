@@ -14,7 +14,7 @@
 		<!---->
 		<title>WIN+WIN</title>
 	</head>
-	<body>
+	<body onload="populateLeaderboard()">
 		<div id="leaderboard_page" data-role="page">
 			<div data-role="header">
 				<center><span style="font-size:20px;font-weight:bold;">GoodPoint Leaderboard</span></center> 
