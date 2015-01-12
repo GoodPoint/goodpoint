@@ -139,7 +139,7 @@ var sendPicS = function(data){
 var populateLeaderboardS = function(data){
 	var UL_HTML = "";
 	for(var i=0; i<data.leaderboard.length; i++){
-		if(data.leaderboard[i].id != "" || data.leaderboard[i].id != " " || data.leaderboard[i].id != "GoodPoint Launch"){
+		if(data.leaderboard[i].id != "" && data.leaderboard[i].id != " " && data.leaderboard[i].id != "GoodPoint Launch"){
 			var da_span = (data.leaderboard[i].id == data.userID)? "<span class='profile_link' style='float:right;cursor:pointer;'>Edit Profile</span>" : "";
 			var da_href = (data.leaderboard[i].id == data.userID)? "player_profile.php?sid="+getParameterByName("sid") : "#";
 			UL_HTML += "<li><a href='"+da_href+"'>";
