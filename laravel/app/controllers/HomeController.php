@@ -143,7 +143,7 @@ class HomeController extends BaseController {
 			$query2 = DB::insert(Queries::recordMsg($phone, $message, $step, $cardno, $custom_sid, $ab));
 			return json_encode(array("link"=>$_link,"result"=>"success"));
 		} catch(Exception $e) {
-			return "{\"result\":\"failure. invalid form submission. try again and input what is asked of you!\"}";
+			return "{\"result\":\"failure. invalid form submission. try again and input what is asked of you!".$e->getMessage()."\"}";
 		}
 	}
 
