@@ -31,19 +31,30 @@ function getLatestTransactions(){
 	data.url = "/web/transactions/latest";
 	ajax("GET",data,getTransS,generalF);
 }
+function getTransactionsByNum(){
+	if($("input[name='cardOrPhone']:checked").val() == "Card"){
+		getTransactionsByCard(); return;
+	} else {
+		if($("input[name='cardOrPhone']:checked").val() == "Phone"){
+			getTransactionsByPhone(); return;
+		} else {
+			alert("must specify what type of id to search by! card id is the text code on back of card that you want to see transactions for. phone# is the phone# of the person you want to see transactions for");
+		}
+	}
+}
 function getTransactionsByCard(){
 	var data = new Object();
 	data.url = "/web/transactions/card";
 	data.id = $("input[name='number']").val();
 	data.type = "Card";
-	ajax("GET",data,getTransS,generalF);
+	ajax("GET",data,getTransS,searchTransFail);
 }
 function getTransactionsByPhone(){
 	var data = new Object();
 	data.url = "/web/transactions/phone";
 	data.id = $("input[name='number']").val();
 	data.type = "Phone";
-	ajax("GET",data,getTransS,generalF);
+	ajax("GET",data,getTransS,searchTransFail);
 }
 function populateTransactionInfo(id){
 	var data = new Object();
@@ -157,5 +168,8 @@ var populateLeaderboardS = function(data){
 };
 //failure callbacks
 var generalF = function(data,err){alert("error in web application"+data+err);};
+var searchTransFail = function(data,err){
+	alert("no results found -- you need to type in a number in the search field!");
+}
 //static variables
 var genderArr = ['Female','Male','Other'];

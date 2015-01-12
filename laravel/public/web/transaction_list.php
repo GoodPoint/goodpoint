@@ -29,7 +29,7 @@
 	<body><!-- onload="populateLeaderboard()"-->
 		<div id="tlist_page" data-role="page" data-theme="b">
 			<div data-role="header">
-				<center><span style="font-size:20px;font-weight:bold;">GoodPoint Transactions</span></center> 
+				<center><span><div id="logo"></div></span></center> 
 				<a id="back" style="float:right;display:none;" data-rel="back">Back</a>
 			</div>
 			<div data-role="navbar">
@@ -39,14 +39,17 @@
 				</ul>
 			</div>
 			<div data-role="navbar">
-				<h2>View Transactions:</h2>
+				<center><h2>View GoodPoint Transactions!</h2></center>
 				<ul>
 					<li id="my_transactions"><a href="#" onclick="getMyTransactions()">Mine</a></li>
 					<li><a href="#" onclick="getLatestTransactions()" class="ui-btn-active">Latest 100</a></li>
-					<li><a href="#" onclick="getTransactionsByCard()">By Card# </a></li>
-					<li><a href="#" onclick="getTransactionsByPhone()">By Phone# </a></li>
-				</ul><br/>
-				<input type="text" placeholder="card# / phone#" name="number" />
+					<!--li><a href="#" onclick="getTransactionsByCard()">By Card# </a></li>
+					<li><a href="#" onclick="getTransactionsByPhone()">By Phone# </a></li-->
+				</ul><p>OR search by</p>
+				<input type="radio" name="cardOrPhone" value="Card" />Card ID
+				&nbsp;&nbsp;<input type="radio" name="cardOrPhone" value="Phone" />Phone #<br/>
+				<input type="text" placeholder="card# / phone#" name="number" style="float:left;width:80%;" />
+				<input type="button" value="Go" style="float:left;width:20%;" onclick="getTransactionsByNum()" />
 			</div>
 			<div class="ui-content">
 				<!--leaderboard-->

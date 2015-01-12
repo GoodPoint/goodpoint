@@ -80,10 +80,11 @@
 				<div id="back-btn-wrap" style="position:relative;top:10px;">
 					<a id="backURL" href="leaderboard_page.php"><input style="display:inline" type="button" value="Back"></a>
 				</div>
-				<center><span style="font-size:20px;font-weight:bold;position:relative;bottom:25px;">Your GoodPoint Profile</span></center> 
+				<center><span style="position:relative;bottom:25px;"><div id="logo"></div></span></center> 
 			</div>
 			<div class="ui-content">
 				<center>
+				<h2>Your Profile</h2>
 				<div id="userProfile" class="content-container">
 					<img id="profilePic" style="width:100px;height:100px;" /><br/>
 					<span class="nameWrap">Name: <span class="name"></span><br/></span>
