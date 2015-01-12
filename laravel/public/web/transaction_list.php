@@ -39,6 +39,7 @@
 				</ul>
 			</div>
 			<div data-role="navbar">
+				<h2>View Transactions:</h2>
 				<ul>
 					<li id="my_transactions"><a href="#" onclick="getMyTransactions()">Mine</a></li>
 					<li><a href="#" onclick="getLatestTransactions()" class="ui-btn-active">Latest 100</a></li>

@@ -45,6 +45,12 @@ function getTransactionsByPhone(){
 	data.type = "Phone";
 	ajax("GET",data,getTransS,generalF);
 }
+function populateTransactionInfo(id){
+	var data = new Object();
+	data.url = "/web/transaction/details";
+	data.id = id;
+	ajax("GET",data,populateTransS,generalF);
+}
 //success callbacks
 var populateProfileS = function(data){
 	var profile = data.profile;
@@ -62,11 +68,34 @@ var populateProfileS = function(data){
 	if(profile.age == undefined){$("#ageWrap").hide();}
 	if(profile.gender == undefined){$("#genderWrap").hide();}
 };
+var populateTransS = function(data){
+	var transaction = data.transaction[0];
+	var mediaURL = data.media;
+	
+	var UL_HTML = "";
+	UL_HTML += "<h2>";
+	UL_HTML += "Card "+transaction.cardid+" From "+transaction.giver+" To "+transaction.receiver;
+	UL_HTML += "</h2><hr><br/>";
+	
+	if(data.media.length>0){
+		UL_HTML += "<h2>Memories for this WIN+WIN!</h2>";
+		for(var i=0;i<data.media.length;i++){
+			var url = data.media[i];
+			var img = "<img src='"+url+"' style='max-width:80%;height:auto;' /><br/><hr><br/>";
+			UL_HTML += img;
+		}
+	} else {
+		UL_HTML += "<h2>No Memories uploaded for this WIN+WIN! Convince the participants to share their good with the world!</h2>";
+	}
+	
+	$("#transaction_details").html(UL_HTML);
+	
+};
 var getTransS = function(data){
 	var UL_HTML = "";
 	for(var i=0; i<data.length; i++){
 		var transaction = data[i];
-		UL_HTML += "<li><a href='transaction.php?id="+transaction.id+"'>";
+		UL_HTML += "<li><a href='transaction.php?id="+transaction.id+"&sid="+getParameterByName("sid")+"'>";
 		UL_HTML += "Card "+transaction.cardid+" From "+transaction.giver+" To "+transaction.receiver;
 		UL_HTML += "</a></li>";
 	}

@@ -85,7 +85,7 @@ class Queries {
 	}
 	public static function getTransactionsById($id, $type){
 		//$type == "Card" or "User"
-		$return = ($type=="Card")? DB::select(self::getTransactionsForBarcode($id)):DB::select("SELECT * FROM transaction WHERE giver ='".$id."' OR receiver='".$id."' ORDER BY timestamp desc");
+		$return = ($type=="Card")? DB::select(self::getTransactionsForBarcode($id)):DB::select("SELECT * FROM transaction WHERE giver ='".$id."' OR receiver='".$id."' OR giver ='+".$id."' OR receiver='+".$id."' OR giver ='+1".$id."' OR receiver='+1".$id."' ORDER BY timestamp desc");
 		return json_encode($return);
 	}
 	public static function getTransactionDetails($tid){
