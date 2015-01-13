@@ -33,14 +33,14 @@ class TransactionController extends BaseController {
 			// Undefined | Multiple Files | $_FILES Corruption Attack
 			// If this request falls under any of them, treat it invalid.
 			if (
-				!isset($_FILES['profile_pic']['error']) ||
-				is_array($_FILES['profile_pic']['error'])
+				!isset($_FILES['media_pic']['error']) ||
+				is_array($_FILES['media_pic']['error'])
 			) {
 				throw new RuntimeException('Invalid parameters.');
 			}
 
-			// Check $_FILES['profile_pic']['error'] value.
-			switch ($_FILES['profile_pic']['error']) {
+			// Check $_FILES['media_pic']['error'] value.
+			switch ($_FILES['media_pic']['error']) {
 				case UPLOAD_ERR_OK:
 					break;
 				case UPLOAD_ERR_NO_FILE:
@@ -53,15 +53,15 @@ class TransactionController extends BaseController {
 			}
 
 			// You should also check filesize here. 
-			if ($_FILES['profile_pic']['size'] > 1000000) {
+			if ($_FILES['media_pic']['size'] > 1000000) {
 				throw new RuntimeException('Exceeded filesize limit.');
 			}
 
-			// DO NOT TRUST $_FILES['profile_pic']['mime'] VALUE !!
+			// DO NOT TRUST $_FILES['media_pic']['mime'] VALUE !!
 			// Check MIME Type by yourself.
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
 			if (false === $ext = array_search(
-				$finfo->file($_FILES['profile_pic']['tmp_name']),
+				$finfo->file($_FILES['media_pic']['tmp_name']),
 				array(
 					'jpg' => 'image/jpeg',
 					'png' => 'image/png',
@@ -73,11 +73,11 @@ class TransactionController extends BaseController {
 			}
 
 			// You should name it uniquely.
-			// DO NOT USE $_FILES['profile_pic']['name'] WITHOUT ANY VALIDATION !!
+			// DO NOT USE $_FILES['media_pic']['name'] WITHOUT ANY VALIDATION !!
 			// On this example, obtain safe unique name from its binary data.
-			$new_name = sha1_file($_FILES['profile_pic']['tmp_name']);
+			$new_name = sha1_file($_FILES['media_pic']['tmp_name']);
 			if (!move_uploaded_file(
-				$_FILES['profile_pic']['tmp_name'],
+				$_FILES['media_pic']['tmp_name'],
 				sprintf('%s/winwin/laravel/public/web/uploads/%s.%s',
 					$_SERVER['DOCUMENT_ROOT'],
 					$new_name,
