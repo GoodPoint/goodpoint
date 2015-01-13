@@ -116,11 +116,11 @@ var populateTransS = function(data){
 	UL_HTML += "Card "+transaction.cardid+" Was Given ";
 	UL_HTML += "</h2>";//From "+transaction.giver+" To "+transaction.receiver;
 	UL_HTML += "<table style='width:100%;'><tr style='width:100%;'>";
-	UL_HTML += "<td style='width:50%;'><h3>From<br/>"+transaction.giver+"</h3></td>";
-	UL_HTML += "<td style='width:50%;'><h3>To<br/>"+transaction.receiver+"</h3></td>";
+	UL_HTML += "<td style='width:50%;'><center><h3>From<br/>"+transaction.giver+"</h3></center></td>";
+	UL_HTML += "<td style='width:50%;'><center><h3>To<br/>"+transaction.receiver+"</h3></center></td>";
 	UL_HTML += "</tr><tr style='width:100%;'>";
-	UL_HTML += "<td style='width:50%;'><span class='bigplusone'/></td>";
-	UL_HTML += "<td style='width:50%;'><span class='bigplusone'/></td>";
+	UL_HTML += "<td style='width:50%;'><center><span class='bigplusone'/></center></td>";
+	UL_HTML += "<td style='width:50%;'><center><span class='bigplusone'/></center></td>";
 	UL_HTML += "</tr></table>";
 	UL_HTML += "<h3>On "+transaction.timestamp+"</h3></center>";
 	UL_HTML += "<hr><br/>";
@@ -168,7 +168,7 @@ var sendPicS = function(data){
 	populateProfile();
 }
 var sendPicS2 = function(data){
-	alert("successfully updated profile picture!");
+	alert("Successfully added media to this transaction! Thank you for sharing the good story and the good memories! Spread the good!");
 	$('progress').hide();
 	populateTransactionInfo(getParameterByName("id"));
 }

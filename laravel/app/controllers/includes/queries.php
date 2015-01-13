@@ -85,7 +85,7 @@ class Queries {
 		return true;
 	}
 	public static function appInsertMedia($filename, $tid){
-		$url = "http://54.149.200.91/winwin/laravel/public/web/uploads/"+$filename;
+		$url = "http://54.149.200.91/winwin/laravel/public/web/uploads/".$filename;
 		$insert = DB::insert("INSERT INTO `media` (sid,trans_id,url) VALUES ('app_upload','".$tid."','".$url."')");
 	}
 	public static function getLatestTransactions(){
