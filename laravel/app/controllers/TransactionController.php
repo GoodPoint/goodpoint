@@ -160,7 +160,7 @@ class TransactionController extends BaseController {
 			}
 			
 			$success = Queries::appInsertFirstMedia($new_name.".".$ext, $sid);
-			return "{\"result\":\"success\"}";
+			return "{\"result\":\"success\",\"queryResults\":".json_encode($success)."}";
 			//echo 'File is uploaded successfully.';
 
 		} catch (RuntimeException $e) {

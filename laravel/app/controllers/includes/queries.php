@@ -92,6 +92,7 @@ class Queries {
 		$url = "http://54.149.200.91/winwin/laravel/public/web/uploads/".$filename;
 		$tid = DB::select("SELECT t.id FROM `transaction` as t INNER JOIN messages as m ON m.cardid=t.cardid WHERE m.sid='".$sid."' and m.To = t.receiver")[0]->id;
 		$insert = DB::insert("INSERT INTO `media` (sid,trans_id,url) VALUES ('app_upload','".$tid."','".$url."')");
+		return array("tid"=>$tid,"insert"=>$insert);
 	}
 	public static function getLatestTransactions(){
 		return json_encode(DB::select("SELECT * FROM transaction ORDER BY timestamp DESC LIMIT 100"));
