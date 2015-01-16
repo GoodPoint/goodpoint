@@ -38,7 +38,8 @@
 				});*/
 			});
 			$(":jqmData(role='page'):last").on("pageshow", function(event) {
-			  $("#Edit", $(this)).popup("open");
+			  alert("pageshow");
+			  setTimeout($("#Edit", $(this)).popup("open"),1000);
 			});
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
