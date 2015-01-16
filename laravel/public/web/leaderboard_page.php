@@ -27,7 +27,9 @@
 						var myInput = document.getElementById('profile_pic');
 						myInput.addEventListener('change', sendPic, false);
 						$("input[name='sid']").val(getParameterByName("sid"));
-						$("#editLink").click();
+						$('progress').hide();
+						// open the popup
+						$("#Edit").popup("open");
 					}
 				});
 			});
