@@ -29,9 +29,12 @@
 						$("input[name='sid']").val(getParameterByName("sid"));
 						$('progress').hide();
 						// open the popup
-						$("#Edit").popup();
-						$("#Edit").popup("open");
+						//$("#Edit").popup();
+						//$("#Edit").popup("open");
 					}
+				});
+				$("#leaderboard_page").on("pagecontainerload",function(event,ui){
+					$("#Edit").popup("open");
 				});
 			});
 		</script>
