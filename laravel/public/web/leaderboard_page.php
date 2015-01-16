@@ -31,16 +31,9 @@
 						// open the popup
 						//$("#Edit").popup();
 						//$("#Edit").popup("open");
-						setTimeout(function(){$("#Edit").popup();$("#Edit", $(this)).popup("open");},1000);
+						setTimeout(function(){$("#Edit").popup();$("#Edit").popup("open");},2000);
 					}
 				});
-				/*$("#leaderboard_page").on("pagecontainerload",function(event,ui){
-					$("#Edit").popup("open");
-				});*/
-			});
-			$(":jqmData(role='page'):last").on("pageshow", function(event) {
-			  alert("pageshow");
-			  setTimeout($("#Edit", $(this)).popup("open"),1000);
 			});
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>

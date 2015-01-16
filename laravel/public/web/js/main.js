@@ -176,6 +176,9 @@ var sendPicS3 = function(data){
 	alert("Successfully added media to this transaction! Thank you for sharing the good story and the good memories! Spread the good!");
 	$('progress').hide();
 	$('#da_close').click();
+	$('html, body').animate({
+        scrollTop: $(".profile_link").offset().top - 20
+    }, 2000);
 }
 var populateLeaderboardS = function(data){
 	var UL_HTML = "";
