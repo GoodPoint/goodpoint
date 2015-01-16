@@ -55,7 +55,7 @@ class HomeController extends BaseController {
 									$insert = Queries::initUser($old_owner);
 									$custom_sid = "qrscan_".$phone;
 									//get link to use in message
-									$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php%3Fsid%3D".$_REQUEST['MessageSid']);
+									$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
 									//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$custom_sid;
 									$message = TwilioMsg::transactionSuccessful($cardno, $_link, $phone);
 									$step = 2;
@@ -95,7 +95,7 @@ class HomeController extends BaseController {
 										$insert = Queries::initUser($real_giver);
 										$custom_sid = "qrscan_".$phone;
 										//get link to use in message
-										$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php%3Fsid%3D".$_REQUEST['MessageSid']);
+										$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
 										//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$custom_sid;
 										$message = TwilioMsg::transactionNewPrevOwnerSuccess($cardno, $_link, $phone);
 										$step = 2;
@@ -132,7 +132,7 @@ class HomeController extends BaseController {
 								$insert = Queries::initUser($old_owner);
 								$custom_sid = "qrscan_".$phone;
 								//get link to use in message
-								$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php%3Fsid%3D".$_REQUEST['MessageSid']);
+								$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
 								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$custom_sid;
 								$message = TwilioMsg::transactionSuccessful($cardno, $_link, $phone);
 								$step = 2;
@@ -232,8 +232,9 @@ class HomeController extends BaseController {
 								$insert = Queries::initUser($_REQUEST['From']);
 								$insert = Queries::initUser($old_owner);
 								//get link to use in message
+								$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
-								$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
+								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
 								$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
 								$step = 2;
 								$ab = "a_success";
@@ -298,8 +299,9 @@ class HomeController extends BaseController {
 									$insert = Queries::initUser($_REQUEST['From']);
 									$insert = Queries::initUser($body);
 									//get link to use in message
+									$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
 									//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
-									$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
+									//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
 									$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id, $_link, $_REQUEST['From']);
 									$step = 2;
 									$ab = "a_success2";
@@ -393,8 +395,9 @@ class HomeController extends BaseController {
 								$insert = Queries::initUser($_REQUEST['From']);
 								$insert = Queries::initUser($oldOwner);
 								//get link to use in message
+								$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
-								$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
+								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
 								$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
 								$step = 2;
 								$ab = "b_success";
