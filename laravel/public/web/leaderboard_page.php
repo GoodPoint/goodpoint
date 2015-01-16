@@ -31,7 +31,7 @@
 						// open the popup
 						//$("#Edit").popup();
 						//$("#Edit").popup("open");
-						setTimeout(function(){$("#Edit").popup();$("#Edit").popup("open");},2000);
+						setTimeout(function(){$("#Edit").popup();$("#Edit").popup("open");},3000);
 					}
 				});
 			});

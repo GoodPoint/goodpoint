@@ -176,9 +176,6 @@ var sendPicS3 = function(data){
 	alert("Successfully added media to this transaction! Thank you for sharing the good story and the good memories! Spread the good!");
 	$('progress').hide();
 	$('#da_close').click();
-	$('html, body').animate({
-        scrollTop: $(".profile_link").offset().top - 20
-    }, 2000);
 }
 var populateLeaderboardS = function(data){
 	var UL_HTML = "";
@@ -194,6 +191,12 @@ var populateLeaderboardS = function(data){
 	//populate UL with concatenated string
 	$("ul#the_leaderboard").html(UL_HTML);
 	$("ul#the_leaderboard").listview("refresh");
+	//bind close btn
+	$('#da_close').click(function(){
+		$('html, body').animate({
+			scrollTop: $(".profile_link").offset().top - 20
+		}, 2000);
+	});
 	//bind for profile link not needed since added logic to manipulate actual anchor tag
 	/*$("span.profile_link").click(function(){
 		window.location.href = "player_profile.php?sid="+getParameterByName("sid");
