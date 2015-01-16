@@ -160,6 +160,7 @@ class TransactionController extends BaseController {
 			}
 			
 			$success = Queries::appInsertFirstMedia($new_name.".".$ext, $sid);
+			DB::insert("insert into fuckedup(value) VALUES('".json_encode($success)."')");
 			return "{\"result\":\"success\",\"queryResults\":".json_encode($success)."}";
 			//echo 'File is uploaded successfully.';
 
