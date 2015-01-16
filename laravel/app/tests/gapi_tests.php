@@ -25,5 +25,5 @@
 		}
 	}
 	GAPI::urlShorten("http://flow-enterprises.com/");
-	GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=SMccc7f717c1873b1edbb0490ff3f4a35f");
+	GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php%3Fsid%3DSMccc7f717c1873b1edbb0490ff3f4a35f");
 ?>
