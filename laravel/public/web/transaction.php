@@ -18,7 +18,11 @@
 				$.mobile.ajaxEnabled = false;
 				$(document).ready(function(){
 					populateTransactionInfo(getParameterByName("id"));
-					$("#backURL").attr("href","transaction_list.php?sid="+getParameterByName("sid"));
+					var link_sid = (getParameterByName("sid") == "null" || getParameterByName("sid") == undefined)? "" : getParameterByName("sid");
+					$("#backURL").attr("href","transaction_list.php?sid="+link_sid);
+					$("div#logo").click(function(){
+						window.location.href = "leaderboard_page.php?sid="+link_sid;
+					});
 					var myInput = document.getElementById('media_pic');
 					myInput.addEventListener('change', sendPic, false);
 				});

@@ -36,7 +36,7 @@ class Queries {
 			}
 		}*/
 		//alpha
-		$select = DB::select("SELECT * FROM `transaction` where cardid=".$barcode_id." order by timestamp desc limit 1");
+		$select = DB::select("SELECT * FROM `transaction` where cardid=".$barcode_id." order by timestamp desc limit 2");
 		for($i=0; $i<count($select); $i++){
 			if($select[$i]->giver == $potential_owner || $select[$i]->receiver == $potential_owner){
 				return true;
@@ -86,6 +86,11 @@ class Queries {
 	}
 	public static function appInsertMedia($filename, $tid){
 		$url = "http://54.149.200.91/winwin/laravel/public/web/uploads/".$filename;
+		$insert = DB::insert("INSERT INTO `media` (sid,trans_id,url) VALUES ('app_upload','".$tid."','".$url."')");
+	}
+	public static function appInsertFirstMedia($filename, $sid){
+		$url = "http://54.149.200.91/winwin/laravel/public/web/uploads/".$filename;
+		$tid = DB::select("SELECT t.id FROM `transaction` as t INNER JOIN messages as m ON m.cardid=t.cardid WHERE m.sid='".$sid."' and m.To = t.receiver")[0]->id;
 		$insert = DB::insert("INSERT INTO `media` (sid,trans_id,url) VALUES ('app_upload','".$tid."','".$url."')");
 	}
 	public static function getLatestTransactions(){

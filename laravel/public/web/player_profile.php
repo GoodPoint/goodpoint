@@ -24,7 +24,11 @@
 				var myInput = document.getElementById('profile_pic');
 				myInput.addEventListener('change', sendPic, false);
 				$("input[name='sid']").val(getParameterByName("sid"));
-				$("#backURL").attr("href","leaderboard_page.php?sid="+getParameterByName("sid"));
+				var link_sid = (getParameterByName("sid") == "null" || getParameterByName("sid") == undefined)? "" : getParameterByName("sid");
+				$("#backURL").attr("href","leaderboard_page.php?sid="+link_sid);
+				$("div#logo").click(function(){
+					window.location.href = "leaderboard_page.php?sid="+link_sid;
+				});
 			}
 			$(document).bind("mobileinit", function () {
 				//alert("mobileinit");
@@ -114,7 +118,6 @@
 						Gender: <select name="gender"></select>
 						<input type="button" value="Add Profile" onclick="addProfile()" />
 					</span>
-					
 				</center>
 			</div>
 		</div>

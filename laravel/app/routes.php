@@ -21,6 +21,7 @@ Route::match( array('GET','POST'), '/web/transactions/card', array('uses' => 'Tr
 Route::match( array('GET','POST'), '/web/transactions/phone', array('uses' => 'TransactionController@getTransactionsByPhoneId'));
 Route::match( array('GET','POST'), '/web/transaction/details', array('uses' => 'TransactionController@getTransactionInfo'));
 Route::match( array('GET','POST'), '/web/transaction/uploadMedia', array('uses' => 'TransactionController@uploadMedia'));
+Route::match( array('GET','POST'), '/web/uploadFirstMedia', array('uses' => 'TransactionController@uploadFirstMedia'));
 
 //batch
 Route::match( array('GET','POST'), '/cards/batchadd', array('uses' => 'HomeController@batchAdd'));

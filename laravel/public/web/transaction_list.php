@@ -18,7 +18,11 @@
 				$.mobile.ajaxEnabled = false;
 				$(document).ready(function(){
 					getLatestTransactions();
-					$(".leaderboard_page_link").attr("href","leaderboard_page.php?sid="+getParameterByName("sid"));
+					var link_sid = (getParameterByName("sid") == "null" || getParameterByName("sid") == undefined)? "" : getParameterByName("sid");
+					$(".leaderboard_page_link").attr("href","leaderboard_page.php?sid="+link_sid);
+					$("div#logo").click(function(){
+						window.location.href = "leaderboard_page.php?sid="+link_sid;
+					});
 				});
 			});
 		</script>
@@ -34,7 +38,7 @@
 			</div>
 			<div data-role="navbar">
 				<ul>
-					<li><a class="leaderboard_page_link">Leaderboard</a></li>
+					<li><a class="leaderboard_page_link" style="padding-top:13px;padding-bottom:14px;">Leaderboard</a></li>
 					<li><a href="#" class="ui-btn-active"><!--Transactions--><span class="plusone"></span>/<span class="plusone"></span>'s</a></li>
 				</ul>
 			</div>

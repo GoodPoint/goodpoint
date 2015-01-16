@@ -172,6 +172,11 @@ var sendPicS2 = function(data){
 	$('progress').hide();
 	populateTransactionInfo(getParameterByName("id"));
 }
+var sendPicS3 = function(data){
+	alert("Successfully added media to this transaction! Thank you for sharing the good story and the good memories! Spread the good!");
+	$('progress').hide();
+	$('#da_close').click();
+}
 var populateLeaderboardS = function(data){
 	var UL_HTML = "";
 	for(var i=0; i<data.leaderboard.length; i++){
