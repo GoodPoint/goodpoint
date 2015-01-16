@@ -36,9 +36,9 @@
 				/*$("#leaderboard_page").on("pagecontainerload",function(event,ui){
 					$("#Edit").popup("open");
 				});*/
-				$(":jqmData(role='page'):last").on("pageshow", function(event) {
-                  $("#Edit", $(this)).popup("open");
-                });
+			});
+			$(":jqmData(role='page'):last").on("pageshow", function(event) {
+			  $("#Edit", $(this)).popup("open");
 			});
 		</script>
 		<script src="jqMobile/jquery.mobile-1.4.5.min.js"></script>
