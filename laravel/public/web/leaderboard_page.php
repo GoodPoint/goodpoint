@@ -31,6 +31,7 @@
 						// open the popup
 						//$("#Edit").popup();
 						//$("#Edit").popup("open");
+						setTimeout($("#Edit", $(this)).popup("open"),1000);
 					}
 				});
 				/*$("#leaderboard_page").on("pagecontainerload",function(event,ui){
