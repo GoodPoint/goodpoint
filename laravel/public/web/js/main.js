@@ -174,7 +174,7 @@ var sendPicS2 = function(data){
 }
 var sendPicS3 = function(data){
 	alert("Successfully added media to this transaction! Thank you for sharing the good story and the good memories! Spread the good!");
-	alert(JSON.stringify(data));
+	//alert(JSON.stringify(data));
 	$('progress').hide();
 	$('#da_close').click();
 }
