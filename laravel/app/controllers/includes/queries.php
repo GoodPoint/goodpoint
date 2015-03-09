@@ -45,7 +45,7 @@ class Queries {
 		return false;
 	}
 	public static function getGPinfo($phone){
-		$res = DB::select("SELECT (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints`, profile_json FROM User where id='".$phone."'");
+		$res = DB::select("SELECT (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints`, profile_json FROM user where id='".$phone."'");
 		return json_encode($res);
 	}
 	public static function getLeaderboard($sid){
