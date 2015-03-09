@@ -9,6 +9,7 @@ Route::match( array('GET','POST'), '/twilio/response', array('uses' => 'HomeCont
 //Web/App UI-populating functions
 //leaderboard
 Route::match( array('GET','POST'), '/web/leaderboard', array('uses' => 'WebController@leaderboard'));
+Route::match( array('GET','POST'), '/web/getGP', array('uses' => 'WebController@GPinfo'));
 //profile
 Route::match( array('GET','POST'), '/web/profile', array('uses' => 'ProfileController@profile'));
 Route::match( array('GET','POST'), '/web/profile/add', array('uses' => 'ProfileController@addProfile'));

@@ -13,6 +13,11 @@ class WebController extends BaseController {
 		return Queries::getLeaderboard($sid);
 	}
 	
+	public function GPinfo(){
+		$phone = $_REQUEST['phone'];
+		return Queries::getGPinfo($phone);
+	}
+	
 }
 
 ?>
