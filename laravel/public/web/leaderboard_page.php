@@ -18,6 +18,7 @@
 				$.mobile.ajaxEnabled = false;
 				$(document).ready(function(){
 					populateLeaderboard();
+					if(getParameterByName("event") == "letskeepbuilding"){setInterval(populateLeaderboard(),3000);}
 					var link_sid = (getParameterByName("sid") == "null" || getParameterByName("sid") == undefined)? "" : getParameterByName("sid");
 					$(".transaction_list_link").attr("href","transaction_list.php?sid="+link_sid);
 					$("div#logo").click(function(){

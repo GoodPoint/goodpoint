@@ -54,6 +54,12 @@ class Queries {
 		$returnArr = array("userID"=>$userID, "leaderboard"=>$leaderboard, "sid"=>$sid);
 		return json_encode($returnArr);
 	}
+	public static function getLeaderboardByDate($date, $endDate){
+		$dateClause = "WHERE transaction.timestamp > '".$date."' AND transaction.timestamp < '".$endDate."'";
+		$leaderboard = DB::select("SELECT user.id, (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints` FROM user ".$dateClause." ORDER BY `GoodPoints` DESC");
+		$returnArr = array("userID"=>$0, "leaderboard"=>$leaderboard, "sid"=>0);
+		return json_encode($returnArr);
+	}
 	public static function getProfile($sid){
 		$userID = ($sid != "")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To : "";
 		if($userID == ""){return "{\"result\":\"error. no user specified\"}";}

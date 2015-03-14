@@ -10,7 +10,14 @@ class WebController extends BaseController {
 	
 	public function leaderboard(){
 		$sid = $_REQUEST['sid'];
-		return Queries::getLeaderboard($sid);
+		$event = $_REQUEST['event'];
+		if($event == ""){
+			return Queries::getLeaderboard($sid);
+		}
+		switch($event){
+			case "letskeepbuilding": return Queries:getLeaderboardByDate("2015-03-14", "2015-03-16");
+			default: return "{\"result\":\"invalid event\"}";
+		}
 	}
 	
 	public function GPinfo(){

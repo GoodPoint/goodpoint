@@ -3,6 +3,7 @@ function populateLeaderboard(){
 	var data = new Object();
 	data.url = "/web/leaderboard";
 	data.sid = getParameterByName("sid") || "";
+	data.event = getParameterByName("event") || "";
 	ajax("GET",data, populateLeaderboardS, generalF);
 }
 function populateProfile(){
