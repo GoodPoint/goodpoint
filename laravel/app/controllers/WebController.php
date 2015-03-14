@@ -15,7 +15,7 @@ class WebController extends BaseController {
 			return Queries::getLeaderboard($sid);
 		}
 		switch($event){
-			case "letskeepbuilding": return Queries:getLeaderboardByDate("2015-03-14", "2015-03-16");
+			case "letskeepbuilding": return Queries::getLeaderboardByDate("2015-03-14", "2015-03-16");
 			default: return "{\"result\":\"invalid event\"}";
 		}
 	}
