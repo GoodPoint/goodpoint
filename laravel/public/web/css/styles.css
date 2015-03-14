@@ -1,9 +1,9 @@
 #logo{
 	display:inline-block;
-	width: 300px;
-	height: 78px;
+	width: 250px;
+	height: 65px;
 	background:url('logo.png');
-	background-size: 300px 78px;
+	background-size: 250px 65px;
 }
 .ui-radio{
 	display:inline-block;
