@@ -14,6 +14,21 @@ class HomeController extends BaseController {
 		}
 	}
 	
+	public function batchAdd2(){
+		$row = 1;
+		if (($handle = fopen("card_numbers.csv", "r")) !== FALSE) {
+			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+				$num = count($data);
+				echo "<p> $num fields in line $row: <br /></p>\n";
+				$row++;
+				for ($c=0; $c < $num; $c++) {
+					echo $data[$c] . "<br />\n";
+				}
+			}
+			fclose($handle);
+		}
+	}
+	
 	public function qrowner(){
 		$cid = $_REQUEST['cid'];
 		$owner = DB::select("SELECT owner FROM cards WHERE barcode_id = ".$cid)[0]->owner;
@@ -162,7 +177,7 @@ class HomeController extends BaseController {
 		//initialize helper variables for handling certain steps
 		$step = -1; $barcode_id = -1; $old_owner = -1; $the_sid = -1; $message = "no msg"; $ab = "n/a"; $old_ab = "";
 		//TODO Line 14:need to validate body as phone # in more strict way/better if condition, find regex
-		if(intval($body) == 0 || strlen($body) != 9){ 
+		if(intval($body) == 0 || (strlen($body) != 9 && strlen($body)!=5)){ 
 			//we are here if they didnt enter a 9-digit number or if what they entered wasn't a number
 			//this case handles every response that isn't a cardID (phone submission of giver + text/MMS submissions
 			
