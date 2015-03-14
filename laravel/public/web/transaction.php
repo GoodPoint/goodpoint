@@ -81,8 +81,9 @@
 				<!--if user viewing their own transaction, let them upload media-->
 				<div id="if_user" class="content-container" style="display:none;">
 					<form id="picForm" enctype="multipart/form-data">
-						<input type="text" name="caption" placeholder="caption" /><br/>
-						Add Media and Memories to this WIN+WIN!: <input id="media_pic" name="media_pic" type="file" accept="image/*;capture=camera" />
+						Add Media and Memories to this WIN+WIN!: <br/>
+						Caption: <input type="text" name="caption" placeholder="caption" /><br/>
+						<input id="media_pic" name="media_pic" type="file" accept="image/*;capture=camera" />
 						<input name="tid" type="hidden" value="" />
 						<p>(Pictures only through this form. Currently you can add video and audio only through texting -- after a successful transaction, just text us your memories!)</p>
 					</form>
