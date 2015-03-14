@@ -291,7 +291,7 @@ class HomeController extends BaseController {
 								$step = -1;
 								$ab = "a_err";
 							} else {
-								$query = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $body));
+								$query = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $phone));
 								if(!$query){
 									$message = TwilioMsg::genericDatabaseError(3);
 									$step = -1;
@@ -299,7 +299,7 @@ class HomeController extends BaseController {
 								} else {
 									//add incomplete user records for giver and receiver
 									$insert = Queries::initUser($_REQUEST['From']);
-									$insert = Queries::initUser($body);
+									$insert = Queries::initUser($phone);
 									//get link to use in message
 									$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
 									//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
