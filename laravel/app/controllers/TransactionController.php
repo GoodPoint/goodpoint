@@ -19,7 +19,9 @@ class TransactionController extends BaseController {
 	}
 	
 	public function getTransactionsByPhoneId(){
-		return Queries::getTransactionsById($_REQUEST['id'],$_REQUEST['type']);
+		$phone = $_REQUEST['id']; $pattern = '/[^\d]/'; $replacement = '';
+		$phone = preg_replace($pattern, $replacement, $phone);
+		return Queries::getTransactionsById($phone,$_REQUEST['type']);
 	}
 	
 	public function getTransactionInfo(){
@@ -30,6 +32,7 @@ class TransactionController extends BaseController {
 	public function uploadMedia(){
 		try {
 			$tid = $_REQUEST['tid'];
+			$caption = $_REQUEST['caption'];
 			// Undefined | Multiple Files | $_FILES Corruption Attack
 			// If this request falls under any of them, treat it invalid.
 			if (
@@ -87,7 +90,7 @@ class TransactionController extends BaseController {
 				throw new RuntimeException('Failed to move uploaded file.');
 			}
 			
-			$success = Queries::appInsertMedia($new_name.".".$ext, $tid);
+			$success = Queries::appInsertMedia($new_name.".".$ext, $tid, $caption);
 			return "{\"result\":\"success\"}";
 			//echo 'File is uploaded successfully.';
 
@@ -102,6 +105,7 @@ class TransactionController extends BaseController {
 	public function uploadFirstMedia(){
 		try {
 			$sid = $_REQUEST['sid'];
+			$caption = $_REQUEST['caption'];
 			// Undefined | Multiple Files | $_FILES Corruption Attack
 			// If this request falls under any of them, treat it invalid.
 			if (
@@ -159,7 +163,7 @@ class TransactionController extends BaseController {
 				throw new RuntimeException('Failed to move uploaded file.');
 			}
 			
-			$success = Queries::appInsertFirstMedia($new_name.".".$ext, $sid);
+			$success = Queries::appInsertFirstMedia($new_name.".".$ext, $sid, $caption);
 			DB::insert("insert into fuckedup(value) VALUES('".json_encode($success)."')");
 			return "{\"result\":\"success\",\"queryResults\":".json_encode($success)."}";
 			//echo 'File is uploaded successfully.';

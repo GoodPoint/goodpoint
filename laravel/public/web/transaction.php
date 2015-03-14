@@ -78,17 +78,19 @@
 				<a id="back" style="float:right;display:none;" data-rel="back">Back</a>
 			</div>
 			<div class="ui-content">
-				<!--transaction-->
-				<div id="transaction_details" class="content-container">
-				
-				</div>
+				<!--if user viewing their own transaction, let them upload media-->
 				<div id="if_user" class="content-container" style="display:none;">
 					<form id="picForm" enctype="multipart/form-data">
 						Add Media and Memories to this WIN+WIN!: <input id="media_pic" name="media_pic" type="file" accept="image/*;capture=camera" />
 						<input name="tid" type="hidden" value="" />
-						<p>(Pictures only. Currently you can add video and audio only through texting -- after a successful transaction, just text us your memories!)</p>
+						<p>(Pictures only through this form. Currently you can add video and audio only through texting -- after a successful transaction, just text us your memories!)</p>
+						<input type="text" name="caption" placeholder="caption" />
 					</form>
 					<progress></progress>
+				</div>
+				<!--transaction-->
+				<div id="transaction_details" class="content-container">
+				
 				</div>
 			</div>
 			<div data-role="footer"><span style="font-size:10px;">&copy; 2014 GoodPointGame</span></div>

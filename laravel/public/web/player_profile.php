@@ -90,7 +90,7 @@
 				<center>
 				<h2>Your Profile</h2>
 				<div id="userProfile" class="content-container">
-					<img id="profilePic" style="width:100px;height:100px;" /><br/>
+					<img id="profilePic" style="width:100px;height:auto;border-radius:10px;" /><br/>
 					<span class="nameWrap">Name: <span class="name"></span><br/></span>
 					<span class="ageWrap">Age: <span class="age"></span><br/></span>
 					<span class="genderWrap">Gender: <span class="gender"></span><br/></span>

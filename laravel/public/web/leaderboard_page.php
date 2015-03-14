@@ -103,7 +103,9 @@
 					<h2>Upload Media to share the Good Story!</h2>
 					<form id="picForm" enctype="multipart/form-data">
 						<input id="profile_pic" name="profile_pic" type="file" accept="image/*;capture=camera" />
+						<p>(Pictures only through this form. Currently you can add video and audio only through texting -- after a successful transaction, just text us your memories!)</p>
 						<input name="sid" type="hidden" value="" />
+						<input type="text" name="caption" placeholder="caption" />
 					</form>
 					<progress></progress>
 				</center>

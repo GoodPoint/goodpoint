@@ -128,8 +128,9 @@ var populateTransS = function(data){
 	if(data.media.length>0){
 		UL_HTML += "<h2>Memories for this WIN+WIN!</h2>";
 		for(var i=0;i<data.media.length;i++){
-			var url = data.media[i].url;
-			var img = "<img src='"+url+"' style='max-width:80%;height:auto;' /><br/><hr><br/>";
+			var url = data.media[i].url; 
+			var caption = (data.media[i].caption == "")? "" : "<p>"+data.media[i].caption+"</p>";
+			var img = "<img src='"+url+"' style='max-width:80%;height:auto;' />"+caption+"<br/><hr><br/>";
 			UL_HTML += img;
 		}
 	} else {

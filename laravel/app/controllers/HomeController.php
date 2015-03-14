@@ -256,7 +256,9 @@ class HomeController extends BaseController {
 				case 1:
 				//check phone number submission in response to who giver really was
 				//this happens after they say "no" to "is <last known giver> the giver?" msg
-				if(intval($body) == 0 || strlen($body)!= 10){ 
+				$phone = $body; $pattern = '/[^\d]/'; $replacement = '';
+				$phone = preg_replace($pattern, $replacement, $phone);
+				if(strlen($phone)!= 10 && !(strlen($phone)==11 && substr($phone, 0, 1)=='1')){ 
 					//need to validate phone number in more strict way, find regex
 					//but basically we will always be here if they entered phone # wrong
 					$message = TwilioMsg::wrongPhoneFormat();
@@ -283,7 +285,7 @@ class HomeController extends BaseController {
 							$step = -1;
 							$ab = "a_err";
 						} else {
-							$query = DB::insert(Queries::insertTransaction($barcode_id, $body, $old_ab));
+							$query = DB::insert(Queries::insertTransaction($barcode_id, $phone, $old_ab));
 							if(!$query){
 								$message = TwilioMsg::genericDatabaseError(3);
 								$step = -1;
