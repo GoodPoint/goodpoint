@@ -107,7 +107,7 @@ class Queries {
 		return json_encode($return);
 	}
 	public static function getTransactionDetails($tid, $uid){
-		$media = DB::select("SELECT url FROM media WHERE trans_id=".$tid); 
+		$media = DB::select("SELECT url,caption FROM media WHERE trans_id=".$tid); 
 		$transaction = DB::select("SELECT * FROM transaction WHERE id=".$tid);
 		if($uid == ""){
 			$can_edit = false;
