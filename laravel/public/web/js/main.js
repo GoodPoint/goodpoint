@@ -187,7 +187,10 @@ var populateLeaderboardS = function(data){
 			var da_span = (data.leaderboard[i].id == data.userID)? "<span class='profile_link' style='float:right;cursor:pointer;'>Edit Profile</span>" : "";
 			var da_href = (data.leaderboard[i].id == data.userID)? "player_profile.php?sid="+getParameterByName("sid") : "#";
 			UL_HTML += "<li><a href='"+da_href+"'>";
-			UL_HTML += data.leaderboard[i].id+" -- "+data.leaderboard[i].GoodPoints+"GP";
+			//data.leaderboard[i].id
+			var profile = JSON.parse(data.leaderboard[i].profile_json);
+			var display_name = (profile.name == undefined)? "Anonymous" : profile.name;
+			UL_HTML += display_name+" -- "+data.leaderboard[i].GoodPoints+"GP";
 			UL_HTML += da_span+"</a></li>";
 		}
 	}
