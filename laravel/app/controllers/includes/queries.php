@@ -13,8 +13,8 @@ class Queries {
 	public static function getTransactionsForBarcode($barcode_id){ 
 		return "SELECT * FROM transaction WHERE cardid=".$barcode_id." ORDER BY timestamp desc"; 
 	}
-	public static function insertMedia($sid, $trans_id, $url){ 
-		return "INSERT INTO media (sid, trans_id, url) VALUES ('".$sid."','".$trans_id."','".$url."')"; 
+	public static function insertMedia($sid, $trans_id, $url, $caption){ 
+		return "INSERT INTO media (sid, trans_id, url, caption) VALUES ('".$sid."','".$trans_id."','".$url."','".$caption."')"; 
 	}
 	public static function recordMsg($user, $message, $step, $cardid, $sid, $ab){ 
 		return "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`,`ab`) VALUES ('".$user."','".$message."','".$step."','".$cardid."','".$sid."','".$ab."')"; 

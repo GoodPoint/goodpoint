@@ -345,7 +345,7 @@ class HomeController extends BaseController {
 					//sid | trans_id | url - schema of media table
 					//single or multi insert is apparently the same despite Twilio docs -_- Twilio doc FAIL.
 					for($i=0;$i<$_REQUEST['NumMedia'];$i++){
-						$query = DB::insert(Queries::insertMedia($the_sid, $t_id, $_REQUEST['MediaUrl'.$i]));
+						$query = DB::insert(Queries::insertMedia($the_sid, $t_id, $_REQUEST['MediaUrl'.$i], ""));
 						if(!$query){
 							$failed = true;
 							$message = TwilioMsg::mediaFailed($t_id);
@@ -373,7 +373,8 @@ class HomeController extends BaseController {
 				/*latest benchmark of mt_rand() function with 10000 calls: 5031[1] => 4969[0]...pretty good :)
 				**with 100 calls, never beyond 40/60, rarely beyond 55/45...
 				**you can benchmark rand and mt_rand in app/tests/random_test.php*/
-				$a_or_b = mt_rand(0,1);
+				//SKP 3/28: remove a/b test, go with B: get the points
+				$a_or_b = 1;//mt_rand(0,1);
 				if($a_or_b == 0){
 					//A: ask for old owner
 					//could be that owner is already $_REQUEST['From'] or within last 3 owners/receivers
