@@ -194,6 +194,12 @@ class HomeController extends BaseController {
 						$message = TwilioMsg::transactionWelcome($location, $gp, Arrays::vendorItemsArr()[$location]);
 						$barcode_id = 9;//key for transaction workflow
 						$firstT_step = true;
+						$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));	
+						echo "<Response>";
+						echo "<Message>";
+						echo $message;
+						echo "</Message>";
+						echo "</Response>";return;
 					} else {
 						$message = "Sorry, you don't have enough good points to redeem for goodies at ".strtoupper(trim($body))."...yet! Spread the good and check back in later! (".Arrays::minimumPurchaseArr()[strtoupper(trim($body))]."GP minimum)";
 					}
