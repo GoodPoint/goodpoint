@@ -205,7 +205,7 @@ class HomeController extends BaseController {
 			//grabs all messages in case we need others, but uses latest one only at the moment
 			$select = DB::select(Queries::getMessagesForUser($_REQUEST['From']));
 			//echo var_dump($select);
-			if(count($select) > 0){
+			if(count($select) > 0 && !$firstT_step){
 				//we are here if they have a message history with our Twilio #
 				$step = $select[0]->step;
 				$barcode_id = $select[0]->cardid;
