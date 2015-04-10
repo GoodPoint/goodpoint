@@ -228,11 +228,11 @@ class HomeController extends BaseController {
 						case 10:
 							if(!$firstT_step){
 								$ab = $select[0]->ab;
-								if(intval(trim($body))!=0 && isset(Arrays::vendorItemsArr()[$ab][intval(trim($body))])){
+								if(isset(Arrays::vendorItemsArr()[$ab][intval(trim($body))-1])){
 									$step = 11;
 									//to confirm your purchase of <insert menu item here>, text 1. To change the item, text 2. To cancel, text 3. 
-									$message = "To confirm your purchase of ".Arrays::vendorItemsArr()[$ab][intval(trim($body))]["name"].", text 1. To change the item, text 2. To cancel, text 3.";
-									$ab .= "_".intval(trim($body));
+									$message = "To confirm your purchase of ".Arrays::vendorItemsArr()[$ab][intval(trim($body))-1]["name"].", text 1. To change the item, text 2. To cancel, text 3.";
+									$ab .= "_".(intval(trim($body))-1);
 								} else {
 									$step = 10;
 									$message = "Invalid Entry. Select one of the following choices at ".$ab.":";
@@ -255,6 +255,7 @@ class HomeController extends BaseController {
 										$item = explode("_",$ab)[1];
 										$message = "To complete your transaction, please present this code to the cashier.".Arrays::vendorItemsArr()[$location][$item]["code"].mt_rand(10000,99999);
 										$step = 15;
+										break;
 									default:
 										$step = 11;
 										$message = "Invalid Entry. To confirm your purchase, text 1. To change the item, text 2. To cancel, text 3.";
