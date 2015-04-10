@@ -221,7 +221,7 @@ class HomeController extends BaseController {
 						case 10:
 							if(!$firstT_step){
 								$ab = $select[0]->ab;
-								if(intval(trim($body))!=0 && isset(Arrays:vendorItemsArr()[$ab][intval(trim($body))])){
+								if(intval(trim($body))!=0 && isset(Arrays::vendorItemsArr()[$ab][intval(trim($body))])){
 									$step = 11;
 									//to confirm your purchase of <insert menu item here>, text 1. To change the item, text 2. To cancel, text 3. 
 									$message = "To confirm your purchase of ".Arrays:vendorItemsArr()[$ab][intval(trim($body))]["name"].", text 1. To change the item, text 2. To cancel, text 3.";
