@@ -31,7 +31,7 @@ class TwilioMsg {
 			/*1. 1 slice of cheese or pepperoni pizza - 5GP
 			2. Small Salad - 5 GP
 			3. Premium slice - 10 GP";*/
-			$toReturn .= "\n".$counter . ". ".$item["name"]." - ".$item["cost"]." GP"
+			$toReturn .= "\n".$counter . ". ".$item["name"]." - ".$item["cost"]." GP";
 			$counter++;
 		}
 	}
