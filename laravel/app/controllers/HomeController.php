@@ -256,6 +256,19 @@ class HomeController extends BaseController {
 										$message = "To complete your transaction, please present this code to the cashier.".Arrays::vendorItemsArr()[$location][$item]["code"].mt_rand(10000,99999);
 										$step = 15;
 										break;
+									case 2:
+										$ab = explode("_",$ab)[0];
+										$step = 10;
+										$message = "Select one of the following choices at ".$ab.":";
+										for($i=0;$i<count(Arrays::vendorItemsArr()[$ab]);$i++){
+											$item = Arrays::vendorItemsArr()[$ab][$i];
+											$message .= "\n".($i+1). ". ".$item["name"]." - ".$item["cost"]." GP";
+										}
+										break;
+									case 3:
+										$ab .= "_cancelled";
+										$step = 15;
+										$message = "You have cancelled the transaction.";
 									default:
 										$step = 11;
 										$message = "Invalid Entry. To confirm your purchase, text 1. To change the item, text 2. To cancel, text 3.";
