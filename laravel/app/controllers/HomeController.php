@@ -187,7 +187,7 @@ class HomeController extends BaseController {
 				
 				if(count($select) > 0){
 					$gp = Queries::getGPForUser($_REQUEST['From']);
-					if($gp >= Arrays::minimumPurchaseArr()[strtoupper(trim($body))]){
+					if(intval($gp) >= Arrays::minimumPurchaseArr()[strtoupper(trim($body))]){
 						$location = strtoupper(trim($body));
 						$ab = $location;
 						$step = 10;
@@ -197,7 +197,7 @@ class HomeController extends BaseController {
 						$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));	
 						echo "<Response>";
 						echo "<Message>";
-						echo $message;
+						echo $message."hi".$step.$location.$message.$barcode_id.$gp;
 						echo "</Message>";
 						echo "</Response>";return;
 					} else {
