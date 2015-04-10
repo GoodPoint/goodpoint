@@ -269,6 +269,7 @@ class HomeController extends BaseController {
 										$ab .= "_cancelled";
 										$step = 15;
 										$message = "You have cancelled the transaction.";
+										break;
 									default:
 										$step = 11;
 										$message = "Invalid Entry. To confirm your purchase, text 1. To change the item, text 2. To cancel, text 3.";
