@@ -202,7 +202,7 @@ class HomeController extends BaseController {
 						echo "</Message>";
 						echo "</Response>";return;
 					} else {
-						$message = "Sorry, you don't have enough good points to redeem for goodies at ".strtoupper(trim($body))."...yet! Spread the good and check back in later! (".Arrays::minimumPurchaseArr()[strtoupper(trim($body))]."GP minimum)";
+						$message = "Sorry, you do not have enough good points to redeem for goodies at ".strtoupper(trim($body))."...yet! Spread the good and check back in later! (".Arrays::minimumPurchaseArr()[strtoupper(trim($body))]."GP minimum)";
 					}
 				} else {
 					//new user, cannot purchase at Ians...move along

@@ -25,7 +25,7 @@ class TwilioMsg {
 
 	//transaction
 	public static function transactionWelcome($location, $gp, $location_items){
-		$toReturn = "Welcome to ".$location."! Please select and text the item you'd like to redeem with your Good Points. You have ".$gp." Good Points available to spend.";
+		$toReturn = "Welcome to ".$location."! Please select and text the item you would like to redeem with your Good Points. You have ".$gp." Good Points available to spend.";
 		$counter = 1;
 		foreach($location_items as $item){
 			/*1. 1 slice of cheese or pepperoni pizza - 5GP
