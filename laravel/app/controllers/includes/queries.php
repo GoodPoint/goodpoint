@@ -54,6 +54,11 @@ class Queries {
 		$returnArr = array("userID"=>$userID, "leaderboard"=>$leaderboard, "sid"=>$sid);
 		return json_encode($returnArr);
 	}
+	public static function getGPForUser($phone){
+		$res = DB::select("SELECT (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints` FROM user where id='".$phone."'");
+		if(count($res) == 0){return 0;}
+		return $res[0]->GoodPoints;
+	}
 	public static function getLeaderboardByDate($date, $endDate){
 		//$dateClause = "(WHERE transaction.timestamp > '".$date."' AND transaction.timestamp < '".$endDate."'";
 		$leaderboard = DB::select("SELECT user.id, (SELECT COUNT(`transaction`.id) FROM transaction WHERE (transaction.giver = user.id OR transaction.receiver = user.id) AND transaction.timestamp > '".$date."' AND transaction.timestamp < '".$endDate."') as `GoodPoints`, user.profile_json FROM user ORDER BY `GoodPoints` DESC");

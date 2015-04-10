@@ -22,6 +22,19 @@ class TwilioMsg {
 	public static function mediaSucceeded($t_id){ return "Thank you for adding media to share your goodness with the world! If you want to add more media for this transaction in the future, go to the site in the link above. Thanks!"; }
 	public static function invalidCardId(){ return "Welcome to WIN+WIN card exchange! You entered an incorrect card ID. It is a 5 or 9-digit ID on the bottom of your card."; }
 	public static function ownerToOwnerError(){ return "You are already the owner of this card, or have been the owner of this card in the last transaction. This means you cannot receive this card at this time. Spread the goodness and encourage sharing this card with someone else! Goodness cannot be hoarded!"; }//change to 3 after alpha
+
+	//transaction
+	public static function transactionWelcome($location, $gp, $location_items){
+		$toReturn = "Welcome to ".$location."! Please select and text the item you'd like to redeem with your Good Points. You have ".$gp." Good Points available to spend.";
+		$counter = 1;
+		foreach($location_items as $item){
+			/*1. 1 slice of cheese or pepperoni pizza - 5GP
+			2. Small Salad - 5 GP
+			3. Premium slice - 10 GP";*/
+			$toReturn .= "\n".$counter . ". ".$item["name"]." - ".$item["cost"]." GP"
+			$counter++;
+		}
+	}
 }
 
 ?>
