@@ -197,7 +197,8 @@ class HomeController extends BaseController {
 						$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));	
 						echo "<Response>";
 						echo "<Message>";
-						echo $message."hi".$step.$location.$message.$barcode_id.$gp;
+						//echo $message."hi".$step.$location.$message.$barcode_id.$gp;
+						echo $message;
 						echo "</Message>";
 						echo "</Response>";return;
 					} else {

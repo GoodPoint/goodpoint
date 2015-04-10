@@ -34,6 +34,7 @@ class TwilioMsg {
 			$toReturn .= "\n".$counter . ". ".$item["name"]." - ".$item["cost"]." GP";
 			$counter++;
 		}
+		return $toReturn;
 	}
 }
 
