@@ -191,7 +191,7 @@ class HomeController extends BaseController {
 						$location = strtoupper(trim($body));
 						$ab = $location;
 						$step = 10;
-						$message = Twilio_Msg::transactionWelcome($location, $gp, Arrays::vendorItemsArr()[$location]);
+						$message = TwilioMsg::transactionWelcome($location, $gp, Arrays::vendorItemsArr()[$location]);
 						$barcode_id = 9;//key for transaction workflow
 						$firstT_step = true;
 					} else {
