@@ -231,7 +231,7 @@ class HomeController extends BaseController {
 									$message = "Invalid Entry. Select one of the following choices at ".$ab.":";
 									for($i=0;$i<count(Arrays::vendorItemsArr()[$ab]);$i++){
 										$item = Arrays::vendorItemsArr()[$ab][$i];
-										$message .= "\n".$i+1. ". ".$item["name"]." - ".$item["cost"]." GP";
+										$message .= "\n".($i+1). ". ".$item["name"]." - ".$item["cost"]." GP";
 									}
 									break;
 								}
