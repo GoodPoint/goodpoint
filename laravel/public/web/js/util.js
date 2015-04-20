@@ -1,5 +1,6 @@
 //ajax
 var baseUrl = "http://54.149.200.91/winwin/laravel/public/index.php";
+baseUrl = "http://www.goodpointgame.com/winwin/laravel/public/index.php";
 function ajax(type, dataObj, successCallback, errorCallback)
 {
 	$.ajax({
