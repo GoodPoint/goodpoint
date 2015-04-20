@@ -175,24 +175,115 @@ class HomeController extends BaseController {
 		$body = $_REQUEST['Body'];
 		$_REQUEST['From'] = str_replace("+1","",$_REQUEST['From']);
 		//initialize helper variables for handling certain steps
-		$step = -1; $barcode_id = -1; $old_owner = -1; $the_sid = -1; $message = "no msg"; $ab = "n/a"; $old_ab = "";
+		$step = -1; $barcode_id = -1; $old_owner = -1; $the_sid = -1; $message = "no msg"; $ab = "n/a"; $old_ab = ""; $firstT_step = false;
 		//TODO Line 14:need to validate body as phone # in more strict way/better if condition, find regex
 		if(intval($body) == 0 || (strlen($body) != 9 && strlen($body)!=5)){ 
-			//we are here if they didnt enter a 9-digit number or if what they entered wasn't a number
+			//we are here if they didnt enter a 5-digit number, a 9-digit number, or if what they entered wasn't a number
 			//this case handles every response that isn't a cardID (phone submission of giver + text/MMS submissions
-			
+			/********IF text matches a supported location, step=10 and set location to $ab********/
+			if(array_search(strtoupper(trim($body)), Arrays::vendorArr()) !== false){
+				//only if user has GP and message history, continue
+				$select = DB::select(Queries::getMessagesForUser($_REQUEST['From']));
+				
+				if(count($select) > 0){
+					$gp = Queries::getGPForUser($_REQUEST['From']);
+					if(intval($gp) >= Arrays::minimumPurchaseArr()[strtoupper(trim($body))]){
+						$location = strtoupper(trim($body));
+						$ab = $location;
+						$step = 10;
+						$message = TwilioMsg::transactionWelcome($location, $gp, Arrays::vendorItemsArr()[$location]);
+						$barcode_id = 9;//key for transaction workflow
+						$firstT_step = true;
+						$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));	
+						echo "<Response>";
+						echo "<Message>";
+						//echo $message."hi".$step.$location.$message.$barcode_id.$gp;
+						echo $message;
+						echo "</Message>";
+						echo "</Response>";return;
+					} else {
+						$message = "Sorry, you do not have enough good points to redeem for goodies at ".strtoupper(trim($body))."...yet! Spread the good and check back in later! (".Arrays::minimumPurchaseArr()[strtoupper(trim($body))]."GP minimum)";
+					}
+				} else {
+					//new user, cannot purchase at Ians...move along
+				}
+			}
 			//get latest message to set up context in which responder should talk back to user
 			//grabs all messages in case we need others, but uses latest one only at the moment
 			$select = DB::select(Queries::getMessagesForUser($_REQUEST['From']));
 			//echo var_dump($select);
-			if(count($select) > 0){
+			if(count($select) > 0 && !$firstT_step){
 				//we are here if they have a message history with our Twilio #
 				$step = $select[0]->step;
 				$barcode_id = $select[0]->cardid;
 				$the_sid = $select[0]->sid;
+				$old_msg = $select[0]->msg;
 				//if we are on step where they were just asked about the previous owner of an entered cardid, 
 				//parse the previous owner out of the last message we sent them (which obviously included it)	
 				//TODO: now that we have more than one step needing conditional vars set; use switch instead of if's
+				if($step > 9 && $step < 16){
+					//transaction workflow
+					//handleTransaction workflow after location was entered
+					switch($step){
+						case 10:
+							if(!$firstT_step){
+								$ab = $select[0]->ab;
+								if(isset(Arrays::vendorItemsArr()[$ab][intval(trim($body))-1])){
+									$step = 11;
+									//to confirm your purchase of <insert menu item here>, text 1. To change the item, text 2. To cancel, text 3. 
+									$message = "To confirm your purchase of ".Arrays::vendorItemsArr()[$ab][intval(trim($body))-1]["name"].", text 1. To change the item, text 2. To cancel, text 3.";
+									$ab .= "_".(intval(trim($body))-1);
+								} else {
+									$step = 10;
+									$message = "Invalid Entry. Select one of the following choices at ".$ab.":";
+									for($i=0;$i<count(Arrays::vendorItemsArr()[$ab]);$i++){
+										$item = Arrays::vendorItemsArr()[$ab][$i];
+										$message .= "\n".($i+1). ". ".$item["name"]." - ".$item["cost"]." GP";
+									}
+									break;
+								}
+							}
+							break;
+						case 11:
+							$ab = $select[0]->ab;
+							if(intval(trim($body))!=0){
+								switch(intval(trim($body))){
+									case 1:
+										$ab .= "_confirm";
+										//$ab = IANS_2_confirm
+										$location = explode("_",$ab)[0];
+										$item = explode("_",$ab)[1];
+										$message = "To complete your transaction, please present this code to the cashier.".Arrays::vendorItemsArr()[$location][$item]["code"].mt_rand(10000,99999);
+										$step = 15;
+										break;
+									case 2:
+										$ab = explode("_",$ab)[0];
+										$step = 10;
+										$message = "Select one of the following choices at ".$ab.":";
+										for($i=0;$i<count(Arrays::vendorItemsArr()[$ab]);$i++){
+											$item = Arrays::vendorItemsArr()[$ab][$i];
+											$message .= "\n".($i+1). ". ".$item["name"]." - ".$item["cost"]." GP";
+										}
+										break;
+									case 3:
+										$ab .= "_cancelled";
+										$step = 15;
+										$message = "You have cancelled the transaction.";
+										break;
+									default:
+										$step = 11;
+										$message = "Invalid Entry. To confirm your purchase, text 1. To change the item, text 2. To cancel, text 3.";
+										break;
+								}
+							}else{
+								
+							}
+						case 12:
+						case 13:
+						//case 15:
+						default: break;
+					}
+				}
 				if($step == 0){
 					$old_owner_arr = explode(" ",$select[0]->msg);
 					//get word before ?, i.e. the previous recorded owner we asked if they got it from
@@ -357,6 +448,9 @@ class HomeController extends BaseController {
 				}
 				$step = -1;//reset workflow for future transactions @ this no
 				break;
+				case 15:
+					$step = -1;
+					break;
 			}
 			$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));	
 		} else {
