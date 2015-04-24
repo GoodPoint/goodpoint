@@ -151,9 +151,9 @@ var populateTransS = function(data){
 var getTransS = function(data){
 	var UL_HTML = "";
 	for(var i=0; i<data.length; i++){
-		var transaction = data[i];
+		var transaction = data.transactions[i]; var giver = data.givers[i]; var receiver = data.receivers[i];
 		UL_HTML += "<li><a href='transaction.php?id="+transaction.id+"&sid="+getParameterByName("sid")+"'>";
-		UL_HTML += "Card "+transaction.cardid+" From "+transaction.giver+" To "+transaction.receiver;
+		UL_HTML += "Card "+transaction.cardid+" From "+giver+" To "+receiver;
 		UL_HTML += "</a></li>";
 	}
 	//populate UL with concatenated string

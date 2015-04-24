@@ -110,23 +110,58 @@ class Queries {
 		return array("tid"=>$tid,"insert"=>$insert);
 	}
 	public static function getLatestTransactions(){
-		return json_encode(DB::select("SELECT * FROM transaction ORDER BY timestamp DESC LIMIT 100"));
+		$transactions = DB::select("SELECT * FROM transaction ORDER BY timestamp DESC LIMIT 100");
+		$givers = array(); $receivers = array();
+		foreach($transactions as $transaction){
+			//get u1 name
+			if(!is_numeric($transaction->giver)){ $name1 = $transaction->giver; } else {
+				$user1 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction->giver)[0]->profile_json,true);
+				if(isset($user1["name"])){ $name1 = $user1["name"]; } else { $name1 = "Anonymous"; }
+			}
+			//get u2 name
+			if(!is_numeric($transaction->receiver)){ $name1 = $transaction->receiver; } else {
+				$user2 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction->receiver)[0]->profile_json,true);
+				if(isset($user2["name"])){ $name2 = $user2["name"]; } else { $name2 = "Anonymous"; }
+			}
+			$givers[] = $user1;
+			$receivers[] = $user2;
+		}
+		return json_encode(array("transactions"=>$transactions,"givers"=>$givers,"receivers"=>$receivers));
 	}
 	public static function getTransactionsById($id, $type){
 		//$type == "Card" or "User"
-		$return = ($type=="Card")? DB::select(self::getTransactionsForBarcode($id)):DB::select("SELECT * FROM transaction WHERE giver ='".$id."' OR receiver='".$id."' OR giver ='+".$id."' OR receiver='+".$id."' OR giver ='+1".$id."' OR receiver='+1".$id."' ORDER BY timestamp desc");
-		return json_encode($return);
+		$transactions = ($type=="Card")? DB::select(self::getTransactionsForBarcode($id)):DB::select("SELECT * FROM transaction WHERE giver ='".$id."' OR receiver='".$id."' OR giver ='+".$id."' OR receiver='+".$id."' OR giver ='+1".$id."' OR receiver='+1".$id."' ORDER BY timestamp desc");
+		$givers = array(); $receivers = array();
+		foreach($transactions as $transaction){
+			//get u1 name
+			if(!is_numeric($transaction->giver)){ $name1 = $transaction->giver; } else {
+				$user1 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction->giver)[0]->profile_json,true);
+				if(isset($user1["name"])){ $name1 = $user1["name"]; } else { $name1 = "Anonymous"; }
+			}
+			//get u2 name
+			if(!is_numeric($transaction->receiver)){ $name1 = $transaction->receiver; } else {
+				$user2 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction->receiver)[0]->profile_json,true);
+				if(isset($user2["name"])){ $name2 = $user2["name"]; } else { $name2 = "Anonymous"; }
+			}
+			$givers[] = $user1;
+			$receivers[] = $user2;
+		}
+		return json_encode(array("transactions"=>$transactions,"givers"=>$givers,"receivers"=>$receivers));
 	}
 	public static function getTransactionDetails($tid, $uid){
 		//get media + transaction 
 		$media = DB::select("SELECT url,caption FROM media WHERE trans_id=".$tid); 
 		$transaction = DB::select("SELECT * FROM transaction WHERE id=".$tid);
 		//get u1 name
-		$user1 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction[0]->giver)[0]->profile_json,true);
-		if(isset($user1["name"])){ $name1 = $user1["name"]; } else { $name1 = "Anonymous"; }
+		if(!is_numeric($transaction[0]->giver)){ $name1 = $transaction[0]->giver; } else {
+			$user1 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction[0]->giver)[0]->profile_json,true);
+			if(isset($user1["name"])){ $name1 = $user1["name"]; } else { $name1 = "Anonymous"; }
+		}
 		//get u2 name
-		$user2 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction[0]->receiver)[0]->profile_json,true);
-		if(isset($user2["name"])){ $name2 = $user2["name"]; } else { $name2 = "Anonymous"; }
+		if(!is_numeric($transaction[0]->receiver)){ $name1 = $transaction[0]->receiver; } else {
+			$user2 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction[0]->receiver)[0]->profile_json,true);
+			if(isset($user2["name"])){ $name2 = $user2["name"]; } else { $name2 = "Anonymous"; }
+		}
 		//get edit status
 		if($uid == ""){
 			$can_edit = false;
