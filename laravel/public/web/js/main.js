@@ -117,8 +117,8 @@ var populateTransS = function(data){
 	UL_HTML += "Card "+transaction.cardid+" Was Given ";
 	UL_HTML += "</h2>";//From "+transaction.giver+" To "+transaction.receiver;
 	UL_HTML += "<table style='width:100%;'><tr style='width:100%;'>";
-	UL_HTML += "<td style='width:50%;'><center><h3>From<br/>"+transaction.giver+"</h3></center></td>";
-	UL_HTML += "<td style='width:50%;'><center><h3>To<br/>"+transaction.receiver+"</h3></center></td>";
+	UL_HTML += "<td style='width:50%;'><center><h3>From<br/>"+data.n1+"</h3></center></td>";//transaction.giver
+	UL_HTML += "<td style='width:50%;'><center><h3>To<br/>"+data.n2+"</h3></center></td>";//transaction.receiver
 	UL_HTML += "</tr><tr style='width:100%;'>";
 	UL_HTML += "<td style='width:50%;'><center><span class='bigplusone'/></center></td>";
 	UL_HTML += "<td style='width:50%;'><center><span class='bigplusone'/></center></td>";

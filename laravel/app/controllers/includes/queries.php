@@ -118,14 +118,23 @@ class Queries {
 		return json_encode($return);
 	}
 	public static function getTransactionDetails($tid, $uid){
+		//get media + transaction 
 		$media = DB::select("SELECT url,caption FROM media WHERE trans_id=".$tid); 
 		$transaction = DB::select("SELECT * FROM transaction WHERE id=".$tid);
+		//get u1 name
+		$user1 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction[0]->giver)[0]->profile_json,true);
+		if(isset($user1["name"])){ $name1 = $user1["name"]; } else { $name1 = "Anonymous"; }
+		//get u2 name
+		$user2 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction[0]->receiver)[0]->profile_json,true);
+		if(isset($user2["name"])){ $name2 = $user2["name"]; } else { $name2 = "Anonymous"; }
+		//get edit status
 		if($uid == ""){
 			$can_edit = false;
 		} else {
 			$can_edit = ($transaction[0]->giver == $uid || $transaction[0]->receiver == $uid);
 		}
-		$returnArr = array("media"=>$media, "transaction"=>$transaction, "can_edit"=>$can_edit);
+		//compile + return
+		$returnArr = array("media"=>$media, "transaction"=>$transaction, "can_edit"=>$can_edit, "n1"=>$name1, "n2"=>$name2);
 		return json_encode($returnArr);
 	}
 }
