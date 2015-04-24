@@ -36,9 +36,15 @@ class Queries {
 			}
 		}*/
 		//alpha
-		$select = DB::select("SELECT * FROM `transaction` where cardid=".$barcode_id." order by timestamp desc limit 2");
+		$select = DB::select("SELECT * FROM `transaction` where cardid=".$barcode_id." order by timestamp desc");
 		for($i=0; $i<count($select); $i++){
-			if($select[$i]->giver == $potential_owner || $select[$i]->receiver == $potential_owner){
+			if(($select[$i]->giver == $potential_owner || $select[$i]->receiver == $potential_owner) && $i < 2){
+				//if there is a match with giver or receiver in the last two transactions ($i=0 and $i=1) then not allowed
+				return true;
+			}
+			$date = date('M j Y g:i A', strtotime($select[$i]->timestamp));
+			if(($select[$i]->giver == $potential_owner || $select[$i]->receiver == $potential_owner) && ($date > (time() - 86400))){
+				//if match with giver or receiver in the past 24hr, no matter what, then not allowed
 				return true;
 			}
 		}
