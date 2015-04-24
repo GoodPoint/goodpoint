@@ -150,7 +150,7 @@ var populateTransS = function(data){
 };
 var getTransS = function(data){
 	var UL_HTML = "";
-	for(var i=0; i<data.length; i++){
+	for(var i=0; i<data.transactions.length; i++){
 		var transaction = data.transactions[i]; var giver = data.givers[i]; var receiver = data.receivers[i];
 		UL_HTML += "<li><a href='transaction.php?id="+transaction.id+"&sid="+getParameterByName("sid")+"'>";
 		UL_HTML += "Card "+transaction.cardid+" From "+giver+" To "+receiver;
