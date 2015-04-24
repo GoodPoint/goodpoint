@@ -123,8 +123,8 @@ class Queries {
 				$user2 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction->receiver)[0]->profile_json,true);
 				if(isset($user2["name"])){ $name2 = $user2["name"]; } else { $name2 = "Anonymous"; }
 			}
-			$givers[] = $user1;
-			$receivers[] = $user2;
+			$givers[] = $name1;
+			$receivers[] = $name2;
 		}
 		return json_encode(array("transactions"=>$transactions,"givers"=>$givers,"receivers"=>$receivers));
 	}
@@ -143,8 +143,8 @@ class Queries {
 				$user2 = json_decode(DB::select("SELECT profile_json FROM user WHERE id=".$transaction->receiver)[0]->profile_json,true);
 				if(isset($user2["name"])){ $name2 = $user2["name"]; } else { $name2 = "Anonymous"; }
 			}
-			$givers[] = $user1;
-			$receivers[] = $user2;
+			$givers[] = $name1;
+			$receivers[] = $name2;
 		}
 		return json_encode(array("transactions"=>$transactions,"givers"=>$givers,"receivers"=>$receivers));
 	}
