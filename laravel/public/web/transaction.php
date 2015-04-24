@@ -38,7 +38,7 @@
 				// the `send` method of an XHR instance.
 				var formData = new FormData($("#picForm")[0]);
 				$.ajax({
-					url: 'http://54.149.200.91/winwin/laravel/public/index.php/web/transaction/uploadMedia',  //Server script to process data
+					url: 'http://www.goodpointgame.com/winwin/laravel/public/index.php/web/transaction/uploadMedia',  //Server script to process data
 					type: 'POST',
 					xhr: function() {  // Custom XMLHttpRequest
 						var myXhr = $.ajaxSettings.xhr();
