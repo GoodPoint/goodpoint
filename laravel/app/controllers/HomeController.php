@@ -526,9 +526,9 @@ class HomeController extends BaseController {
 		//TODO: overall 'success' or 'failure' boolean that is based on context and result of logic, in any cases
 		//not handled by error messages (there may be none, we need to test extensively though)
 		echo "<Response>";
-			echo "<Message>";
+			echo "<Message><Body>";
 			echo $message;
-			echo "</Message>";
+			echo "</Body></Message>";
 		echo "</Response>";
 	}
 
