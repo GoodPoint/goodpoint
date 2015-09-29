@@ -9,6 +9,15 @@ class TwilioMsg {
 		//return "You have registered this card successfully! Please go to ".$link." and add media to this transaction! You can also text us some media (pic/video) to show the good youve been a part of!"; 
 		return "Thank you! You and the giver both just received +1 Good Point. Please go to ".$link." or text media to share your story. Keep up the Good Work!";
 	}
+	public static function transactionSuccessfulReceiver($barcode_id, $link, $phone){ 
+		//return "You have registered this card successfully! Please go to ".$link." and add media to this transaction! You can also text us some media (pic/video) to show the good youve been a part of!"; 
+		return "Thank you! You and the giver both just received +1 Good Point. Please go to ".$link." or text media to share your story. Keep up the Good Work!";
+	}
+	
+	public static function transactionSuccessfulGiver($barcode_id, $link, $phone){ 
+		//return "You have registered this card successfully! Please go to ".$link." and add media to this transaction! You can also text us some media (pic/video) to show the good youve been a part of!"; 
+		return "Thank you! You and the receiver both just received +1 Good Point. Please go to ".$link." or text media to share your story. Keep up the Good Work!";
+	}
 	public static function promptForGiver($oldOwner){ return "Was this card given to you by ".$oldOwner." ?"; }
 	public static function promptForRealGiver(){ return "Please enter the phone number of who gave you the card."; }
 	public static function yesOrNo(){ return "yes or no?"; }

@@ -4,25 +4,27 @@ include_once("includes.php");
 
 class WebController extends BaseController {
 
+
+	private $webModel;
+	
+	public function __construct() {
+		$this->webModel = new WebModel();
+	}
+
 	public function hello(){
 		return Strings::hello();
 	}
 	
 	public function leaderboard(){
-		$sid = $_REQUEST['sid'];
-		$event = $_REQUEST['event'];
-		if($event == ""){
-			return Queries::getLeaderboard($sid);
-		}
-		switch($event){
-			case "letskeepbuilding": return Queries::getLeaderboardByDate("2015-03-14", "2015-03-16");
-			default: return "{\"result\":\"invalid event\"}";
-		}
+		$arrValues = array();
+		$arrValues['sid'] = $_REQUEST['sid'];
+		$arrValues['event'] = $_REQUEST['event'];
+		return json_encode($this->webModel->leaderboard($arrValues));
 	}
 	
 	public function GPinfo(){
 		$phone = $_REQUEST['phone'];
-		return Queries::getGPinfo($phone);
+		return json_encode($this->webModel->GPinfo($phone));
 	}
 	
 }
