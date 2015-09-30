@@ -200,6 +200,7 @@ class HomeModel /*extends BaseController */{
 		echo Strings::xml_header();
 		//grab body of message (what user texted to our Twilio #). doesn't include MMS stuff (thats grabbed later).
 		$body = $arrValues['Body'];
+		$uncleaned_from = $arrValues['From'];
 		$arrValues['From'] = str_replace("+1","",$arrValues['From']);
 		//initialize helper variables for handling certain steps
 		$step = -1; $barcode_id = -1; $old_owner = -1; $the_sid = -1; $message = "no msg"; $ab = "n/a"; $old_ab = ""; $firstT_step = false;
@@ -585,7 +586,7 @@ class HomeModel /*extends BaseController */{
 								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
 								$message = TwilioMsg::transactionSuccessfulReceiver($barcode_id, $_link, $arrValues['From']);
 								$cardno = $barcode_id;
-								$message2 = TwilioMsg::transactionSuccessfulGiver($cardno, $_link, $old_owner); // send media message request to the giver
+								$message2 = TwilioMsg::transactionSuccessfulGiver($cardno, $_link, $oldOwner); // send media message request to the giver
 								$step = 2;
 								$ab = "b_success";
 							} 
@@ -598,9 +599,9 @@ class HomeModel /*extends BaseController */{
 			$sql .= "('".$arrValues['From']."','".$message."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
 			//$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
 			$query2 = DB::insert($sql);
-			if(isset($message2)){
+			if(isset($message2) && intval($oldOwner) != 0){
 				$sql = "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`,`ab`) VALUES ";
-				$sql .= "('".$old_owner."','".$message2."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
+				$sql .= "('".$oldOwner."','".$message2."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
 				//$query3 = DB::insert(Queries::recordMsg($old_owner, $message2, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
 				$query3 = DB::insert($sql);
 			}
@@ -616,8 +617,8 @@ class HomeModel /*extends BaseController */{
 			echo "</Body></Message>";
 		echo "</Response>";
 		
-		if(isset($message2)){
-			$this->sendText($old_owner, $arrValues['From'], $message2);
+		if(isset($message2) && intval($oldOwner) != 0){
+			$this->sendText($oldOwner, "+16082607105", $message2);
 		}
 /*		
 		echo "<Response>";
