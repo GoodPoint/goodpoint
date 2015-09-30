@@ -597,10 +597,13 @@ class HomeModel /*extends BaseController */{
 			$sql .= "('".$arrValues['From']."','".$message."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
 			//$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
 			$query2 = DB::insert($sql);
-			$sql = "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`,`ab`) VALUES ";
-			$sql .= "('".$old_owner."','".$message2."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
-			//$query3 = DB::insert(Queries::recordMsg($old_owner, $message2, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
-			$query3 = DB::insert($sql);
+			if(isset($message2)){
+				$sql = "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`,`ab`) VALUES ";
+				$sql .= "('".$old_owner."','".$message2."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
+				//$query3 = DB::insert(Queries::recordMsg($old_owner, $message2, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
+				$query3 = DB::insert($sql);
+			}
+			
 		}
 		//echo var_dump($result);
 		//TODO: debug mode/flag/param that outputs and logs results of queries+logic, including successes and failures
