@@ -582,7 +582,7 @@ class HomeModel /*extends BaseController */{
 								$insert = $this->initUser($oldOwner);
 								//get link to use in message
 								$uri = "http://po.st/api/shorten";
-								$querystring = "?longURL=http%3A%2F%2Fgoodpointgame.com%2Fwinwin%2Flaravel%2Fpublic%2Fweb%2Fleaderboard_page.php%3Fsid%3D".$arrValues['MessageSid']."%26first%3Dtrue&apiKey=D638C739-28D4-48B5-9A1F-ECE285DB5B88";
+								$querystring = "?longURL=http%3A%2F%2Fwww.goodpointgame.com%2Fwinwin%2Flaravel%2Fpublic%2Fweb%2Fleaderboard_page.php%3Fsid%3D".$arrValues['MessageSid']."%26first%3Dtrue&apiKey=D638C739-28D4-48B5-9A1F-ECE285DB5B88";
 								$ch = curl_init($uri.$querystring);
 								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 								curl_setopt($ch, CURLOPT_HEADER, 0);
