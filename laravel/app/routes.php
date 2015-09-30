@@ -29,7 +29,7 @@ Route::match( array('GET','POST'), '/web/uploadProfilePic', array('uses' => 'Pro
 
 //transactions
 Route::match( array('GET','POST'), '/web/transactions/mine', array('uses' => 'TransactionController@getMyTransactions'));
-Route::match( array('GET','POST'), '/web/transactions/latest', array('uses' => 'TransactionController@getLatestTransactinos'));
+Route::match( array('GET','POST'), '/web/transactions/latest', array('uses' => 'TransactionController@getLatestTransactions'));
 Route::match( array('GET','POST'), '/web/transactions/card', array('uses' => 'TransactionController@getTransactionsByCardId'));
 Route::match( array('GET','POST'), '/web/transactions/phone', array('uses' => 'TransactionController@getTransactionsByPhoneId'));
 Route::match( array('GET','POST'), '/web/transaction/details', array('uses' => 'TransactionController@getTransactionInfo'));

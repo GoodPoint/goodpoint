@@ -5,7 +5,7 @@ class TransactionModel /*extends BaseController */ {
 	public function getMyTransactions($arrValues){
 		$sid = $arrValues['sid'];
 		$arrResult = array();
-		$userID = ($sid != "")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To : "";
+		$uid = ($sid != "")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$sid."'")[0]->To : "";
 		if($userID == ""){
 			$arrResult['error'] = "error. no user specified";
 			return $arrResult;
@@ -133,7 +133,7 @@ class TransactionModel /*extends BaseController */ {
 	public function getTransactionInfo($arrValues){
 		$tid = $arrValues['id'];
 		$sid = $arrValues['sid'];
-		$userID = ($sid != "" && $sid != "null")? DB::select("SELECT `To` FROM `messages` WHERE sid='". $sid ."'")[0]->To : "";
+		$uid = ($sid != "" && $sid != "null")? DB::select("SELECT `To` FROM `messages` WHERE sid='". $sid ."'")[0]->To : "";
 		$arrResult = array();
 		//get media + transaction 
 		$media = DB::select("SELECT url,caption FROM media WHERE trans_id=".$tid); 

@@ -679,12 +679,15 @@ class HomeModel /*extends BaseController */{
 		return false;
 	}
 	
+	// userRole:  0 = user, 1 = sub-admin, 2 = super-admin
 	private function initUser($number) {
 		$check = DB::select("SELECT count(*) as count FROM `user` WHERE `id`='".$number."'");
 		if($check[0]->count == 0){
+			$userRole = 0; // is users are being added by this function, then it means they are just a user
+			// TODO: change database schema to add user role
+		//	$sql = "INSERT INTO `user` (`id`, `profile_json`, `userRole`, `last_updated`) VALUES ('".$number."', '{}','" . $userRole . "', CURRENT_TIMESTAMP)";
 			return DB::insert("INSERT INTO `user` (`id`, `profile_json`, `last_updated`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP)");
 		}
 	}
-
 }
 ?>

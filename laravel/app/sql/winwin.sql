@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 CREATE TABLE IF NOT EXISTS `user` (
   `id` varchar(75) NOT NULL,
   `profile_json` text NOT NULL,
+  `userRole` int(8) NOT NULL,
   `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
