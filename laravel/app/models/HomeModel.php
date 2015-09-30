@@ -584,6 +584,7 @@ class HomeModel /*extends BaseController */{
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
 								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
 								$message = TwilioMsg::transactionSuccessfulReceiver($barcode_id, $_link, $arrValues['From']);
+								$cardno = $barcode_id;
 								$message2 = TwilioMsg::transactionSuccessfulGiver($cardno, $_link, $old_owner); // send media message request to the giver
 								$step = 2;
 								$ab = "b_success";
