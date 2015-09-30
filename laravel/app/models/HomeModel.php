@@ -581,6 +581,7 @@ class HomeModel /*extends BaseController */{
 								$insert = $this->initUser($arrValues['From']);
 								$insert = $this->initUser($oldOwner);
 								//get link to use in message
+								die();
 								$_link = GAPI::urlShorten($arrValues['MessageSid']);
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
 								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
