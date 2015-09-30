@@ -586,9 +586,11 @@ class HomeModel /*extends BaseController */{
 								$ch = curl_init($uri.$querystring);
 								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 								curl_setopt($ch, CURLOPT_HEADER, 0);
-								$_link = curl_exec($ch);
-								die(var_dump($_link));
+								$urlshortener_res = curl_exec($ch);
+								//die(var_dump($urlshortener_res));
 								curl_close($ch);
+								$obj = json_decode($urlshortener_res,false);
+								$_link = $obj->short_url;
 								//$_link = GAPI::urlShorten($arrValues['MessageSid']);
 								
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
