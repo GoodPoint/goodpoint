@@ -584,7 +584,7 @@ class HomeModel /*extends BaseController */{
 								$_link = GAPI::urlShorten($arrValues['MessageSid']);
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
 								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
-								$message = "Thank you! You and the giver both just received +1 Good Point. Please go to ".$_link." or text media to share your story. Keep up the Good Work!";
+								$message = $_link;
 								$cardno = $barcode_id;
 								$message2 = "Thank you for sharing good! ".$arrValues['From']." just recorded the card you gave them!"; // send media message request to the giver
 								$step = 2;
