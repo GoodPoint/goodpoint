@@ -184,7 +184,7 @@ class TransactionModel /*extends BaseController */ {
 	
 	public function uploadMedia($arrValues){
 		$arrResult = array();
-		$tid = $arrValuues['tid'];
+		$tid = $arrValues['tid'];
 		$caption = $arrValues['caption'];
 		try {
 			$tid = $_REQUEST['tid'];

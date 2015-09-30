@@ -58,7 +58,7 @@ class HomeController extends BaseController {
 	// going to leave this out of the model for right now
 	public function twilio_response(){
 		$arrValues = array();
-		$arrValues['body'] = $_REQUEST['body'];
+		$arrValues['Body'] = $_REQUEST['Body'];
 		$arrValues['From'] = $_REQUEST['From'];
 		$arrValues['MessageSid'] = $_REQUEST['MessageSid'];
 		$arrValues['NumMedia'] = $_REQUEST['NumMedia'];
