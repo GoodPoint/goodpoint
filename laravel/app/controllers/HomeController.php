@@ -57,12 +57,7 @@ class HomeController extends BaseController {
 	//      it will be structured as such: {"ab":ab_string_value, "extra":extra_value}
 	// going to leave this out of the model for right now
 	public function twilio_response(){
-		$arrValues = array();
-		$arrValues['Body'] = $_REQUEST['Body'];
-		$arrValues['From'] = $_REQUEST['From'];
-		$arrValues['MessageSid'] = $_REQUEST['MessageSid'];
-		$arrValues['NumMedia'] = $_REQUEST['NumMedia'];
-		$arrValues['MediaUrl'] = $_REQUEST['MediaUrl'];
+		$arrValues = $_REQUEST;
 		$this->homeModel->twilio_response($arrValues);	
 	}
 	
