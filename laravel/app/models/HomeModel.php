@@ -31,13 +31,18 @@ class HomeModel /*extends BaseController */{
 	
 	public function qrowner($cid){
 		$arrResult = array();
-		$owner = DB::select("SELECT owner FROM cards WHERE barcode_id = ".$cid)[0]->owner;
+		try {
+			$owner = DB::select("SELECT owner FROM cards WHERE barcode_id = ".$cid)[0]->owner;
+		} catch(Exception $e) {
+			$arrResult['error'] = $e->getMessage();
+		}
 		$arrResult['owner'] = $owner;
 		return $arrResult;
 	}
 	
 	public function qrscan($arrValues){
 		$arrResult = array();
+		$from = $arrValues['from'];
 		$phone = $arrValues['phone'];
 		$cardno = $arrValues['cardno'];
 		$old_owner = $arrValues['oldOwner'];
@@ -187,16 +192,17 @@ class HomeModel /*extends BaseController */{
 		}
 		return $arrResult;
 	}
-
-	//TODO: use json string to/from DB for $ab instead of | as separator for 'extra' value.
+	
+		//TODO: use json string to/from DB for $ab instead of | as separator for 'extra' value.
 	//      it will be structured as such: {"ab":ab_string_value, "extra":extra_value}
-	public function twilio_response(){
+	// going to leave this out of the model for right now
+	public function twilio_response($arrValues){
 		//initialize XML document properly
 		header(Strings::xml_content_type());
 		echo Strings::xml_header();
 		//grab body of message (what user texted to our Twilio #). doesn't include MMS stuff (thats grabbed later).
-		$body = $_REQUEST['Body'];
-		$_REQUEST['From'] = str_replace("+1","",$_REQUEST['From']);
+		$body = $arrValues['Body'];
+		$arrValues['From'] = str_replace("+1","",$arrValues['From']);
 		//initialize helper variables for handling certain steps
 		$step = -1; $barcode_id = -1; $old_owner = -1; $the_sid = -1; $message = "no msg"; $ab = "n/a"; $old_ab = ""; $firstT_step = false;
 		//TODO Line 14:need to validate body as phone # in more strict way/better if condition, find regex
@@ -206,10 +212,20 @@ class HomeModel /*extends BaseController */{
 			/********IF text matches a supported location, step=10 and set location to $ab********/
 			if(array_search(strtoupper(trim($body)), Arrays::vendorArr()) !== false){
 				//only if user has GP and message history, continue
-				$select = DB::select(Queries::getMessagesForUser($_REQUEST['From']));
+				$sql = "SELECT * FROM `messages` WHERE `To`='" . $arrValues['From'] . "' ORDER BY time desc"; 
+				$select = DB::select($sql);
 				
 				if(count($select) > 0){
-					$gp = Queries::getGPForUser($_REQUEST['From']);
+					$sql = "SELECT (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) ";
+					$sql .= "as `GoodPoints` FROM user where id='" . $arrValues['From'] . "'";
+					$res = DB::select($sql);
+					if(count($res) == 0) {
+						$gp = 0;
+					}
+					else {
+						$gp = $res[0]->GoodPoints;
+					}
+				//	$gp = Queries::getGPForUser($_REQUEST['From']);
 					if(intval($gp) >= Arrays::minimumPurchaseArr()[strtoupper(trim($body))]){
 						$location = strtoupper(trim($body));
 						$ab = $location;
@@ -217,7 +233,10 @@ class HomeModel /*extends BaseController */{
 						$message = TwilioMsg::transactionWelcome($location, $gp, Arrays::vendorItemsArr()[$location]);
 						$barcode_id = 9;//key for transaction workflow
 						$firstT_step = true;
-						$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));	
+						$sql = "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`,`ab`) VALUES ";
+						$sql .= "('".$arrValues['From']."','".$message."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
+					//	$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
+						$query2 = DB::insert($sql);
 						echo "<Response>";
 						echo "<Message>";
 						//echo $message."hi".$step.$location.$message.$barcode_id.$gp;
@@ -233,7 +252,9 @@ class HomeModel /*extends BaseController */{
 			}
 			//get latest message to set up context in which responder should talk back to user
 			//grabs all messages in case we need others, but uses latest one only at the moment
-			$select = DB::select(Queries::getMessagesForUser($_REQUEST['From']));
+			$sql = "SELECT * FROM `messages` WHERE `To`='".$arrValues['From']."' ORDER BY time desc";
+			$select = DB::select($sql);
+			//$select = DB::select(Queries::getMessagesForUser($_REQUEST['From']));
 			//echo var_dump($select);
 			if(count($select) > 0 && !$firstT_step){
 				//we are here if they have a message history with our Twilio #
@@ -331,7 +352,7 @@ class HomeModel /*extends BaseController */{
 				case 0:
 				//TODO: $y_or_n = strtolower($_REQUEST['Body']).replace(" ","") or trim whitespace on both sides
 				//then use $y_or_n instead of repeating $_REQUEST['Body']
-				if(strtolower($_REQUEST['Body']) == "yes"){
+				if(strtolower($arrValues['Body']) == "yes"){
 					//we are here when user confirms that the last known owner was, in fact, 
 					//who gave them the card ID'd by the # they previously entered with a "Yes"
 					
@@ -339,44 +360,53 @@ class HomeModel /*extends BaseController */{
 					//if there is error in any query it all resets, else new owner and transaction are recorded
 					//and user is prompted to submit media. step is set to 2 (so we can receive MMS properly)
 					/*could be that owner is already $_REQUEST['From'], in that case throw different error message*/
-					$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
+					//$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
+					$owner_to_owner = $this->checkOwner($arrValues['From'], $barcode_id);
 					if($owner_to_owner){
 						$message = TwilioMsg::ownerToOwnerError();
 						$step = -1;
 						$ab = "a_selfToSelfAttempt";
 					} else {
-						$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
+						$sql = "UPDATE cards SET owner = '" . $arrValues['From'] . "' WHERE barcode_id = ".$barcode_id; 
+						//$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
+						$update = DB::update($sql);
 						if(!$update){
-							$message = TwilioMsg::genericDatabaseError(1).$_REQUEST['From'].$barcode_id;
+							$message = TwilioMsg::genericDatabaseError(1).$arrValues['From'].$barcode_id;
 							$step = -1;
 							$ab = "a_err";
 						} else {
-							$insert = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $old_owner));
+							$sql = "INSERT INTO transaction (cardid,receiver,giver) VALUES ('".$barcode_id."','".$arrValues['From']."','".$old_owner."')"; 
+							//$insert = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $old_owner));
+							$insert = DB::insert($sql);
 							if(!$insert){
 								$message = TwilioMsg::welcomeMessage();
 								$step = -1;
 								$ab = "a_err";
-							} else {
+							} 
+							else {
 								//add incomplete user records for giver and receiver
-								$insert = Queries::initUser($_REQUEST['From']);
-								$insert = Queries::initUser($old_owner);
+							//	$insert = Queries::initUser($_REQUEST['From']);
+							//	$insert = Queries::initUser($old_owner);
+								$insert = $this->initUser($arrValues['From']);
+								$insert = $this->initUser($old_owner);
 								//get link to use in message
-								$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
+								$_link = GAPI::urlShorten($arrValues['MessageSid']);
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
 								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
-								$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
+								$message = TwilioMsg::transactionSuccessfulReceiver($barcode_id, $_link, $arrValues['From']);
+								$message2 = TwilioMsg::transactionSuccessfulGiver($cardno, $_link, $old_owner); // send media message request to the giver
 								$step = 2;
 								$ab = "a_success";
 							} 
 						}
 					}
 				} 
-				if(strtolower($_REQUEST['Body']) == "no"){
+				if(strtolower($arrValues['Body']) == "no"){
 					$message = TwilioMsg::promptForRealGiver();
 					$step = 1;
 					$ab = "a_prompt2"."|".$old_owner;
 				}
-				if(strtolower($_REQUEST['Body']) != "yes" && strtolower($_REQUEST['Body']) != "no"){
+				if(strtolower($arrValues['Body']) != "yes" && strtolower($arrValues['Body']) != "no"){
 					$message = TwilioMsg::yesOrNo(); 
 					$step = 0;
 					$ab = "a_stall";
@@ -402,38 +432,47 @@ class HomeModel /*extends BaseController */{
 					//     into helper fxn since its basically the same or similar for all cases...
 					//     probably with log+return statement right at error, so dont have to mess with conditionals
 					/*could be that owner is already $_REQUEST['From'], in that case throw different error message*/
-					$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
+				//	$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
+					$owner_to_owner = $this->checkOwner($arrValues['From'], $barcode_id);
 					if($owner_to_owner){
 						$message = TwilioMsg::ownerToOwnerError();
 						$step = -1;
 						$ab = "a_selfToSelfAttempt";
 					} else {
-						$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
+						$sql = "UPDATE cards SET owner = '".$arrValues['From']."' WHERE barcode_id = ".$barcode_id; 
+						//$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
+						$update = DB::update($sql);
 						if(!$update){
 							$message = TwilioMsg::genericDatabaseError(2);			
 							$step = -1;
 							$ab = "a_err";
 						} else {
-							$query = DB::insert(Queries::insertTransaction($barcode_id, $phone, $old_ab));
+							$sql = "INSERT INTO transaction (cardid,receiver,giver) VALUES ('".$barcode_id."','".$phone."','".$old_ab."')"; 
+							//$query = DB::insert(Queries::insertTransaction($barcode_id, $phone, $old_ab));
+							$query = DB::insert($sql);
 							if(!$query){
 								$message = TwilioMsg::genericDatabaseError(3);
 								$step = -1;
 								$ab = "a_err";
 							} else {
-								$query = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $phone));
+								$sql = "INSERT INTO transaction (cardid,receiver,giver) VALUES ('".$barcode_id."','".$arrValues['From']."','".$phone."')"; 
+							//	$query = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $phone));
+								$query = DB::insert($sql);
 								if(!$query){
 									$message = TwilioMsg::genericDatabaseError(3);
 									$step = -1;
 									$ab = "a_err";
 								} else {
 									//add incomplete user records for giver and receiver
-									$insert = Queries::initUser($_REQUEST['From']);
-									$insert = Queries::initUser($phone);
+								//	$insert = Queries::initUser($_REQUEST['From']);
+								//	$insert = Queries::initUser($phone);
+									$insert = $this->initUser($arrValues['From']);
+									$insert = $this->initUser($phone);
 									//get link to use in message
-									$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
+									$_link = GAPI::urlShorten($arrValues['MessageSid']);
 									//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
 									//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
-									$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id, $_link, $_REQUEST['From']);
+									$message = TwilioMsg::transactionNewPrevOwnerSuccess($barcode_id, $_link, $arrValues['From']);
 									$step = 2;
 									$ab = "a_success2";
 								}
@@ -445,10 +484,12 @@ class HomeModel /*extends BaseController */{
 				case 2:
 				//grab newest transaction id for $barcode_id to link media to, like with messages 
 				//we grab all transactions + info in case we need, but use latest id only
-				$query = DB::select(Queries::getTransactionsForBarcode($barcode_id));
+				$sql = "SELECT * FROM transaction WHERE cardid=".$barcode_id." ORDER BY timestamp desc"; 
+				//$query = DB::select(Queries::getTransactionsForBarcode($barcode_id));
+				$query = DB::select($sql);
 				$t_id = (count($query) > 0)? $query[0]->id : -1;
 				//fetch media and store in db
-				if($_REQUEST['NumMedia'] == 0){
+				if($arrValues['NumMedia'] == 0){
 					//they were prompted to send media but didn't send media
 					$message = TwilioMsg::didntSendMedia($t_id);
 				}
@@ -456,10 +497,13 @@ class HomeModel /*extends BaseController */{
 					//they did send media
 					//flag used to determine outcome of trying to save media
 					$failed = false;
-					//sid | trans_id | utwilio_responserl - schema of media table
+					//sid | trans_id | url - schema of media table
 					//single or multi insert is apparently the same despite Twilio docs -_- Twilio doc FAIL.
-					for($i=0;$i<$_REQUEST['NumMedia'];$i++){
-						$query = DB::insert(Queries::insertMedia($the_sid, $t_id, $_REQUEST['MediaUrl'.$i], ""));
+					for($i=0;$i<$arrValues['NumMedia'];$i++){
+						$caption = "";
+						$sql = "INSERT INTO media (sid, trans_id, url, caption) VALUES ('".$the_sid."','".$t_id."','".$arrValues['MediaUrl'.$i]."','".$caption."')"; 
+					//	$query = DB::insert(Queries::insertMedia($the_sid, $t_id, $_REQUEST['MediaUrl'.$i], ""));
+						$query = DB::insert($sql);
 						if(!$query){
 							$failed = true;
 							$message = TwilioMsg::mediaFailed($t_id);
@@ -475,10 +519,14 @@ class HomeModel /*extends BaseController */{
 					$step = -1;
 					break;
 			}
-			$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));	
+			$sql = "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`,`ab`) VALUES ('".$arrValues['From']."','".$message."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
+			//$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));	
+			$query2 = DB::insert($sql);	
 		} else {
 			//get card by id, get all card info but use only owner
-			$query = DB::select(Queries::getCardById($body));
+			$sql = "SELECT * FROM cards WHERE barcode_id = ".$body; 
+			//$query = DB::select(Queries::getCardById($body));
+			$query = DB::select($sql);
 			if(count($query) == 0){ //invalid card ID/barcode entered
 				$message = TwilioMsg::invalidCardId();
 				$step = -1;
@@ -495,7 +543,7 @@ class HomeModel /*extends BaseController */{
 				if($a_or_b == 0){
 					//A: ask for old owner
 					//could be that owner is already $_REQUEST['From'] or within last 3 owners/receivers
-					$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
+					$owner_to_owner = $this->checkOwner($arrValues['From'], $barcode_id);
 					if($owner_to_owner){
 						$message = TwilioMsg::ownerToOwnerError();
 						$step = -1;
@@ -508,32 +556,37 @@ class HomeModel /*extends BaseController */{
 				} else { //$a_or_b == 1
 					//B: get the points
 					//could be that owner is already $_REQUEST['From'] or within last 3 owners/receivers
-					$owner_to_owner = Queries::checkOwner($_REQUEST['From'], $barcode_id);
+					$owner_to_owner = $this->checkOwner($arrValues['From'], $barcode_id);
 					if($owner_to_owner){
 						$message = TwilioMsg::ownerToOwnerError();
 						$step = -1;
 						$ab = "b_selfToSelfAttempt";
 					} else {
-						$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
+						$sql = "UPDATE cards SET owner = '".$arrValues['From']."' WHERE barcode_id = ".$barcode_id; 
+						//$update = DB::update(Queries::updateOwner($_REQUEST['From'], $barcode_id));
+						$update = DB::update($sql);
 						if(!$update){
-							$message = TwilioMsg::genericDatabaseError(1).$_REQUEST['From'].$barcode_id;
+							$message = TwilioMsg::genericDatabaseError(1).$arrValues['From'].$barcode_id;
 							$step = -1;
 							$ab = "b_err_updateOwner";
 						} else {
-							$insert = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $oldOwner));
+							$sql = "INSERT INTO transaction (cardid,receiver,giver) VALUES ('".$barcode_id."','". $arrValues['From']."','".$oldOwner."')"; 
+						//	$insert = DB::insert(Queries::insertTransaction($barcode_id, $_REQUEST['From'], $oldOwner));
+							$insert = DB::insert($sql);
 							if(!$insert){
 								$message = TwilioMsg::welcomeMessage();
 								$step = -1;
 								$ab = "b_err_transaction";
 							} else {
 								//add incomplete user records for giver and receiver
-								$insert = Queries::initUser($_REQUEST['From']);
-								$insert = Queries::initUser($oldOwner);
+								$insert = $this->initUser($arrValues['From']);
+								$insert = $this->initUser($oldOwner);
 								//get link to use in message
-								$_link = GAPI::urlShorten($_REQUEST['MessageSid']);
+								$_link = GAPI::urlShorten($arrValues['MessageSid']);
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
 								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
-								$message = TwilioMsg::transactionSuccessful($barcode_id, $_link, $_REQUEST['From']);
+								$message = TwilioMsg::transactionSuccessfulReceiver($barcode_id, $_link, $arrValues['From']);
+								$message2 = TwilioMsg::transactionSuccessfulGiver($cardno, $_link, $old_owner); // send media message request to the giver
 								$step = 2;
 								$ab = "b_success";
 							} 
@@ -542,7 +595,14 @@ class HomeModel /*extends BaseController */{
 				}
 				//END A/B TEST.
 			}
-			$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
+			$sql = "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`,`ab`) VALUES ";
+			$sql .= "('".$arrValues['From']."','".$message."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
+			//$query2 = DB::insert(Queries::recordMsg($_REQUEST['From'], $message, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
+			$query2 = DB::insert($sql);
+			$sql = "INSERT INTO `messages` (`To`,`msg`,`step`,`cardid`,`sid`,`ab`) VALUES ";
+			$sql .= "('".$old_owner."','".$message2."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
+			//$query3 = DB::insert(Queries::recordMsg($old_owner, $message2, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
+			$query3 = DB::insert($sql);
 		}
 		//echo var_dump($result);
 		//TODO: debug mode/flag/param that outputs and logs results of queries+logic, including successes and failures
@@ -553,6 +613,32 @@ class HomeModel /*extends BaseController */{
 			echo $message;
 			echo "</Body></Message>";
 		echo "</Response>";
+		
+		$this->sendText($old_owner, $arrValues['From'], $message2);
+/*		
+		echo "<Response>";
+			echo "<Message><Body>";
+			echo $message2;
+			echo "</Body></Message>";
+		echo "</Response>";
+*/
+	
+	}
+	
+	private function sendText($to, $from, $body) {	
+		// set your AccountSid and AuthToken from www.twilio.com/user/account
+		$AccountSid = "ACee1a2b72c78697cb71ffd9762bf5431a";
+		$AuthToken = "eeeefef73f544fce3b7b7f3decfddf86";
+		 
+		$client = new Services_Twilio($AccountSid, $AuthToken);
+		 
+		$message = $client->account->messages->create(array(
+			"From" => $from,
+			"To" => $to,
+			"Body" => $body,
+		));	 
+		// Display a confirmation message on the screen
+		//echo "Sent message {$message->sid}";
 	}
 
 	private static function checkOwner($potential_owner, $barcode_id){
