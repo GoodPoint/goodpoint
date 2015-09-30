@@ -15,7 +15,7 @@ class TransactionController extends BaseController {
 		return json_encode($this->transactionModel->getMyTransactions($arrValues));
 	}
 	
-	public function getLatestTransactinos(){
+	public function getLatestTransactions(){
 		return json_encode($this->transactionModel->getLatestTransactions());
 	}
 	
