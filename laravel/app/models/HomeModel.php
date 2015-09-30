@@ -67,7 +67,7 @@ class HomeModel /*extends BaseController */{
 								$ab = "a_err";
 							} 
 							else {
-								$sql = "INSERT INTO transaction (cardid,receiver,giver) VALUES ('".$cardno."','".$phone."','".$old_owner."')"
+								$sql = "INSERT INTO transaction (cardid,receiver,giver) VALUES ('".$cardno."','".$phone."','".$old_owner."')";
 								$insert = DB::insert($sql);
 								if(!$insert){
 									$message = TwilioMsg::welcomeMessage();
