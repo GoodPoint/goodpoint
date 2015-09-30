@@ -33,7 +33,7 @@ class TransactionController extends BaseController {
 		$arrValues = array();
 		$arrValues['id'] = $phone;
 		$arrValues['type'] = $_REQUEST['type'];
-		return json_encode($this->transactionModel->getTransactionsById
+		return json_encode($this->transactionModel->getTransactionsById($arrValues));
 //		return Queries::getTransactionsById($phone,$_REQUEST['type']);
 	}
 	
