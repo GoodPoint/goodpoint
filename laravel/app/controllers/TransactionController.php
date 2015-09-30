@@ -41,7 +41,7 @@ class TransactionController extends BaseController {
 		$arrValues = array();
 		$arrValues['id'] = $_REQUEST['id'];
 		$arrValues['sid'] = $_REQUEST['sid'];
-		return json_encode($this->transactionModel->getTransactionInfo($arrValues);
+		return json_encode($this->transactionModel->getTransactionInfo($arrValues));
 //		$userID = ($_REQUEST['sid'] != "" && $_REQUEST['sid'] != "null")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$_REQUEST['sid']."'")[0]->To : "";
 //		return Queries::getTransactionDetails($_REQUEST['id'],$userID);
 	}
