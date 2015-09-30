@@ -12,7 +12,7 @@ class HomeController extends BaseController {
 	}
 
 
-	public function hello(){t
+	public function hello(){
 		return Strings::hello();
 	}
 	
