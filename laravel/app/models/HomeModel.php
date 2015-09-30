@@ -604,6 +604,7 @@ class HomeModel /*extends BaseController */{
 				$sql .= "('".$oldOwner."','".$message2."','".$step."','".$barcode_id."','".$arrValues['MessageSid']."','".$ab."')"; 
 				//$query3 = DB::insert(Queries::recordMsg($old_owner, $message2, $step, $barcode_id, $_REQUEST['MessageSid'], $ab));
 				$query3 = DB::insert($sql);
+				$this->sendText($oldOwner, "+16082607105", $message2);
 			}
 			
 		}
@@ -616,10 +617,6 @@ class HomeModel /*extends BaseController */{
 			echo $message;
 			echo "</Body></Message>";
 		echo "</Response>";
-		
-		if(isset($message2) && intval($oldOwner) != 0){
-			$this->sendText($oldOwner, "+16082607105", $message2);
-		}
 /*		
 		echo "<Response>";
 			echo "<Message><Body>";
