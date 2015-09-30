@@ -587,6 +587,7 @@ class HomeModel /*extends BaseController */{
 								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 								curl_setopt($ch, CURLOPT_HEADER, 0);
 								$_link = curl_exec($ch);
+								die(var_dump($_link));
 								curl_close($ch);
 								//$_link = GAPI::urlShorten($arrValues['MessageSid']);
 								
