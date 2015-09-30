@@ -615,7 +615,9 @@ class HomeModel /*extends BaseController */{
 			echo "</Body></Message>";
 		echo "</Response>";
 		
-		$this->sendText($old_owner, $arrValues['From'], $message2);
+		if(isset($message2)){
+			$this->sendText($old_owner, $arrValues['From'], $message2);
+		}
 /*		
 		echo "<Response>";
 			echo "<Message><Body>";
