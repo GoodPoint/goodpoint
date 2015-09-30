@@ -6,13 +6,13 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"guzzlehttp/guzzle": "~5.0",
+		"guzzlehttp/guzzle": "5.0.3",
 		"twilio/sdk": "^4.5"
 	},
 	"autoload": {
 		"classmap": [
 			"app/commands",
-			"app/controllers",
+			"app/controllers", 	
 			"app/controllers/includes",
 			"app/models",
 			"app/database/migrations",
