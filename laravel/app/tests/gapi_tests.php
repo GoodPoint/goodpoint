@@ -1,5 +1,5 @@
 <?php
-	require '../../vendor/autoload.php';
+	require '/var/www/html/winwin/laravel/vendor/autoload.php';
 	use GuzzleHttp\Client;
 	class GAPI {	
 		public static function urlShorten($url){
