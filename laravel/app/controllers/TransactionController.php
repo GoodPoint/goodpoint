@@ -16,7 +16,7 @@ class TransactionController extends BaseController {
 	}
 	
 	public function getLatestTransactinos(){
-		return json_encode($this->getLatestTransactions());
+		return json_encode($this->transactionModel->getLatestTransactions());
 	}
 	
 	public function getTransactionsByCardId(){
