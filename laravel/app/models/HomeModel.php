@@ -581,8 +581,9 @@ class HomeModel /*extends BaseController */{
 								$insert = $this->initUser($arrValues['From']);
 								$insert = $this->initUser($oldOwner);
 								//get link to use in message
-								die();
+								
 								$_link = GAPI::urlShorten($arrValues['MessageSid']);
+								die();
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
 								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
 								$message = "Thank you! You and the giver both just received +1 Good Point. Please go to ".$_link." or text media to share your story. Keep up the Good Work!";
