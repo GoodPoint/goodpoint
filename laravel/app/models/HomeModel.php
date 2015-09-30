@@ -581,13 +581,19 @@ class HomeModel /*extends BaseController */{
 								$insert = $this->initUser($arrValues['From']);
 								$insert = $this->initUser($oldOwner);
 								//get link to use in message
+								$uri = "http://po.st/api/shorten";
+								$querystring = "?longURL=http%3A%2F%2Fgoodpointgame.com%2Fwinwin%2Flaravel%2Fpublic%2Fweb%2Fleaderboard_page.php%3Fsid%3D".$sid."%26first%3Dtrue&apiKey=D638C739-28D4-48B5-9A1F-ECE285DB5B88";
+								$ch = curl_init($uri.$querystring);
+								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+								curl_setopt($ch, CURLOPT_HEADER, 0);
+								$_link = curl_exec($ch);
+								curl_close($ch);
+								//$_link = GAPI::urlShorten($arrValues['MessageSid']);
 								
-								$_link = GAPI::urlShorten($arrValues['MessageSid']);
-								die();
 								//$_link = GAPI::urlShorten("http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid']);
 								//$_link = "http://54.149.200.91/winwin/laravel/public/web/leaderboard_page.php?sid=".$_REQUEST['MessageSid'];
 								$message = "Thank you! You and the giver both just received +1 Good Point. Please go to ".$_link." or text media to share your story. Keep up the Good Work!";
-								die(var_dump($_link));
+								
 								$cardno = $barcode_id;
 								$message2 = "Thank you for sharing good! ".$arrValues['From']." just recorded the card you gave them!"; // send media message request to the giver
 								$step = 2;
