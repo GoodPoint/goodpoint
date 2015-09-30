@@ -1,7 +1,5 @@
 <?php
 
-include_once("../includes.php");
-
 class WebModel /*extends BaseController*/ {
 
 	public function hello(){

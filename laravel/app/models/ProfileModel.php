@@ -1,7 +1,5 @@
 <?php
 
-include_once("../includes.php");
-
 class ProfileModel /*extends BaseController */{
 
 	public function profile($arrValues){

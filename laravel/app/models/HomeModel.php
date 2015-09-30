@@ -1,7 +1,5 @@
 <?php
 
-include_once("../includes.php");
-
 class HomeModel /*extends BaseController */{
 
 	public function hello(){

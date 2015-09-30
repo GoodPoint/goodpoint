@@ -1,7 +1,5 @@
 <?php
 
-include_once("../includes.php");
-
 /*
  * Job board database structure:
  * 
