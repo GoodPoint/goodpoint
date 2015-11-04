@@ -318,7 +318,7 @@ class HomeModel /*extends BaseController */{
 												$insert2 = DB::insert($sql2);
 												$mail_message = $location."\r\n".$teddy_item_name."\r\n".$teddy_item_cost."\r\n"."Thanks for being a GameChanger!\r\n Peace and Love,\r\n GoodPoint";
 												$mail_message = wordwrap($mail_message, 70, "\r\n");
-												mail('pillai.sreenath@gmail.com', 'GP Transaction '.$dacode, $mail_message);
+												mail('anthonyrineer@gmail.com', 'GP Transaction '.$dacode, $mail_message);
 												//mail(anthonyrineer@gmail.com);
 												break;
 											default: break;
