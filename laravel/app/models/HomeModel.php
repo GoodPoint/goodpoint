@@ -296,7 +296,24 @@ class HomeModel /*extends BaseController */{
 										//$ab = IANS_2_confirm
 										$location = explode("_",$ab)[0];
 										$item = explode("_",$ab)[1];
-										$message = "To complete your transaction, please present this code to the cashier.".Arrays::vendorItemsArr()[$location][$item]["code"].mt_rand(10000,99999);
+										//complete transaction
+										$dacode = Arrays::vendorItemsArr()[$location][$item]["code"].mt_rand(10000,99999);
+										$message = "To complete your transaction, please present this code to the cashier.".$dacode;
+										//handle receipt/record of transaction
+										switch($location){
+											case "IANS": break;
+											case "TEDDYWEDGERS":
+												$teddy_item_name = Arrays::vendorItemsArr()[$location][$item]["name"];
+												$teddy_item_cost = Arrays::vendorItemsArr()[$location][$item]["cost"];
+												$sql2 = "INSERT INTO gamechanger_transaction VALUES (NULL,'".$location."','".$teddy_item_name."','".$arrValues['From']."',".$teddy_item_cost.")";
+												$insert2 = DB::insert($sql2);
+												$message = $location."\r\n".$teddy_item_name."\r\n".$teddy_item_cost."\r\n"."Thanks for being a GameChanger!\r\n Peace and Love,\r\n GoodPoint";
+												$message = wordwrap($message, 70, "\r\n");
+												mail('pillai.sreenath@gmail.com', 'GP Transaction '.$dacode, $message);
+												//mail(anthonyrineer@gmail.com);
+												break;
+											default: break;
+										}
 										$step = 15;
 										break;
 									case 2:
