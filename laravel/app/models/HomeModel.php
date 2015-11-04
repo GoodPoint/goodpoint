@@ -224,6 +224,15 @@ class HomeModel /*extends BaseController */{
 					else {
 						$gp = $res[0]->GoodPoints;
 					}
+					$sqlgpcost = "SELECT sum(gpcost) as purchased FROM `gamechanger_transaction` WHERE purchaser = '6083810286'";
+					$resgpcost = DB::select($sqlgpcost);
+					if(count($resgpcost) == 0) {
+						$purchased = 0;
+					}
+					else {
+						$purchased = $res[0]->purchased;
+					}
+					$gp = $gp - $purchased;
 				//	$gp = Queries::getGPForUser($_REQUEST['From']);
 					if(intval($gp) >= Arrays::minimumPurchaseArr()[strtoupper(trim($body))]){
 						$location = strtoupper(trim($body));
