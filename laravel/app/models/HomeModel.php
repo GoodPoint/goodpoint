@@ -307,9 +307,9 @@ class HomeModel /*extends BaseController */{
 												$teddy_item_cost = Arrays::vendorItemsArr()[$location][$item]["cost"];
 												$sql2 = "INSERT INTO gamechanger_transaction VALUES (NULL,'".$location."','".$teddy_item_name."','".$arrValues['From']."',".$teddy_item_cost.")";
 												$insert2 = DB::insert($sql2);
-												$message = $location."\r\n".$teddy_item_name."\r\n".$teddy_item_cost."\r\n"."Thanks for being a GameChanger!\r\n Peace and Love,\r\n GoodPoint";
-												$message = wordwrap($message, 70, "\r\n");
-												mail('pillai.sreenath@gmail.com', 'GP Transaction '.$dacode, $message);
+												$mail_message = $location."\r\n".$teddy_item_name."\r\n".$teddy_item_cost."\r\n"."Thanks for being a GameChanger!\r\n Peace and Love,\r\n GoodPoint";
+												$mail_message = wordwrap($mail_message, 70, "\r\n");
+												mail('pillai.sreenath@gmail.com', 'GP Transaction '.$dacode, $mail_message);
 												//mail(anthonyrineer@gmail.com);
 												break;
 											default: break;
