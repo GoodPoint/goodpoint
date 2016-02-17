@@ -202,6 +202,25 @@ class HomeModel /*extends BaseController */{
 		$body = $arrValues['Body'];
 		$uncleaned_from = $arrValues['From'];
 		$arrValues['From'] = str_replace("+1","",$arrValues['From']);
+		//consent
+		$this->consent($arrValues['From']);
+		//global commands
+		//	consent-related: STOP and HELP
+		if($body == "STOP"){
+			$blacklist = DB::insert("INSERT INTO blacklist(number) VALUES('"+$arrValues['From']+"')");
+			echo "<Response>";
+			echo "<Message>";
+			echo "You are removed from GoodPointGame messages and notifications. You can always text us again if you change your mind!";
+			echo "</Message>";
+			echo "</Response>"; return;
+		}
+		if($body == "HELP"){
+			echo "<Response>";
+			echo "<Message>";
+			echo "Text a GoodPoint card number to get started! Thank you for being you!";
+			echo "</Message>";
+			echo "</Response>"; return;
+		}
 		//initialize helper variables for handling certain steps
 		$step = -1; $barcode_id = -1; $old_owner = -1; $the_sid = -1; $message = "no msg"; $ab = "n/a"; $old_ab = ""; $firstT_step = false;
 		//TODO Line 14:need to validate body as phone # in more strict way/better if condition, find regex
@@ -667,6 +686,12 @@ class HomeModel /*extends BaseController */{
 	}
 	
 	private function sendText($to, $from, $body) {	
+		//IF IN blacklist, dont send
+		$blacklist = DB::select("SELECT count(*) as count FROM blacklist WHERE number='".$to."'");
+		if($blacklist[0]->count > 0){
+			return;
+		}
+		
 		// set your AccountSid and AuthToken from www.twilio.com/user/account
 		$AccountSid = "ACee1a2b72c78697cb71ffd9762bf5431a";
 		$AuthToken = "eeeefef73f544fce3b7b7f3decfddf86";
@@ -712,7 +737,21 @@ class HomeModel /*extends BaseController */{
 			$userRole = 0; // is users are being added by this function, then it means they are just a user
 			// TODO: change database schema to add user role
 		//	$sql = "INSERT INTO `user` (`id`, `profile_json`, `userRole`, `last_updated`) VALUES ('".$number."', '{}','" . $userRole . "', CURRENT_TIMESTAMP)";
-			return DB::insert("INSERT INTO `user` (`id`, `profile_json`, `last_updated`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP)");
+			return DB::insert("INSERT INTO `user` (`id`, `profile_json`, `last_updated`,`consent`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP,1)");
+		}
+	}
+	
+	private function consent($number){
+		$complianceMsg = "Thanks for staying connected with GoodPoint! You'll rec'v related messages. Msg&Data rates may apply. Text STOP to end/HELP for help. Powered by GoodPointGame.";
+		$check = DB::select("SELECT count(*) as count FROM `user` WHERE `id`='".$number."'");
+		if($check[0]->count == 0){
+			$this->sendText($number, "+16082607105", $complianceMsg);
+		} else {
+			$check = DB::select("SELECT consent FROM `user` WHERE `id`='".$number."'");
+			if($check[0]->consent == 0){
+				$this->sendText($number, "+16082607105", $complianceMsg);
+				$update = DB::update("UPDATE `user` SET consent=1 WHERE `id`='".$number."'");
+			}
 		}
 	}
 }
