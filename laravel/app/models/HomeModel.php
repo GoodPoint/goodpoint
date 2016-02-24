@@ -330,6 +330,24 @@ class HomeModel /*extends BaseController */{
 										//handle receipt/record of transaction
 										switch($location){
 											case "IANS": break;
+											case "BEHOPPY":
+												$bh_item_name = Arrays::vendorItemsArr()[$location][$item]["name"];
+												$bh_item_cost = Arrays::vendorItemsArr()[$location][$item]["cost"];
+												$sql2 = "INSERT INTO gamechanger_transaction VALUES (NULL,'".$location."','".$bh_item_name."','".$arrValues['From']."',".$bh_item_cost.")";
+												$insert2 = DB::insert($sql2);
+												$mail_message = $location."\r\n".$bh_item_name."\r\n".$bh_item_cost."\r\n"."Thanks for being a GameChanger!\r\n Peace and Love,\r\n GoodPoint";
+												$mail_message = wordwrap($mail_message, 70, "\r\n");
+												mail('erin@thehopsmuseum.org', 'GP Transaction '.$dacode, $mail_message);
+												break;
+											case "PHITNESSPLUS":
+												$ph_item_name = Arrays::vendorItemsArr()[$location][$item]["name"];
+												$ph_item_cost = Arrays::vendorItemsArr()[$location][$item]["cost"];
+												$sql2 = "INSERT INTO gamechanger_transaction VALUES (NULL,'".$location."','".$ph_item_name."','".$arrValues['From']."',".$ph_item_cost.")";
+												$insert2 = DB::insert($sql2);
+												$mail_message = $location."\r\n".$ph_item_name."\r\n".$ph_item_cost."\r\n"."Thanks for being a GameChanger!\r\n Peace and Love,\r\n GoodPoint";
+												$mail_message = wordwrap($mail_message, 70, "\r\n");
+												mail('info@phitnessplus.com', 'GP Transaction '.$dacode, $mail_message);
+												break;
 											case "TEDDYWEDGERS":
 												$teddy_item_name = Arrays::vendorItemsArr()[$location][$item]["name"];
 												$teddy_item_cost = Arrays::vendorItemsArr()[$location][$item]["cost"];
@@ -338,7 +356,6 @@ class HomeModel /*extends BaseController */{
 												$mail_message = $location."\r\n".$teddy_item_name."\r\n".$teddy_item_cost."\r\n"."Thanks for being a GameChanger!\r\n Peace and Love,\r\n GoodPoint";
 												$mail_message = wordwrap($mail_message, 70, "\r\n");
 												mail('anthonyrineer@gmail.com', 'GP Transaction '.$dacode, $mail_message);
-												//mail(anthonyrineer@gmail.com);
 												break;
 											default: break;
 										}
