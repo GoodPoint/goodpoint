@@ -660,7 +660,7 @@ class HomeModel /*extends BaseController */{
 								$message = "Thank you! You and the giver both just received +1 Good Point. Please go to ".$_link." or text media to share your story. Keep up the Good Work!";
 								
 								$cardno = $barcode_id;
-								$message2 = "Thank you for sharing good! ".$arrValues['From']." just recorded the card you gave them!"; // send media message request to the giver
+								$message2 = "Thank you for sharing good! Someone just recorded the card you gave them!"; // send media message request to the giver, ".$arrValues['From']."
 								$step = 2;
 								$ab = "b_success";
 							} 
