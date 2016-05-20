@@ -330,6 +330,15 @@ class HomeModel /*extends BaseController */{
 										//handle receipt/record of transaction
 										switch($location){
 											case "IANS": break;
+											case "MAINDEPOT": 
+												$md_item_name = Arrays::vendorItemsArr()[$location][$item]["name"];
+												$md_item_cost = Arrays::vendorItemsArr()[$location][$item]["cost"];
+												$sql2 = "INSERT INTO gamechanger_transaction VALUES (NULL,'".$location."','".$md_item_name."','".$arrValues['From']."',".$md_item_cost.")";
+												$insert2 = DB::insert($sql2);
+												$mail_message = $location."\r\n".$md_item_name."\r\n".$md_item_cost."\r\n"."Thanks for being a GameChanger!\r\n Peace and Love,\r\n GoodPoint";
+												$mail_message = wordwrap($mail_message, 70, "\r\n");
+												mail('tripalino@gmail.com', 'GP Transaction '.$dacode, $mail_message);
+												break;
 											case "BEHOPPY":
 												$bh_item_name = Arrays::vendorItemsArr()[$location][$item]["name"];
 												$bh_item_cost = Arrays::vendorItemsArr()[$location][$item]["cost"];
