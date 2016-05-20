@@ -5,7 +5,8 @@ class Arrays {
 		return array(0=>"IANS",
 					1=>"TEDDYWEDGERS",
 					2=>"PHITNESSPLUS",
-					3=>"BEHOPPY");
+					3=>"BEHOPPY",
+					4=>"MAINDEPOT");
 	}
 	/*1. 1 slice of cheese or pepperoni pizza - 5GP
 			2. Small Salad - 5 GP
