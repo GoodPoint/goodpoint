@@ -339,6 +339,15 @@ class HomeModel /*extends BaseController */{
 												$mail_message = wordwrap($mail_message, 70, "\r\n");
 												mail('tripalino@gmail.com', 'GP Transaction '.$dacode, $mail_message);
 												break;
+											case "SLIDE": 
+												$sd_item_name = Arrays::vendorItemsArr()[$location][$item]["name"];
+												$sd_item_cost = Arrays::vendorItemsArr()[$location][$item]["cost"];
+												$sql2 = "INSERT INTO gamechanger_transaction VALUES (NULL,'".$location."','".$sd_item_name."','".$arrValues['From']."',".$sd_item_cost.")";
+												$insert2 = DB::insert($sql2);
+												$mail_message = $location."\r\n".$sd_item_name."\r\n".$sd_item_cost."\r\n"."Thanks for being a GameChanger!\r\n Peace and Love,\r\n GoodPoint";
+												$mail_message = wordwrap($mail_message, 70, "\r\n");
+												mail('christine@letseatoutwi.org', 'GP Transaction '.$dacode, $mail_message);
+												break;
 											case "BEHOPPY":
 												$bh_item_name = Arrays::vendorItemsArr()[$location][$item]["name"];
 												$bh_item_cost = Arrays::vendorItemsArr()[$location][$item]["cost"];
