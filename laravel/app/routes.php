@@ -36,6 +36,12 @@ Route::match( array('GET','POST'), '/web/transaction/details', array('uses' => '
 Route::match( array('GET','POST'), '/web/transaction/uploadMedia', array('uses' => 'TransactionController@uploadMedia'));
 Route::match( array('GET','POST'), '/web/uploadFirstMedia', array('uses' => 'TransactionController@uploadFirstMedia'));
 
+//THANK YOU CARDS
+Route::match(array('POST'),'/tyc/login', array('uses' => 'TycController@login'));
+Route::match(array('POST'),'/tyc/signup', array('uses' => 'TycController@signup'));
+Route::match(array('POST'),'/tyc/forgot', array('uses' => 'TycController@forgot'));
+Route::match(array('POST'),'/tyc/submitCardID', array('uses' => 'TycController@submitCardID'));
+
 //batch
 //Route::match( array('GET','POST'), '/cards/batchadd', array('uses' => 'HomeController@batchAdd2'));
 Route::match( array('GET','POST'), '/qr/ownerForCard', array('uses' => 'HomeController@qrowner'));
