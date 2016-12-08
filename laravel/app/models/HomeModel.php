@@ -720,7 +720,7 @@ class HomeModel /*extends BaseController */{
 	
 	}
 	
-	public function generateMemberID(){
+	public function batchGenerateMemberID(){
 		$currentUsers = DB::select("SELECT id FROM user");
 		foreach($currentUsers as $user){
 			$generatedMemberID = $this->generateMemberID();
