@@ -726,7 +726,7 @@ class HomeModel /*extends BaseController */{
 		foreach($currentUsers as $user){
 			$generatedMemberID = $this->generateMemberID();
 			//die(var_dump($user));
-			$updateresults[] = DB::update("UPDATE `user` SET memberid=".$generatedMemberID." WHERE id=".$user->id);
+			$updateresults[] = DB::update("UPDATE `user` SET memberid='".$generatedMemberID."' WHERE id=".$user->id);
 		}
 		return $updateresults;
 	}
