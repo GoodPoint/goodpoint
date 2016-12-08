@@ -725,7 +725,7 @@ class HomeModel /*extends BaseController */{
 		$updateresults = array();
 		foreach($currentUsers as $user){
 			$generatedMemberID = $this->generateMemberID();
-			die(var_dump($user));
+			//die(var_dump($user));
 			$updateresults[] = DB::update("UPDATE `user` SET memberid=".$generatedMemberID." WHERE id=".$user->id);
 		}
 		return $updateresults;
@@ -735,7 +735,7 @@ class HomeModel /*extends BaseController */{
 		$found = false;
 		while(!$found){
 			$potentialMemberID = mt_rand(10000,1000000);
-			$check = "SELECT count(*) as c FROM user WHERE memberid=".$potentialMemberID;
+			$check = "SELECT count(*) as c FROM `user` WHERE memberid=".$potentialMemberID;
 			$result = DB::select($check)[0]->c;
 			if($result == 0){ return $potentialMemberID; }
 		}
