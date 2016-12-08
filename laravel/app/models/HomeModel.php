@@ -194,6 +194,7 @@ class HomeModel /*extends BaseController */{
 		//TODO: use json string to/from DB for $ab instead of | as separator for 'extra' value.
 	//      it will be structured as such: {"ab":ab_string_value, "extra":extra_value}
 	// going to leave this out of the model for right now
+	// add MYID to return memberid
 	public function twilio_response($arrValues){
 		//initialize XML document properly
 		header(Strings::xml_content_type());

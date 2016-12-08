@@ -29,6 +29,11 @@ class ProfileController extends BaseController {
 		$arrValues['sid'] = $_REQUEST['sid'];
 		return json_encode($this->profileModel->uploadProfilePic($arrValues));
 	}
+	
+	public function getLevel(){
+		$userid = $_REQUEST['userid'];
+		return json_encode($this->profileModel->getGPLevel($userid));
+	}
 }
 
 ?>
