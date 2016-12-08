@@ -154,7 +154,8 @@ class ProfileModel /*extends BaseController */{
 		
 		$toReturn->level = DB::select("SELECT MAX(level) as l from levels WHERE totalpoints<=".$toReturn->goodpoints)[0]->l;
 		
-		$temp = DB::select("SELECT totalpoints as t from levels WHERE level=".intval($toReturn->level)+1)[0]->t;
+		$nextlvl = intval($toReturn->level)+1;
+		$temp = DB::select("SELECT totalpoints as t from levels WHERE `level`=".$nextlvl)[0]->t;
 		$toReturn->toNextLevel = intval($temp) - intval($toReturn->goodpoints);
 		
 		return $toReturn;
