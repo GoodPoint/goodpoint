@@ -1,0 +1,45 @@
+body{overflow-x:hidden;}
+.page_header{width:300px;margin:0 auto;}
+.page{width:300px;margin:0 auto;}
+.big_page{width:100%;float:left}
+.page_content, .page_header{padding:10px;}
+.page input, .page p{width:300px;text-align:center;}
+#card_png{display:none;}
+#enter_points{width:600px;margin:0 auto;}
+#card_svg{display:block;width:600px;}
+input[name='card_enter'], input[name='card_submit'], #card_submit_response{
+	position: relative;
+	bottom: 192px;
+	left: 73px;
+	text-align: center;
+	width: 104px;
+}
+#card_submit_response{margin-top:0px;}
+.success{font-weight:bold;color:green;}
+.error{font-weight:bold;color:red;}
+h3{text-align:center;}
+.mobile_only{display:none;}
+@media screen and (max-width:599px){
+	#card_svg{display:none;}
+	#enter_points{width:300px;margin:0 auto;}
+	#card_png{display:block;width:300px;}
+	input[name='card_enter']{
+		position: relative;
+		bottom:0; left:0;
+		width:300px; /*rest of text input styles*/
+	}
+	input[name='card_submit']{
+		position: relative;
+		bottom:0; left:0;
+		width:300px;
+		/*rest of button styles*/
+	}
+	#card_submit_response{
+		position: relative;
+		bottom:0; left:0;
+		margin-top:10px; width:300px;
+	}
+	.mobile_only{display:block;}
+}
+span.half{float:left;width:50%;text-align:center;color:blue;cursor:pointer;}
+span.half:hover{text-decoration:underline;}
