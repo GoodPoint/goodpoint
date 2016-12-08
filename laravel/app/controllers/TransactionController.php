@@ -24,7 +24,6 @@ class TransactionController extends BaseController {
 		$arrValues['id'] = $_REQUEST['id'];
 		$arrValues['type'] = $_REQUEST['type'];
 		return json_encode($this->transactionModel->getTransactionsById($arrValues));
-//		return Queries::getTransactionsById($_REQUEST['id'],$_REQUEST['type']);
 	}
 	
 	public function getTransactionsByPhoneId(){
@@ -34,7 +33,6 @@ class TransactionController extends BaseController {
 		$arrValues['id'] = $phone;
 		$arrValues['type'] = $_REQUEST['type'];
 		return json_encode($this->transactionModel->getTransactionsById($arrValues));
-//		return Queries::getTransactionsById($phone,$_REQUEST['type']);
 	}
 	
 	public function getTransactionInfo(){
@@ -42,8 +40,6 @@ class TransactionController extends BaseController {
 		$arrValues['id'] = $_REQUEST['id'];
 		$arrValues['sid'] = $_REQUEST['sid'];
 		return json_encode($this->transactionModel->getTransactionInfo($arrValues));
-//		$userID = ($_REQUEST['sid'] != "" && $_REQUEST['sid'] != "null")? DB::select("SELECT `To` FROM `messages` WHERE sid='".$_REQUEST['sid']."'")[0]->To : "";
-//		return Queries::getTransactionDetails($_REQUEST['id'],$userID);
 	}
 	
 	public function uploadMedia(){

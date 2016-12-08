@@ -720,6 +720,24 @@ class HomeModel /*extends BaseController */{
 	
 	}
 	
+	public function generateMemberID(){
+		$currentUsers = DB::select("SELECT id FROM user");
+		foreach($currentUsers as $user){
+			$generatedMemberID = $this->generateMemberID();
+			DB::update("UPDATE user SET memberid=".$generatedMemberID." WHERE id=".$user->id);
+		}
+	}
+	
+	private function generateMemberID(){
+		$found = false;
+		while(!$found){
+			$potentialMemberID = mt_rand(10000,1000000);
+			$check = "SELECT count(*) as c FROM user WHERE memberid=".$potentialMemberID;
+			$result = DB::select($check)[0]->c;
+			if($result == 0){ return $potentialMemberID; }
+		}
+	}
+	
 	private function sendText($to, $from, $body) {	
 		//IF IN blacklist, dont send
 		$blacklist = DB::select("SELECT count(*) as count FROM blacklist WHERE number='".$to."'");
@@ -772,7 +790,8 @@ class HomeModel /*extends BaseController */{
 			$userRole = 0; // is users are being added by this function, then it means they are just a user
 			// TODO: change database schema to add user role
 		//	$sql = "INSERT INTO `user` (`id`, `profile_json`, `userRole`, `last_updated`) VALUES ('".$number."', '{}','" . $userRole . "', CURRENT_TIMESTAMP)";
-			return DB::insert("INSERT INTO `user` (`id`, `profile_json`, `last_updated`,`consent`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP,1)");
+			$generatedMemberID = $this->generateMemberID();
+			return DB::insert("INSERT INTO `user` (`id`, `profile_json`, `last_updated`,`consent`,`memberid`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP,1,".$generatedMemberID.")");
 		}
 	}
 	

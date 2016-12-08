@@ -2,7 +2,6 @@
 
 class WebController extends BaseController {
 
-
 	private $webModel;
 	
 	public function __construct() {
