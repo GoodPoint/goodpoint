@@ -727,7 +727,7 @@ class HomeModel /*extends BaseController */{
 			$generatedMemberID = $this->generateMemberID();
 			$updateresults[] = DB::update("UPDATE user SET memberid=".$generatedMemberID." WHERE id=".$user->id);
 		}
-		die(json_encode($updateresults));
+		return $updateresults;
 	}
 	
 	private function generateMemberID(){

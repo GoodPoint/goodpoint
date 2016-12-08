@@ -61,6 +61,11 @@ class HomeController extends BaseController {
 		$this->homeModel->twilio_response($arrValues);	
 	}
 	
+	public function batchGenerateMemberID(){
+		$return = $this->homeModel->batchGenerateMemberID();
+		return json_encode($return);
+	}
+	
 		private function sendText($to, $from, $body) {
 		
 		// set your AccountSid and AuthToken from www.twilio.com/user/account
