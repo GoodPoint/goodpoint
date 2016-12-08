@@ -27,6 +27,7 @@ Route::match( array('GET','POST'), '/web/profile', array('uses' => 'ProfileContr
 Route::match( array('GET','POST'), '/web/profile/add', array('uses' => 'ProfileController@addProfile'));
 Route::match( array('GET','POST'), '/web/uploadProfilePic', array('uses' => 'ProfileController@uploadProfilePic'));
 Route::match( array('GET','POST'), '/web/getLevel', array('uses' => 'ProfileController@getLevel'));
+Route::match( array('GET','POST'), '/web/getRedeemable', array('uses' => 'ProfileController@getRedeemable'));
 
 //transactions
 Route::match( array('GET','POST'), '/web/transactions/mine', array('uses' => 'TransactionController@getMyTransactions'));

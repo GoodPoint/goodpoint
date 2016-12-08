@@ -128,12 +128,33 @@ class ProfileModel /*extends BaseController */{
 		return $arrResult;
 	}
 	
+	public function getRedeemableGP($userid){
+		$toReturn = new stdClass();
+		
+		$toReturn->goodpoints = DB::select("SELECT (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints` FROM user where id='".$userid."'")[0]->GoodPoints;
+		
+		$sqlgpcost = "SELECT sum(gpcost) as purchased FROM `gamechanger_transaction` WHERE purchaser = '".$userid."'";
+		$resgpcost = DB::select($sqlgpcost);
+		if(count($resgpcost) == 0) {
+			$purchased = 0;
+		}
+		else {
+			$purchased = $resgpcost[0]->purchased;
+		}
+		
+		$toReturn->redeemable = intval($toReturn->goodpoints) - intval($purchased);
+		
+		return $toReturn;
+	}
+	
 	public function getGPLevel($userid){
 		$toReturn = new stdClass();
 		
 		$toReturn->goodpoints = DB::select("SELECT (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints` FROM user where id='".$userid."'")[0]->GoodPoints;
 		
-		$toReturn->level = DB::select("SELECT MAX(level) from levels WHERE totalpoints<=".$toReturn->goodpoints);
+		$toReturn->level = DB::select("SELECT MAX(level) as l from levels WHERE totalpoints<=".$toReturn->goodpoints)[0]->l;
+		
+		$toReturn->toNextLevel = intval(DB::select("SELECT totalpoints as t from levels WHERE level=".intval($toReturn->level)+1)[0]->t) - intval($toReturn->goodpoints);
 		
 		return $toReturn;
 	}

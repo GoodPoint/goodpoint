@@ -34,6 +34,11 @@ class ProfileController extends BaseController {
 		$userid = $_REQUEST['userid'];
 		return json_encode($this->profileModel->getGPLevel($userid));
 	}
+	
+	public function getRedeemable(){
+		$userid = $_REQUEST['userid'];
+		return json_encode($this->profileModel->getRedeemableGP($userid));
+	}
 }
 
 ?>
