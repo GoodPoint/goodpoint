@@ -722,10 +722,12 @@ class HomeModel /*extends BaseController */{
 	
 	public function batchGenerateMemberID(){
 		$currentUsers = DB::select("SELECT id FROM user");
+		$updateresults = array();
 		foreach($currentUsers as $user){
 			$generatedMemberID = $this->generateMemberID();
-			DB::update("UPDATE user SET memberid=".$generatedMemberID." WHERE id=".$user->id);
+			$updateresult[] = DB::update("UPDATE user SET memberid=".$generatedMemberID." WHERE id=".$user->id);
 		}
+		die(json_encode($updateresults));
 	}
 	
 	private function generateMemberID(){
