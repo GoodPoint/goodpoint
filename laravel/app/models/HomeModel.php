@@ -726,7 +726,7 @@ class HomeModel /*extends BaseController */{
 		foreach($currentUsers as $user){
 			$generatedMemberID = $this->generateMemberID();
 			//die(var_dump($user));
-			$updateresults[] = DB::update("UPDATE `user` SET memberid='".$generatedMemberID."' WHERE id=".$user->id);
+			$updateresults[] = DB::update("UPDATE `user` SET memberid=".$generatedMemberID." WHERE id='".$user->id."'");
 		}
 		return $updateresults;
 	}
@@ -794,7 +794,7 @@ class HomeModel /*extends BaseController */{
 			// TODO: change database schema to add user role
 		//	$sql = "INSERT INTO `user` (`id`, `profile_json`, `userRole`, `last_updated`) VALUES ('".$number."', '{}','" . $userRole . "', CURRENT_TIMESTAMP)";
 			$generatedMemberID = $this->generateMemberID();
-			return DB::insert("INSERT INTO `user` (`id`, `profile_json`, `last_updated`,`consent`,`memberid`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP,1,".$generatedMemberID.")");
+			return DB::insert("INSERT INTO `user` (`id`, `profile_json`, `last_updated`,`consent`,`memberid`) VALUES ('".$number."', '{}', CURRENT_TIMESTAMP,1,'".$generatedMemberID."')");
 		}
 	}
 	
