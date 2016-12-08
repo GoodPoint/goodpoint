@@ -131,9 +131,9 @@ class ProfileModel /*extends BaseController */{
 	public function getGPLevel($userid){
 		$toReturn = new stdClass();
 		
-		$toReturn->goodpoints = DB::select("SELECT (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints` FROM user where id='".$userid."'");
+		$toReturn->goodpoints = DB::select("SELECT (SELECT COUNT(`transaction`.id) FROM transaction WHERE transaction.giver = user.id OR transaction.receiver = user.id) as `GoodPoints` FROM user where id='".$userid."'")[0]->GoodPoints;
 		
-		$toReturn->level = DB::select("SELECT MAX(level) from levels WHERE totalpoints<=".$goodpoints[0]->GoodPoints);
+		$toReturn->level = DB::select("SELECT MAX(level) from levels WHERE totalpoints<=".$toReturn->goodpoints);
 		
 		return $toReturn;
 	}
