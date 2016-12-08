@@ -45,7 +45,7 @@ Route::match(array('POST'),'/tyc/submitCardID', array('uses' => 'TycController@s
 
 //batch and/or one-time scripts
 //Route::match( array('GET','POST'), '/cards/batchadd', array('uses' => 'HomeController@batchAdd2'));
-Route::match( array('GET','POST'), '/generateMemberID', array('uses' => 'HomeController@batchGenerateMemberID'));
+//Route::match( array('GET','POST'), '/generateMemberID', array('uses' => 'HomeController@batchGenerateMemberID'));
 Route::match( array('GET','POST'), '/qr/ownerForCard', array('uses' => 'HomeController@qrowner'));
 Route::match( array('GET','POST'), '/qr/submit', array('uses' => 'HomeController@qrscan'));
 ?>
